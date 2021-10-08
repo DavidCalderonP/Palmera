@@ -13,4 +13,8 @@ class Model{
     function getPredios(){
         return $this->DB->getPredios();
     }
+
+    function savePredio(Predio $predio){
+        $this->DB->savePredio($predio);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\PrediosController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('predio', PrediosController::class);
+Route::get('predio', [\App\Http\Controllers\PrediosController::class, 'index']);
+Route::post('predio', [\App\Http\Controllers\PrediosController::class, 'store']);
 

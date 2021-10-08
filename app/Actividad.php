@@ -7,8 +7,8 @@ class Actividad{
     private $name;
     private $description;
 
-    function __construct($id, $name, $description){
-        $this->id = 0;
+    function __construct($name, $description, $id = 0){
+        $this->$id;
         $this->name = $name;
         $this->description = $description;
     }

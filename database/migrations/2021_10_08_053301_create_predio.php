@@ -18,13 +18,18 @@ class CreatePredio extends Migration
             $table->integer('metros_cuadrados');
             $table->integer('palmeras_destinadas');
             $table->string('tipo_de_suelo');
-            $table->string('temperatura');
-            $table->string('clima');
-            $table->string('humedad');
+            $table->integer('temperatura');
+            $table->integer('clima');
+            $table->integer('humedad');
             $table->double('ph');
             $table->double('salinidad');
-            $table->binary('tipo_de_predio');
+            $table->boolean('tipo_de_predio');
             $table->timestamps();
+
+            $table->primary('id');
+
+            $table->foreign('clima')->references('id')->on('clima');
+            $table->foreign('humedad')->references('id')->on('humedad');
         });
     }
 

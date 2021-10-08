@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\PredioAsociacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PrediosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('valorarPredio', PrediosController::class);
+Route::post('valorarPredio', [PredioAsociacionController::class, 'store']); //Ruta del servcio
+
+

@@ -15,7 +15,7 @@ class Predio{
     private $salinidad;
     private $tipo_de_predio;
 
-    function __construct($metros_cuadrados,  $palmeras_destinadas,  $tipo_de_suelo,  $temperatura,  $clima,  $humedad,  $ph,  $salinidad,  $tipo_de_predio, $id = ''){
+    function __construct($metros_cuadrados,  $palmeras_destinadas,  $tipo_de_suelo,  $temperatura,  $clima,  $humedad,  $ph,  $salinidad,  $tipo_de_predio = false, $id = ''){
 
         $this->id = $id;
         $this->metros_cuadrados = $metros_cuadrados;
@@ -97,6 +97,15 @@ class Predio{
 
     function set($tipo_de_predio){
         $this->tipo_de_predio = $tipo_de_predio;
+    }
+
+    function getTipoDePredio(){
+        return $this->tipo_de_predio;
+    }
+
+    function setTipoDePredio($tipo_de_predio){
+        $this->tipo_de_predio= $tipo_de_predio;
+
     }
 
 }
