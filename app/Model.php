@@ -14,7 +14,15 @@ class Model{
         return $this->DB->getPredios();
     }
 
+    function getPredio($id){
+        return $this->DB->getPredio($id);
+    }
+
     function savePredio(Predio $predio){
         $this->DB->savePredio($predio);
+    }
+
+    function deletePredio($id){
+        $this->DB->deletePredio($id);
     }
 }

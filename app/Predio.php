@@ -29,6 +29,9 @@ class Predio{
         $this->tipo_de_predio = $tipo_de_predio;
     }
 
+    function getId(){
+        return $this->id;
+    }
     function getMetrosCuadrados(){
         return $this->metros_cuadrados;
     }
@@ -91,13 +94,13 @@ class Predio{
     function setSalinidad($salinidad){
         $this->salinidad = $salinidad;
     }
-    function get(){
-        return $this->tipo_de_predio;
-    }
-
-    function set($tipo_de_predio){
-        $this->tipo_de_predio = $tipo_de_predio;
-    }
+//    function get(){
+//        return $this->tipo_de_predio;
+//    }
+//
+//    function set($tipo_de_predio){
+//        $this->tipo_de_predio = $tipo_de_predio;
+//    }
 
     function getTipoDePredio(){
         return $this->tipo_de_predio;

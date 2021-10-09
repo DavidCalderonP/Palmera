@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PrediosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('predio', [\App\Http\Controllers\PrediosController::class, 'index']);
-Route::post('predio', [\App\Http\Controllers\PrediosController::class, 'store']);
+Route::resource('predio', PrediosController::class);
+//Route::get('predio', [\App\Http\Controllers\PrediosController::class, 'index']);
+//Route::post('predio', [\App\Http\Controllers\PrediosController::class, 'store']);
 

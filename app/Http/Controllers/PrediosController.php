@@ -14,16 +14,12 @@ class PrediosController extends Controller{
         $this->model = new Model();
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $res = $this->model->getPredios();
-        print_r($res);
-        dd($res);
+        $predios = $this->model->getPredios();
+        //print_r($res);
+        //dd($res);
+        return view('predio', ['predios' => $predios]);
     }
 
     /**
@@ -83,6 +79,8 @@ class PrediosController extends Controller{
     public function edit($id)
     {
 
+        $predio = $this->model->getPredio($id);
+//        dd($predio);
     }
 
     /**
@@ -105,6 +103,10 @@ class PrediosController extends Controller{
      */
     public function destroy($id)
     {
-        //
+
+        //dd("Impimiendo el id ", $id);
+        $this->model->deletePredio($id);
+        //dd("Se elimino: ", $id , " exitosamente");
+        return $this->index();
     }
 }
