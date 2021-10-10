@@ -38,8 +38,8 @@ class PrediosController extends Controller{
      */
     public function store(Request $request)
     {
-        //$serivicoDePredios = app(PredioAsociacionController::class)->store($request);
-        $tipo_de_predio = "true"; //json_encode($serivicoDePredios->original['approved']);
+        $serivicoDePredios = app(PredioAsociacionController::class)->store($request);
+        $tipo_de_predio = json_encode($serivicoDePredios->original['approved']);
         $tp = ($tipo_de_predio=="true");
         $predio = new Predio(
             (int)$request->metros_cuadrados,

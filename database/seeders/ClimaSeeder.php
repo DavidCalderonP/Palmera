@@ -28,18 +28,14 @@ class ClimaSeeder extends Seeder
         ]);
         DB::table('clima')->insert([
             'id' => 4,
-            'nombre_clima' => 'Seco'
+            'nombre_clima' => 'Seco o semiseco'
         ]);
         DB::table('clima')->insert([
             'id' => 5,
-            'nombre_clima' => 'Semiseco'
-        ]);
-        DB::table('clima')->insert([
-            'id' => 6,
             'nombre_clima' => 'Templado húmedo'
         ]);
         DB::table('clima')->insert([
-            'id' => 7,
+            'id' => 6,
             'nombre_clima' => 'Templado subhúmedo'
         ]);
     }

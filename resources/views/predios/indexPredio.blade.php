@@ -34,11 +34,11 @@
               <td>{{$predio->getClima()}}</td>
               <td>{{$predio->getHumedad()}}</td>
               <td>
-                <button class="btn btn-warning">
-                  <a href="{{ url('/predio/'.$predio->getId().'/edit')}}">
+                <a href="{{ url('/predio/'.$predio->getId().'/edit')}}">
+                  <button class="btn btn-warning">
                     Editar
-                  </a>
-                </button>
+                  </button>
+                </a>
               </td>
               <td>
                 <form action="{{ url('/predio/'.$predio->getId())}}" method="post">
