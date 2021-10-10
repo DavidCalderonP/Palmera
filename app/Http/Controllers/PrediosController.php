@@ -16,10 +16,8 @@ class PrediosController extends Controller{
 
     public function index()
     {
-        $predios = $this->model->getPredios();
-        //print_r($res);
-        //dd($res);
-        return view('predio', ['predios' => $predios]);
+        $res = $this->model->getPredios();
+        return view('predios/indexPredio', compact('res'));
     }
 
     /**
@@ -29,7 +27,7 @@ class PrediosController extends Controller{
      */
     public function create()
     {
-        //
+        return view('predios.createPredio');
     }
 
     /**
@@ -40,14 +38,12 @@ class PrediosController extends Controller{
      */
     public function store(Request $request)
     {
-        $serivicoDePredios = app(PredioAsociacionController::class)->store($request);
-        $tipo_de_predio =  json_encode($serivicoDePredios->original['approved']);
-        print("tipo de bool");
-        var_dump($tipo_de_predio);
+        //$serivicoDePredios = app(PredioAsociacionController::class)->store($request);
+        $tipo_de_predio = "true"; //json_encode($serivicoDePredios->original['approved']);
         $tp = ($tipo_de_predio=="true");
         $predio = new Predio(
-            (int)$request->tamano_del_predio,
-            (int)$request->palmeras_estimadas,
+            (int)$request->metros_cuadrados,
+            (int)$request->palmeras_destinadas,
             $request->tipo_de_suelo,
             (double)$request->temperatura,
             (int)$request->clima,
@@ -57,6 +53,7 @@ class PrediosController extends Controller{
             $tp ? 1 : 0
             );
         $this->model->savePredio($predio);
+        return redirect('predio');
     }
 
     /**
@@ -67,7 +64,7 @@ class PrediosController extends Controller{
      */
     public function show($id)
     {
-        //
+        //return view('predios.editPredio');
     }
 
     /**
@@ -78,9 +75,8 @@ class PrediosController extends Controller{
      */
     public function edit($id)
     {
-
         $predio = $this->model->getPredio($id);
-//        dd($predio);
+        return view('predios.editPredio', compact('predio'));
     }
 
     /**
@@ -91,8 +87,20 @@ class PrediosController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $predio = new Predio(
+            (int)$request->metros_cuadrados,
+            (int)$request->palmeras_destinadas,
+            $request->tipo_de_suelo,
+            (double)$request->temperatura,
+            (int)$request->clima,
+            (int)$request->humedad,
+            (double)$request->ph,
+            (double)$request->salinidad,
+            (int)$request->tipo_de_predio
+        );
+        $this->model->updatePredio($predio, $id);
+        return redirect('predio');
     }
 
     /**
@@ -103,10 +111,7 @@ class PrediosController extends Controller{
      */
     public function destroy($id)
     {
-
-        //dd("Impimiendo el id ", $id);
         $this->model->deletePredio($id);
-        //dd("Se elimino: ", $id , " exitosamente");
-        return $this->index();
+        return redirect('predio');
     }
 }

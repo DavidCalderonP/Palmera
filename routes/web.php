@@ -3,7 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrediosController;
-
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::resource('predio', PrediosController::class);
-//Route::get('predio', [\App\Http\Controllers\PrediosController::class, 'index']);
-//Route::post('predio', [\App\Http\Controllers\PrediosController::class, 'store']);
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -17,7 +17,6 @@ class CreateHumedad extends Migration
             $table->integer('id');
             $table->string('nivel_humedad');
             $table->timestamps();
-
             $table->primary('id');
         });
     }
