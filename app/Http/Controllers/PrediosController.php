@@ -67,11 +67,6 @@ class PrediosController extends Controller{
         //return view('predios.editPredio');
     }
 
-    public function error(){
-
-        return '<script type="text/javascript">alert("El predio que seleccionó ya no existe!");</script>';
-    }
-
     public function edit($id)
     {
         $predio = $this->model->getPredio($id);
@@ -82,13 +77,6 @@ class PrediosController extends Controller{
             return redirect('predio');
         }
         return view('predios.editPredio', compact('predio'));
-//        //return $this->index()->with('jsAlert',"wkjefgbewkjfbewgn");
-//        if($predio == null){
-//            $this->index();
-//            return $this->error();
-//        }
-//        return $predio == null ? redirect('predio')->with('jsAlert', "jkwfbowejbfvlkwbnvoejrwb") : view('predios.editPredio', compact('predio'));
-        //
     }
 
     /**
