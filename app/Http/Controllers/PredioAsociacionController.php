@@ -46,8 +46,8 @@ class PredioAsociacionController extends Controller
         $points = 0.0;
         $acceptable = 5.8;
         $res = [
-            'tamano_del_predio' => $request->tamano_del_predio,
-            'palmeras_estimadas' => $request->palmeras_estimadas,
+            'metros_cuadrados' => $request->metros_cuadrados,
+            'palmeras_destinadas' => $request->palmeras_destinadas,
             'tipo_de_suelo' => $request->tipo_de_suelo,
             'temperatura' => $request->temperatura,
             'clima' => $request->clima,
@@ -55,7 +55,7 @@ class PredioAsociacionController extends Controller
             'ph' => $request->ph,
             'salinidad' => $request->salinidad
         ];
-        $aux = floor($res['tamano_del_predio'] / $res['palmeras_estimadas']);
+        $aux = floor($res['metros_cuadrados'] / $res['palmeras_destinadas']);
         //print($aux);
         if ($aux < $tamano_optimo_palmera && $aux > 0) {
             switch ($aux) {

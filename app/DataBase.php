@@ -46,7 +46,6 @@ class DataBase {
     function savePredio(Predio $predio){
         $stmtQuery = ("CALL addPredio({$predio->getMetrosCuadrados()}, {$predio->getPalmerasDestinadas()}, '{$predio->getTipoDeSuelo()}', {$predio->getTemperatura()}, {$predio->getClima()}, {$predio->getHumedad()}, {$predio->getPh()}, {$predio->getSalinidad()}, {$predio->getTipoDePredio()})");
         $aux = DB::select($stmtQuery);
-        //dd(empty($aux)? [] : current((Array)$aux[0]));
         return $aux;
     }
 
@@ -74,7 +73,6 @@ class DataBase {
                 $predio->getTipoDePredio(),
                 $id
             ]);
-            //dd($consulta);
         return $consulta;
     }
 
