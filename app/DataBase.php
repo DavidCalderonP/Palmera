@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 
+
 class DataBase {
 
     function getPredios(){
@@ -28,7 +29,14 @@ class DataBase {
     }
 
     function getPredio($id){
-        $query = DB::select( 'SELECT p.id, metros_cuadrados, palmeras_destinadas,tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p INNER JOIN clima as c ON p.clima = c.id INNER JOIN humedad as h ON h.id = p.humedad where p.id = ?;', [$id])[0];
+        try {
+            $query = DB::select( 'SELECT p.id, metros_cuadrados, palmeras_destinadas,tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p INNER JOIN clima as c ON p.clima = c.id INNER JOIN humedad as h ON h.id = p.humedad where p.id = ?;', [$id])[0];
+        } catch (\Throwable $e) {
+            return null;
+            //return false;
+        }
+
+        //dd($query);
         $predio = new Predio(
             $query->metros_cuadrados,
             $query->palmeras_destinadas,
@@ -51,15 +59,15 @@ class DataBase {
     }
 
     function updatePredio($predio, $id){
-        $consulta = DB::select("Update predio set 
-                                metros_cuadrados = ?, 
-                                palmeras_destinadas = ?, 
-                                tipo_de_suelo = ?, 
-                                temperatura = ?, 
-                                clima = ?, 
-                                humedad = ?, 
-                                ph = ?, 
-                                salinidad = ?, 
+        $consulta = DB::select("Update predio set
+                                metros_cuadrados = ?,
+                                palmeras_destinadas = ?,
+                                tipo_de_suelo = ?,
+                                temperatura = ?,
+                                clima = ?,
+                                humedad = ?,
+                                ph = ?,
+                                salinidad = ?,
                                 tipo_de_predio = ?
                                 where id = ?",
             [

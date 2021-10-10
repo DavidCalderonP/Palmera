@@ -67,16 +67,28 @@ class PrediosController extends Controller{
         //return view('predios.editPredio');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+    public function error(){
+
+        return '<script type="text/javascript">alert("El predio que seleccionó ya no existe!");</script>';
+    }
+
     public function edit($id)
     {
         $predio = $this->model->getPredio($id);
+        if($predio==null){
+            echo "<script>";
+            echo "alert('El predio que seleccionó ya no existe');";
+            echo "</script>";
+            return redirect('predio');
+        }
         return view('predios.editPredio', compact('predio'));
+//        //return $this->index()->with('jsAlert',"wkjefgbewkjfbewgn");
+//        if($predio == null){
+//            $this->index();
+//            return $this->error();
+//        }
+//        return $predio == null ? redirect('predio')->with('jsAlert', "jkwfbowejbfvlkwbnvoejrwb") : view('predios.editPredio', compact('predio'));
+        //
     }
 
     /**
@@ -87,7 +99,7 @@ class PrediosController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $predio = new Predio(
             (int)$request->metros_cuadrados,
             (int)$request->palmeras_destinadas,
