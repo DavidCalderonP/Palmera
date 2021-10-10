@@ -24,22 +24,52 @@
   <label for="clima">Clima del predio</label>
   <select class="form-control" id="clima" value="{{ isset($predio) ? $predio->getClima() : ''}}" name="clima">
     <option value="">Seleccione un tipo de clima</option>
-    <option value="1">Calido húmedo</option>
-    <option value="2">Calido subhúmedo</option>
-    <option value="3">Muy seco o seco desértico</option>
-    <option value="4">Seco</option>
-    <option value="5">Semiseco</option>
-    <option value="6">Templado húmedo</option>
-    <option value="7">Templado subhúmedo</option>
+    @if($predio->getClima() === "Calido húmedo")
+      <option value="1" selected>Calido húmedo</option>
+    @endif
+      <option value="1">Calido húmedo</option>
+    @if($predio->getClima() === "Calido subhúmedo")
+      <option value="2" selected>Calido subhúmedo</option>
+    @endif
+      <option value="2">Calido subhúmedo</option>
+    @if($predio->getClima() === "Muy seco o seco desértico")
+      <option value="3" selected>Muy seco o seco desértico</option>
+    @endif
+      <option value="3">Muy seco o seco desértico</option>
+    @if($predio->getClima() === "Seco")
+      <option value="4" selected>Seco</option>
+    @endif
+      <option value="4">Seco</option>
+    @if($predio->getClima() === "Semiseco")
+      <option value="5" selected>Semiseco</option>
+    @endif
+      <option value="5">Semiseco</option>
+    @if($predio->getClima() === "Templado húmedo")
+      <option value="6" selected>Templado húmedo</option>
+    @endif
+      <option value="6">Templado húmedo</option>
+    @if($predio->getClima() === "Templado subhúmedo")
+      <option value="7" selected>Templado subhúmedo</option>
+    @endif
+      <option value="7">Templado subhúmedo</option>
   </select>
 </div>
 <div class="form-group">
   <label for="humedad">Humedad del predio</label>
   <select class="form-control" id="humedad" value="{{ isset($predio) ? $predio->getHumedad() : ''}}" name="humedad">
     <option value="">Seleccione tipo de humedad</option>
-    <option value="1">Alta</option>
-    <option value="2">Media</option>
-    <option value="3">Baja</option>
+    @if($predio->getHumedad() === "Alta")
+      <option value="1" selected>Alta</option>
+    @endif
+      <option value="1">Alta</option>
+    @if($predio->getHumedad() === "Media")
+      <option value="2" selected>Media</option>
+    @endif
+      <option value="2">Media</option>
+    @if($predio->getHumedad() === "Baja")
+      <option value="3" selected>Baja</option>
+    @endif
+      <option value="3">Baja</option>
   </select>
 </div>
 <div class="form-group">
