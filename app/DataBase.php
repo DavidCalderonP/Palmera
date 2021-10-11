@@ -9,7 +9,7 @@ class DataBase {
 
     function getPredios(){
         $predios = [];
-        $query = DB::select('SELECT p.id, metros_cuadrados, palmeras_destinadas,tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p INNER JOIN clima as c ON p.clima = c.id INNER JOIN humedad as h ON h.id = p.humedad;');
+        $query = DB::select('SELECT p.id, metros_cuadrados, palmeras_destinadas,tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p INNER JOIN clima as c ON p.clima = c.id INNER JOIN humedad as h ON h.id = p.humedad order by p.id');
         foreach ($query as $row) {
             $predios[] = new Predio(
                 $row->metros_cuadrados,
@@ -33,10 +33,7 @@ class DataBase {
             $query = DB::select( 'SELECT p.id, metros_cuadrados, palmeras_destinadas,tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p INNER JOIN clima as c ON p.clima = c.id INNER JOIN humedad as h ON h.id = p.humedad where p.id = ?;', [$id])[0];
         } catch (\Throwable $e) {
             return null;
-            //return false;
         }
-
-        //dd($query);
         $predio = new Predio(
             $query->metros_cuadrados,
             $query->palmeras_destinadas,
@@ -66,8 +63,7 @@ class DataBase {
                                 clima = ?,
                                 humedad = ?,
                                 ph = ?,
-                                salinidad = ?,
-                                tipo_de_predio = ?
+                                salinidad = ?
                                 where id = ?",
             [
                 $predio->getMetrosCuadrados(),
@@ -78,7 +74,6 @@ class DataBase {
                 $predio->getHumedad(),
                 $predio->getPh(),
                 $predio->getSalinidad(),
-                $predio->getTipoDePredio(),
                 $id
             ]);
         return $consulta;

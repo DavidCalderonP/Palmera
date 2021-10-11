@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Model;
 use App\Predio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class PrediosController extends Controller{
+class PrediosController extends Controller
+{
 
     private $model;
 
-    function __construct(){
+    function __construct()
+    {
         $this->model = new Model();
     }
 
@@ -20,27 +23,34 @@ class PrediosController extends Controller{
         return view('predios/indexPredio', compact('res'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
+        if(!Auth::user('id')){
+            echo "<script>";
+            echo "alert('Es necesario inciar sesión.');";
+            echo "</script>";
+
+            return redirect('login');
+        }
         return view('predios.createPredio');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return string
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'metros_cuadrados' => ['required'],
+            'palmeras_destinadas' => ['required'],
+            'tipo_de_suelo' => ['required'],
+            'temperatura' => ['required'],
+            'clima' => ['required'],
+            'humedad' => ['required'],
+            'ph' => ['required'],
+            'salinidad' => ['required'],
+        ]);
+
         $serivicoDePredios = app(PredioAsociacionController::class)->store($request);
         $tipo_de_predio = json_encode($serivicoDePredios->original['approved']);
-        $tp = ($tipo_de_predio=="true");
+        $tp = ($tipo_de_predio == "true");
         $predio = new Predio(
             (int)$request->metros_cuadrados,
             (int)$request->palmeras_destinadas,
@@ -51,7 +61,8 @@ class PrediosController extends Controller{
             (double)$request->ph,
             $request->salinidad,
             $tp ? 1 : 0
-            );
+        );
+        //dd($serivicoDePredios);
         $this->model->savePredio($predio);
         return redirect('predio');
     }
@@ -69,8 +80,15 @@ class PrediosController extends Controller{
 
     public function edit($id)
     {
+        if(!Auth::user('id')){
+            echo "<script>";
+            echo "alert('Es necesario inciar sesión.');";
+            echo "</script>";
+
+            return redirect('login');
+        }
         $predio = $this->model->getPredio($id);
-        if($predio==null){
+        if ($predio == null) {
             echo "<script>";
             echo "alert('El predio que seleccionó ya no existe');";
             echo "</script>";
@@ -88,6 +106,7 @@ class PrediosController extends Controller{
      */
     public function update(Request $request, $id)
     {
+
         $predio = new Predio(
             (int)$request->metros_cuadrados,
             (int)$request->palmeras_destinadas,
@@ -111,6 +130,13 @@ class PrediosController extends Controller{
      */
     public function destroy($id)
     {
+        if(!Auth::user('id')){
+            echo "<script>";
+            echo "alert('Es necesario inciar sesión.');";
+            echo "</script>";
+
+            return redirect('login');
+        }
         $this->model->deletePredio($id);
         return redirect('predio');
     }
