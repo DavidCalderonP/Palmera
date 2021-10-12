@@ -54,7 +54,7 @@ class PrediosController extends Controller
         $predio = new Predio(
             (int)$request->metros_cuadrados,
             (int)$request->palmeras_destinadas,
-            $request->tipo_de_suelo,
+            (int)$request->tipo_de_suelo,
             (double)$request->temperatura,
             (int)$request->clima,
             (int)$request->humedad,
@@ -62,22 +62,12 @@ class PrediosController extends Controller
             $request->salinidad,
             $tp ? 1 : 0
         );
-        //dd($serivicoDePredios);
         $this->model->savePredio($predio);
         return redirect('predio');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //return view('predios.editPredio');
     }
-
     public function edit($id)
     {
         if(!Auth::user('id')){
@@ -96,14 +86,6 @@ class PrediosController extends Controller
         }
         return view('predios.editPredio', compact('predio'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 
@@ -121,13 +103,6 @@ class PrediosController extends Controller
         $this->model->updatePredio($predio, $id);
         return redirect('predio');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         if(!Auth::user('id')){

@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class ClimaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         DB::table('clima')->insert([
