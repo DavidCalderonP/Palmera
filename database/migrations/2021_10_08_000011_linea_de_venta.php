@@ -4,21 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClima extends Migration
+class LineaDeVenta extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('clima', function (Blueprint $table) {
-            $table->integer('id');
-            $table->string('nombre_clima');
+        Schema::create('LineaDeVenta', function(Blueprint $table){
+            $table->bigIncrements('id');
+            $table->bigInteger('id_contenedor');
+            $table->integer('cantidad');
+            $table->double('precio');
             $table->timestamps();
-
-            $table->primary('id');
         });
     }
 
@@ -29,6 +24,6 @@ class CreateClima extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clima');
+        //
     }
 }

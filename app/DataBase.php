@@ -4,13 +4,12 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 
-
 class DataBase {
     function getPredios(){
         $predios = [];
-        $query = DB::select('SELECT p.id, metros_cuadrados, palmeras_destinadas, s.tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p 
+        $query = DB::select('SELECT p.id, metros_cuadrados, palmeras_destinadas, s.tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p
         INNER JOIN clima as c ON c.id = p.clima
-        INNER JOIN humedad as h ON h.id = p.humedad 
+        INNER JOIN humedad as h ON h.id = p.humedad
         INNER JOIN suelos as s ON s.id = p.tipo_de_suelo
         order by p.id');
         foreach ($query as $row) {
@@ -31,9 +30,9 @@ class DataBase {
     }
     function getPredio($id){
         try {
-            $query = DB::select( 'SELECT p.id, metros_cuadrados, palmeras_destinadas, s.tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p 
-            INNER JOIN clima as c ON c.id = p.clima 
-            INNER JOIN humedad as h ON h.id = p.humedad 
+            $query = DB::select( 'SELECT p.id, metros_cuadrados, palmeras_destinadas, s.tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p
+            INNER JOIN clima as c ON c.id = p.clima
+            INNER JOIN humedad as h ON h.id = p.humedad
             INNER JOIN suelos as s ON s.id = p.tipo_de_suelo
             where p.id = ?;', [$id])[0];
         } catch (\Throwable $e) {

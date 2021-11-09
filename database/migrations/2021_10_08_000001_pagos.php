@@ -4,19 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHumedad extends Migration
+class Pagos extends Migration
 {
     public function up()
     {
-        Schema::create('humedad', function (Blueprint $table) {
-            $table->integer('id');
-            $table->string('nivel_humedad');
+
+        Schema::create('Pagos', function (Blueprint $table) {
+            $table->bigIncrements('folio');
+            $table->date('fecha_pago');
+            $table->double('monto');
             $table->timestamps();
-            $table->primary('id');
         });
     }
+
     public function down()
     {
-        Schema::dropIfExists('humedad');
+        //
     }
 }
