@@ -10,10 +10,13 @@ class Pagos extends Migration
     {
 
         Schema::create('Pagos', function (Blueprint $table) {
-            $table->bigIncrements('folio');
+            $table->bigInteger('folio')->unsigned();
             $table->date('fecha_pago');
             $table->double('monto');
             $table->timestamps();
+
+            $table->primary('folio');
+            $table->foreign('folio')->references('folio')->on('Ventas');
         });
     }
 

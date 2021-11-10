@@ -17,7 +17,8 @@ class Predios extends Migration
             $table->double('salinidad');
             $table->boolean('tipo_de_predio');
             $table->string('descripcion');
-            $table->point('posicion_geografica');
+            $table->double('latitud');
+            $table->double('longitud');
             $table->date('fecha_creacion');
             $table->boolean('estatus');
             $table->timestamps();

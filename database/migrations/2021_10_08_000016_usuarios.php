@@ -16,6 +16,8 @@ class Usuarios extends Migration
             $table->timestamps();
 
             $table->primary('correo_electronico');
+            $table->foreign('id_empleado')->references('id')->on('Empleados');
+            $table->foreign('id_cliente')->references('id')->on('Clientes');
 
         });
     }

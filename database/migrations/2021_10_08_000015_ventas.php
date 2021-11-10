@@ -11,7 +11,7 @@ class Ventas extends Migration
         Schema::create('Ventas', function (Blueprint $table){
             $table->bigIncrements('folio');
             $table->date('fecha_venta');
-            $table->date('fecha_entrega');
+            $table->date('fecha_entrega')->nullable();
             $table->bigInteger('id_cliente')->unsigned();
             $table->bigInteger('id_empleado')->unsigned();
             $table->boolean('estatus');
