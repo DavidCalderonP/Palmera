@@ -11,9 +11,6 @@
                         <th scope="col">Area</th>
                         <th scope="col">No. Palmeras</th>
                         <th scope="col">Suelo</th>
-                        <th scope="col">Temperatura</th>
-                        <th scope="col">Clima</th>
-                        <th scope="col">Humedad</th>
                         <th scope="col">PH</th>
                         <th scope="col">Salinidad</th>
                         <th scope="col">Tipo de predio</th>
@@ -31,11 +28,8 @@
                         <tr>
                             <th scope="row">{{$predio->getId()}}</th>
                             <td>{{$predio->getMetrosCuadrados()}}</td>
-                            <td>{{$predio->getPalmerasDestinadas()}}</td>
+                            <td>{{$predio->getNumeroDePalmeras()}}</td>
                             <td>{{$predio->getTipoDeSuelo()}}</td>
-                            <td>{{$predio->getTemperatura()}}</td>
-                            <td>{{$predio->getClima()}}</td>
-                            <td>{{$predio->getHumedad()}}</td>
                             <td>{{$predio->getPh()}}</td>
                             <td>{{$predio->getSalinidad()}}</td>
                             <td>{{$predio->getTipoDePredio()==0 ? "No Orgánico" : "Orgánico"}}</td>

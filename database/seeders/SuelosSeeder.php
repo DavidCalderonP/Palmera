@@ -9,25 +9,30 @@ class SuelosSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('suelos')->insert([
+        DB::table('Suelos')->insert([
             'id' => 1,
-            'tipo_de_suelo' => 'Suelos arenosos'
+            'nombre' => 'Suelos arenosos',
+            'descripcion' => 'descripcion del suelo'
         ]);
         DB::table('suelos')->insert([
             'id' => 2,
-            'tipo_de_suelo' => 'Suelos calizos'
+            'nombre' => 'Suelos calizos',
+            'descripcion' => 'descripcion del suelo'
         ]);
         DB::table('suelos')->insert([
             'id' => 3,
-            'tipo_de_suelo' => 'Suelos arcillosos'
+            'nombre' => 'Suelos arcillosos',
+            'descripcion' => 'descripcion del suelo'
         ]);
         DB::table('suelos')->insert([
             'id' => 4,
-            'tipo_de_suelo' => 'Suelos pedregosos'
+            'nombre' => 'Suelos pedregosos',
+            'descripcion' => 'descripcion del suelo'
         ]);
         DB::table('suelos')->insert([
             'id' => 5,
-            'tipo_de_suelo' => 'Suelos Mixtos'
+            'nombre' => 'Suelos Mixtos',
+            'descripcion' => 'descripcion del suelo'
         ]);
     }
 }

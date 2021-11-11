@@ -10,8 +10,8 @@ class HumedadSeeder extends Seeder
 
     public function run()
     {
-        DB::table('humedad')->insert(['id'=>1, 'nivel_humedad'=>'Baja']);
-        DB::table('humedad')->insert(['id'=>2, 'nivel_humedad'=>'Media']);
-        DB::table('humedad')->insert(['id'=>3, 'nivel_humedad'=>'Alta']);
+//        DB::table('humedad')->insert(['id'=>1, 'nivel_humedad'=>'Baja']);
+//        DB::table('humedad')->insert(['id'=>2, 'nivel_humedad'=>'Media']);
+//        DB::table('humedad')->insert(['id'=>3, 'nivel_humedad'=>'Alta']);
     }
 }

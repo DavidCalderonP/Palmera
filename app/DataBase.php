@@ -2,31 +2,39 @@
 
 namespace App;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Predio;
+use Illuminate\Support\Facades\Http;
 
-class DataBase {
+class DataBase extends Model {
     function getPredios(){
         $predios = [];
-        $query = DB::select('SELECT p.id, metros_cuadrados, palmeras_destinadas, s.tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM predio as p
-        INNER JOIN clima as c ON c.id = p.clima
-        INNER JOIN humedad as h ON h.id = p.humedad
-        INNER JOIN suelos as s ON s.id = p.tipo_de_suelo
-        order by p.id');
-        foreach ($query as $row) {
-            $predios[] = new Predio(
-                $row->metros_cuadrados,
-                $row->palmeras_destinadas,
-                $row->tipo_de_suelo,
-                $row->temperatura,
-                $row->nombre_clima,
-                $row->nivel_humedad,
-                $row->ph,
-                $row->salinidad,
-                $row->tipo_de_predio,
-                $row->id
-            );
+        $response = Predio::all();
+        foreach ($response as $data){
+            $predios[] = new \App\Predio($data);
         }
         return $predios;
+//        $query = DB::select('SELECT p.id, metros_cuadrados, palmeras_destinadas, s.tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM prediosSeeder as p
+//        INNER JOIN clima as c ON c.id = p.clima
+//        INNER JOIN humedad as h ON h.id = p.humedad
+//        INNER JOIN suelos as s ON s.id = p.tipo_de_suelo
+//        order by p.id');
+//        foreach ($query as $row) {
+//            $prediosSeeder[] = new Predio(
+//                $row->metros_cuadrados,
+//                $row->palmeras_destinadas,
+//                $row->tipo_de_suelo,
+//                $row->temperatura,
+//                $row->nombre_clima,
+//                $row->nivel_humedad,
+//                $row->ph,
+//                $row->salinidad,
+//                $row->tipo_de_predio,
+//                $row->id
+//            );
+//        }
     }
     function getPredio($id){
         try {
@@ -83,5 +91,9 @@ class DataBase {
     function deletePredio($id){
         $delete = DB::delete('DELETE FROM predio WHERE id = ?', [$id]);
         return $delete;
+    }
+
+    public function validarPredio(){
+        return Http::get('http://localhost:4000/api/predioValidacion')->json();
     }
 }

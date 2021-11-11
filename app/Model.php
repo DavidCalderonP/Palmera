@@ -29,4 +29,8 @@ class Model{
     function updatePredio(Predio $predio, $id){
         $this->DB->updatePredio($predio, $id);
     }
+
+    function validarPredio(){
+        $this->DB->validarPredio();
+    }
 }

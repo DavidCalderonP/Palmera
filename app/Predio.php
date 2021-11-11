@@ -2,105 +2,115 @@
 
 namespace App;
 
-class Predio{
+class Predio
+{
 
     private $id;
     private $metros_cuadrados;
-    private $palmeras_destinadas;
+    private $numero_palmeras;
     private $tipo_de_suelo;
-    private $temperatura;
-    private $clima;
-    private $humedad;
     private $ph;
     private $salinidad;
     private $tipo_de_predio;
+    private $descripcion;
+    private $fecha_creacion;
+    private $latitud;
+    private $longitud;
+    private $estatus;
 
-    function __construct($metros_cuadrados,  $palmeras_destinadas,  $tipo_de_suelo,  $temperatura,  $clima,  $humedad,  $ph,  $salinidad,  $tipo_de_predio = false, $id = ''){
-
-        $this->id = $id;
-        $this->metros_cuadrados = $metros_cuadrados;
-        $this->palmeras_destinadas = $palmeras_destinadas;
-        $this->tipo_de_suelo = $tipo_de_suelo;
-        $this->temperatura = $temperatura;
-        $this->clima = $clima;
-        $this->humedad = $humedad;
-        $this->ph = $ph;
-        $this->salinidad = $salinidad;
-        $this->tipo_de_predio = $tipo_de_predio;
+    function __construct($data){
+        $this->id = $data->id;
+        $this->metros_cuadrados = $data->metros_cuadrados;
+        $this->numero_palmeras = $data->numero_palmeras;
+        $this->tipo_de_suelo = $data->tipo_de_suelo;
+        $this->ph = $data->ph;
+        $this->salinidad = $data->salinidad;
+        $this->tipo_de_predio = $data->tipo_de_predio;
+        $this->descripcion = $data->descripcion;
+        $this->fecha_creacion = $data->fecha_creacion;
+        $this->latitud = $data->latitud;
+        $this->longitud = $data->longitud;
+        $this->estatus = $data->estatus;
     }
 
-    function getId(){
+//    function __construct($metros_cuadrados, $numero_palmeras, $tipo_de_suelo, $ph, $salinidad, $tipo_de_predio, $descripcion, $fecha_creacion, $latitud, $longitud, $estatus, $id = ''){
+//        $this->id = $id;
+//        $this->metros_cuadrados = $metros_cuadrados;
+//        $this->$numero_palmeras = $$numero_palmeras;
+//        $this->tipo_de_suelo = $tipo_de_suelo;
+//        $this->ph = $ph;
+//        $this->salinidad = $salinidad;
+//        $this->tipo_de_predio = $tipo_de_predio;
+//        $this->$descripcion = $descripcion;
+//        $this->$fecha_creacion = $fecha_creacion;
+//        $this->$latitud = $latitud;
+//        $this->$longitud = $longitud;
+//        $this->$estatus = $estatus;
+//    }
+
+    function getId()
+    {
         return $this->id;
     }
-    function getMetrosCuadrados(){
+
+    function getMetrosCuadrados()
+    {
         return $this->metros_cuadrados;
     }
 
-    function setMetrosCuadrados($metros_cuadrados){
+    function setMetrosCuadrados($metros_cuadrados)
+    {
         $this->metros_cuadrados = $metros_cuadrados;
     }
 
-    function getPalmerasDestinadas(){
-        return $this->palmeras_destinadas;
+    function getNumeroDePalmeras()
+    {
+        return $this->numero_palmeras;
     }
 
-    function setPalmerasDestinadas($palmeras_destinadas){
-        $this->palmeras_destinadas = $palmeras_destinadas;
+    function setNumeroDePalmeras($numero_palmeras)
+    {
+        $this->numero_palmeras = $numero_palmeras;
     }
 
-    function getTipoDeSuelo(){
+    function getTipoDeSuelo()
+    {
         return $this->tipo_de_suelo;
     }
 
-    function setTipoDeSuelo($tipo_de_suelo){
-        $this->tipo_de_suelo= $tipo_de_suelo;
+    function setTipoDeSuelo($tipo_de_suelo)
+    {
+        $this->tipo_de_suelo = $tipo_de_suelo;
     }
 
-    function getTemperatura(){
-        return $this->temperatura;
-    }
-
-    function setTemperatura($temperatura){
-        $this->temperatura = $temperatura;
-    }
-
-    function getClima(){
-        return $this->clima;
-    }
-
-    function setClima($clima){
-        $this->clima = $clima;
-    }
-
-    function getHumedad(){
-        return $this->humedad;
-    }
-
-    function setHumedad($humedad){
-        $this->humedad = $humedad;
-    }
-
-    function getPh(){
+    function getPh()
+    {
         return $this->ph;
     }
 
-    function setPh($ph){
+    function setPh($ph)
+    {
         $this->ph = $ph;
     }
-    function getSalinidad(){
+
+    function getSalinidad()
+    {
         return $this->salinidad;
     }
 
-    function setSalinidad($salinidad){
+    function setSalinidad($salinidad)
+    {
         $this->salinidad = $salinidad;
     }
 
-    function getTipoDePredio(){
+    function getTipoDePredio()
+    {
         return $this->tipo_de_predio;
     }
 
-    function setTipoDePredio($tipo_de_predio){
-        $this->tipo_de_predio= $tipo_de_predio;
+    function setTipoDePredio($tipo_de_predio)
+    {
+        $this->tipo_de_predio = $tipo_de_predio;
 
     }
 

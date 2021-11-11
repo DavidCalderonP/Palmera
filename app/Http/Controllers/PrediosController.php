@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Model;
 use App\Predio;
+use Carbon\Carbon;
+use http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PrediosController extends Controller
 {
@@ -20,12 +25,15 @@ class PrediosController extends Controller
     public function index()
     {
         $res = $this->model->getPredios();
+        $date = now();
+        Log::info($date->toDateTimeString());
+        //$this->model->validarPredio();
         return view('predios/indexPredio', compact('res'));
     }
 
     public function create()
     {
-        if(!Auth::user('id')){
+        if (!Auth::user('id')) {
             echo "<script>";
             echo "alert('Es necesario inciar sesión.');";
             echo "</script>";
@@ -37,16 +45,31 @@ class PrediosController extends Controller
 
     public function store(Request $request)
     {
+//        $request->validate([
+//            'metros_cuadrados' => ['required'],
+//            'numero_palmeras' => ['required'],
+//            'tipo_de_suelo' => ['required'],
+//            'temperatura' => ['required'],
+//            'clima' => ['required'],
+//            'humedad' => ['required'],
+//            'ph' => ['required'],
+//            'salinidad' => ['required'],
+//        ]);
+
         $request->validate([
-            'metros_cuadrados' => ['required'],
-            'palmeras_destinadas' => ['required'],
-            'tipo_de_suelo' => ['required'],
-            'temperatura' => ['required'],
-            'clima' => ['required'],
-            'humedad' => ['required'],
-            'ph' => ['required'],
-            'salinidad' => ['required'],
+            'metros_cuadrados' => ['metros_cuadrados'],
+            'numero_palmeras' => ['numero_palmeras'],
+            'tipo_de_suelo' => ['tipo_de_suelo'],
+            'ph' => ['ph'],
+            'salinidad' => ['salinidad'],
+            'tipo_de_predio' => ['tipo_de_predio'],
+            'descripcion' => ['descripcion'],
+            'fecha_creacion' => ['fecha_creacion'],
+            'latitud' => ['latitud'],
+            'longitud' => ['longitud'],
+            'estatus' => ['estatus'],
         ]);
+
 
         $serivicoDePredios = app(PredioAsociacionController::class)->store($request);
         $tipo_de_predio = json_encode($serivicoDePredios->original['approved']);
@@ -65,12 +88,14 @@ class PrediosController extends Controller
         $this->model->savePredio($predio);
         return redirect('predio');
     }
+
     public function show($id)
     {
     }
+
     public function edit($id)
     {
-        if(!Auth::user('id')){
+        if (!Auth::user('id')) {
             echo "<script>";
             echo "alert('Es necesario inciar sesión.');";
             echo "</script>";
@@ -86,6 +111,7 @@ class PrediosController extends Controller
         }
         return view('predios.editPredio', compact('predio'));
     }
+
     public function update(Request $request, $id)
     {
 
@@ -103,9 +129,10 @@ class PrediosController extends Controller
         $this->model->updatePredio($predio, $id);
         return redirect('predio');
     }
+
     public function destroy($id)
     {
-        if(!Auth::user('id')){
+        if (!Auth::user('id')) {
             echo "<script>";
             echo "alert('Es necesario inciar sesión.');";
             echo "</script>";
