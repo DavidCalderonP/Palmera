@@ -14,4 +14,7 @@ class Predio extends Model
     protected $keyType = 'string';
     //protected $fillable = [];
 
+    function suelos(){
+        return $this->belongsTo(Suelo::class, 'tipo_de_suelo');
+    }
 }

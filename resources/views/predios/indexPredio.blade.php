@@ -29,7 +29,7 @@
                             <th scope="row">{{$predio->getId()}}</th>
                             <td>{{$predio->getMetrosCuadrados()}}</td>
                             <td>{{$predio->getNumeroDePalmeras()}}</td>
-                            <td>{{$predio->getTipoDeSuelo()}}</td>
+                            <td>{{$predio->getTipoDeSuelo()->getNombre()}}</td>
                             <td>{{$predio->getPh()}}</td>
                             <td>{{$predio->getSalinidad()}}</td>
                             <td>{{$predio->getTipoDePredio()==0 ? "No Orgánico" : "Orgánico"}}</td>

@@ -18,35 +18,35 @@ class Predio
     private $longitud;
     private $estatus;
 
-    function __construct($data){
-        $this->id = $data->id;
-        $this->metros_cuadrados = $data->metros_cuadrados;
-        $this->numero_palmeras = $data->numero_palmeras;
-        $this->tipo_de_suelo = $data->tipo_de_suelo;
-        $this->ph = $data->ph;
-        $this->salinidad = $data->salinidad;
-        $this->tipo_de_predio = $data->tipo_de_predio;
-        $this->descripcion = $data->descripcion;
-        $this->fecha_creacion = $data->fecha_creacion;
-        $this->latitud = $data->latitud;
-        $this->longitud = $data->longitud;
-        $this->estatus = $data->estatus;
-    }
-
-//    function __construct($metros_cuadrados, $numero_palmeras, $tipo_de_suelo, $ph, $salinidad, $tipo_de_predio, $descripcion, $fecha_creacion, $latitud, $longitud, $estatus, $id = ''){
-//        $this->id = $id;
-//        $this->metros_cuadrados = $metros_cuadrados;
-//        $this->$numero_palmeras = $$numero_palmeras;
-//        $this->tipo_de_suelo = $tipo_de_suelo;
-//        $this->ph = $ph;
-//        $this->salinidad = $salinidad;
-//        $this->tipo_de_predio = $tipo_de_predio;
-//        $this->$descripcion = $descripcion;
-//        $this->$fecha_creacion = $fecha_creacion;
-//        $this->$latitud = $latitud;
-//        $this->$longitud = $longitud;
-//        $this->$estatus = $estatus;
+//    function __construct($data){
+//        $this->id = $data->id;
+//        $this->metros_cuadrados = $data->metros_cuadrados;
+//        $this->numero_palmeras = $data->numero_palmeras;
+//        $this->tipo_de_suelo = new SueloClass($data->suelos);
+//        $this->ph = $data->ph;
+//        $this->salinidad = $data->salinidad;
+//        $this->tipo_de_predio = $data->tipo_de_predio;
+//        $this->descripcion = $data->descripcion;
+//        $this->fecha_creacion = $data->fecha_creacion;
+//        $this->latitud = $data->latitud;
+//        $this->longitud = $data->longitud;
+//        $this->estatus = $data->estatus;
 //    }
+
+    function __construct($metros_cuadrados, $numero_palmeras, $tipo_de_suelo, $ph, $salinidad, $tipo_de_predio, $descripcion, $fecha_creacion, $latitud, $longitud, $estatus, $id = ''){
+        $this->id = $id;
+        $this->metros_cuadrados = $metros_cuadrados;
+        $this->numero_palmeras = $numero_palmeras;
+        $this->tipo_de_suelo = $tipo_de_suelo;
+        $this->ph = $ph;
+        $this->salinidad = $salinidad;
+        $this->tipo_de_predio = $tipo_de_predio;
+        $this->$descripcion = $descripcion;
+        $this->$fecha_creacion = $fecha_creacion;
+        $this->$latitud = $latitud;
+        $this->$longitud = $longitud;
+        $this->$estatus = $estatus;
+    }
 
     function getId()
     {

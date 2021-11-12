@@ -13,7 +13,8 @@ class DataBase extends Model {
         $predios = [];
         $response = Predio::all();
         foreach ($response as $data){
-            $predios[] = new \App\Predio($data);
+            $suelo = new SueloClass($data->suelos);
+            $predios[] = new \App\Predio($data->metros_cuadrados, $data->numero_palmeras, $suelo, $data->ph, $data->salinidad, $data->tipo_de_predio, $data->descripcion, $data->fecha_creacion, $data->latitud, $data->longitud, $data->estatus, $data->id);
         }
         return $predios;
 //        $query = DB::select('SELECT p.id, metros_cuadrados, palmeras_destinadas, s.tipo_de_suelo, temperatura, nombre_clima, nivel_humedad, ph, salinidad, tipo_de_predio FROM prediosSeeder as p

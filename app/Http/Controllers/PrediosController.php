@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Model;
+use App\Models\Suelo;
 use App\Predio;
-use Carbon\Carbon;
-use http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class PrediosController extends Controller
@@ -25,8 +22,13 @@ class PrediosController extends Controller
     public function index()
     {
         $res = $this->model->getPredios();
-        $date = now();
-        Log::info($date->toDateTimeString());
+//        $relation = \App\Models\Predio::find('P005')->suelos;
+//        dd($relation);
+        //$date = now();
+//        Log::info($date->toDateTimeString());
+//        foreach (Suelo::all() as $suelo){
+//            var_dump(json_encode($suelo));
+//        }
         //$this->model->validarPredio();
         return view('predios/indexPredio', compact('res'));
     }
