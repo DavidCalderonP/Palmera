@@ -6,6 +6,7 @@ use App\Model;
 use App\Models\Suelo;
 use App\Predio;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -19,9 +20,11 @@ class PrediosController extends Controller
         $this->model = new Model();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $res = $this->model->getPredios();
+        Log::info(now('GMT-7')->format('Y-m-d'));
+        $query = $this->model->getPredios();
+        $res['res'] = $this->obtenerPaginador($request, $query);//Se envia el request y la informacion
 //        $relation = \App\Models\Predio::find('P005')->suelos;
 //        dd($relation);
         //$date = now();
@@ -30,19 +33,15 @@ class PrediosController extends Controller
 //            var_dump(json_encode($suelo));
 //        }
         //$this->model->validarPredio();
-        return view('predios/indexPredio', compact('res'));
+        return view('predios/indexPredio', $res);
     }
 
-    public function create()
-    {
-        if (!Auth::user('id')) {
-            echo "<script>";
-            echo "alert('Es necesario inciar sesión.');";
-            echo "</script>";
-
-            return redirect('login');
-        }
-        return view('predios.createPredio');
+    public function create(){
+//        if (!Auth::user('id')) {
+//            return view('predios/needLogin');
+//        }
+//        return view('predios.createPredio');
+        return !Auth::user('id') ? view('predios/needLogin') : view('predios.createPredio');
     }
 
     public function store(Request $request)
@@ -143,5 +142,15 @@ class PrediosController extends Controller
         }
         $this->model->deletePredio($id);
         return redirect('predio');
+    }
+
+    public function obtenerPaginador($req, $info){
+        $paginas = 2; // El numero de objetos(elementos) que se mostrarán
+        $total = count($info); // Numero de elementos que contiene nuestra coleccion
+        $actual = $req->page ?? 1;// Obtiene la pagina actual
+        $offset = ($actual - 1) * $paginas;// Numero de elementos que serán omitidos en esta pagina
+        $items = array_slice($info, $offset, $paginas);// Aqui es donde se recorta el arreglo
+        // Fuentes:    https://stackoverflow.com/questions/27213453/laravel-5-manual-pagination
+        return new LengthAwarePaginator($items, $total, $paginas, $actual, ['path' => $req->url()]);
     }
 }

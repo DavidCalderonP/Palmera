@@ -18,4 +18,15 @@ class SueloClass
         return $this->nombre;
     }
 
+    function setNombre($nombre){
+        $this->nombre = $nombre;
+    }
+
+    function getDescripcion(){
+        return $this->descripcion;
+    }
+
+    function setDescripcion($descripcion){
+        $this->nombre = $descripcion;
+    }
 }

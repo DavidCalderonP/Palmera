@@ -41,11 +41,11 @@ class Predio
         $this->ph = $ph;
         $this->salinidad = $salinidad;
         $this->tipo_de_predio = $tipo_de_predio;
-        $this->$descripcion = $descripcion;
-        $this->$fecha_creacion = $fecha_creacion;
-        $this->$latitud = $latitud;
-        $this->$longitud = $longitud;
-        $this->$estatus = $estatus;
+        $this->descripcion = $descripcion;
+        $this->fecha_creacion = $fecha_creacion;
+        $this->latitud = $latitud;
+        $this->longitud = $longitud;
+        $this->estatus = $estatus;
     }
 
     function getId()
@@ -112,6 +112,13 @@ class Predio
     {
         $this->tipo_de_predio = $tipo_de_predio;
 
+    }
+    function getLatitud(){
+        return $this->latitud;
+    }
+
+    function getLongitud(){
+        return $this->longitud;
     }
 
 }

@@ -97,4 +97,5 @@ class DataBase extends Model {
     public function validarPredio(){
         return Http::get('http://localhost:4000/api/predioValidacion')->json();
     }
+
 }
