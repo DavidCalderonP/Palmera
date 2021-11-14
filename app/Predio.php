@@ -53,6 +53,10 @@ class Predio
         return $this->id;
     }
 
+    function setId($id){
+        $this->id = $id;
+    }
+
     function getMetrosCuadrados()
     {
         return $this->metros_cuadrados;
@@ -119,6 +123,18 @@ class Predio
 
     function getLongitud(){
         return $this->longitud;
+    }
+
+    function getDescripcion(){
+        return $this->descripcion;
+    }
+
+    function getFechaCreacion(){
+        return $this->fecha_creacion;
+    }
+
+    function getEstatus(){
+        return $this->estatus;
     }
 
 }

@@ -22,6 +22,7 @@ class Predios extends Migration
             $table->date('fecha_creacion');
             $table->boolean('estatus');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary('id');
             $table->foreign('tipo_de_suelo')->references('id')->on('Suelos');
