@@ -9,7 +9,7 @@ class Predios extends Migration
     public function up()
     {
         Schema::create('Predios', function (Blueprint $table){
-            $table->string('id')->unique();
+            $table->string('id');
             $table->integer('metros_cuadrados');
             $table->integer('numero_palmeras');
             $table->bigInteger('tipo_de_suelo')->unsigned();

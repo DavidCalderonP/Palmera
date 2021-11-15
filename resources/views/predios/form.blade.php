@@ -37,28 +37,28 @@
         <div class="col">
             <label for="tipo_de_suelo">Tipo de suelo del predio</label>
             <select class="form-control" id="tipo_de_suelo"
-                    value="{{ isset($predio) ? $predio->getTipoDeSuelo()->getNombre() : old('tipo_de_suelo')}}"
+                    value="{{ isset($predio) ? $predio->suelos->getNombre() : old('tipo_de_suelo')}}"
                     name="tipo_de_suelo">
                 @if(isset($predio))
                     <option value="">Seleccione un tipo de suelo</option>
                     <option value="1"
-                            @if($predio->getTipoDeSuelo()->getNombre() === 'Suelos arenosos') selected='selected' @endif>
+                            @if($predio->suelos->getNombre() === 'Suelos arenosos') selected='selected' @endif>
                         Suelos arenosos
                     </option>
                     <option value="2"
-                            @if($predio->getTipoDeSuelo()->getNombre() === 'Suelos calizos') selected='selected' @endif>
+                            @if($predio->suelos->getNombre() === 'Suelos calizos') selected='selected' @endif>
                         Suelos calizos
                     </option>
                     <option value="3"
-                            @if($predio->getTipoDeSuelo()->getNombre() === 'Suelos arcillosos')  selected='selected' @endif>
+                            @if($predio->suelos->getNombre() === 'Suelos arcillosos')  selected='selected' @endif>
                         Suelos arcillosos
                     </option>
                     <option value="4"
-                            @if($predio->getTipoDeSuelo()->getNombre() === 'Suelos pedregosos') selected='selected' @endif>
+                            @if($predio->suelos->getNombre() === 'Suelos pedregosos') selected='selected' @endif>
                         Suelos pedregosos
                     </option>
                     <option value="5"
-                            @if($predio->getTipoDeSuelo()->getNombre() === 'Suelos Mixtos') selected='selected' @endif>
+                            @if($predio->suelos->getNombre() === 'Suelos Mixtos') selected='selected' @endif>
                         Suelos Mixtos
                     </option>
                 @else

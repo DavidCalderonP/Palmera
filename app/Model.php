@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-use App\Predio;
 
 class Model{
 
@@ -19,7 +18,7 @@ class Model{
         return $this->DB->getPredio($id);
     }
 
-    function savePredio(Predio $predio){
+    function savePredio($predio){
         $this->DB->savePredio($predio);
     }
 
