@@ -23,11 +23,11 @@ class Model{
     }
 
     function deletePredio($id){
-        $this->DB->deletePredio($id);
+        return $this->DB->deletePredio($id);
     }
 
-    function updatePredio(Predio $predio, $id){
-        $this->DB->updatePredio($predio, $id);
+    function updatePredio($predio){
+        $this->DB->updatePredio($predio);
     }
 
     function validarPredio(){

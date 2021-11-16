@@ -19,7 +19,8 @@ class PrediosController extends Controller
         $this->model = new Model();
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         //Log::info(now('GMT-7')->format('Y-m-d'));
         $res = $this->model->getPredios();
         //$res['res'] = $this->obtenerPaginador($request, $query);//Se envia el request y la informacion
@@ -36,15 +37,10 @@ class PrediosController extends Controller
 
     public function create()
     {
-//        if (!Auth::user('id')) {
-//            return view('predios/needLogin');
-//        }
-//        return view('predios.createPredio');
         return !Auth::user('id') ? view('predios/needLogin') : view('predios.createPredio');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $request->validate([
             'metros_cuadrados' => ['required'],
             'numero_palmeras' => ['required'],
@@ -57,7 +53,6 @@ class PrediosController extends Controller
             'longitud' => ['required'],
         ]);
         $aux = array_merge($request->all(), ['id' => NULL, 'fecha_creacion' => now('GMT-7')->format('Y-m-d'), 'estatus' => 1]);
-        //dd($aux);
         $predio = new Predio($aux);
         $this->model->savePredio($predio);
 //        dd($predio);
@@ -110,62 +105,46 @@ class PrediosController extends Controller
         return redirect('predio');
     }
 
-    public function show($id)
-    {
-    }
+    public function show($id){}
 
-    public function edit($id)
-    {
-
-//        if (!Auth::user('id')) {
-//            echo "<script>";
-//            echo "alert('Es necesario inciar sesión.');";
-//            echo "</script>";
-//
-//            return redirect('login');
-//        }
-//        $predio = $this->model->getPredio($id);
-//        if ($predio == null) {
-//            echo "<script>";
-//            echo "alert('El predio que seleccionó ya no existe');";
-//            echo "</script>";
-//            return redirect('predio');
-//        }
+    public function edit($id){
         $predio = $this->model->getPredio($id);
-        if($predio == null){
-            return view('predios/predioDoesntExist');
+
+        if ($predio == null) {
+            echo "<script>";
+            echo "alert('El predio que seleccionó ya no existe');";
+            echo "</script>";
+            return redirect('predio');
         }
         return !Auth::user($id) ? view('predios/needLogin') : view('predios.editPredio', compact('predio'));
     }
 
     public function update(Request $request, $id)
     {
-
-        $predio = new Predio(
-            (int)$request->metros_cuadrados,
-            (int)$request->palmeras_destinadas,
-            $request->tipo_de_suelo,
-            (double)$request->temperatura,
-            (int)$request->clima,
-            (int)$request->humedad,
-            (double)$request->ph,
-            (double)$request->salinidad,
-            (int)$request->tipo_de_predio
-        );
-        $this->model->updatePredio($predio, $id);
+        $request->validate([
+            'metros_cuadrados' => ['required'],
+            'numero_palmeras' => ['required'],
+            'tipo_de_suelo' => ['required'],
+            'ph' => ['required'],
+            'salinidad' => ['required'],
+            'tipo_de_predio' => ['required'],
+            'descripcion' => ['required'],
+            'latitud' => ['required'],
+            'longitud' => ['required']
+        ]);
+        $predio = new Predio($request->all());
+        $this->model->updatePredio($predio);
         return redirect('predio');
     }
 
-    public function destroy($id)
-    {
-        if (!Auth::user('id')) {
+    public function destroy($id){
+        $resp = $this->model->deletePredio($id);
+        if($resp == 0){
             echo "<script>";
-            echo "alert('Es necesario inciar sesión.');";
+            echo "alert('El predio que seleccionó ya no existe');";
             echo "</script>";
-            return redirect('login');
         }
-        $this->model->deletePredio($id);
-        return redirect('predio');
+        return !Auth::user('id') ? view('predios/needLogin') : redirect('predio');
     }
 
 //    public function obtenerPaginador($req, $info)

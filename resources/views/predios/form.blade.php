@@ -4,7 +4,7 @@
             <div class="col">
                 <label for="metros_cuadrados">Predio</label>
                 <input type="text" class="form-control" id="id" value="{{ isset($predio) ? $predio->getId() : ''}}"
-                       name="id" disabled>
+                       name="id" readonly="readonly">
             </div>
 
         </div>
@@ -108,7 +108,8 @@
                         class="form-control"
                         id="tipo_de_predio"
                         value="{{ isset($predio) ? $predio->getTipoDePredio() == 0 ? 'No Orgánico' : 'Orgánico' : old('tipo_de_predio')}}"
-                        name="tipo_de_predio" {{ isset($predio) ? 'disabled' : '' }}>
+                        name="tipo_de_predio" readonly="readonly">
+{{--                    {{ isset($predio) ? 'disabled' : '' }}>--}}
                     @if(isset($predio))
                         <option value="">Seleccione tipo de predio</option>
                         <option value="0" @if($predio->getTipoDePredio() == 0) selected='selected' @endif>No Orgánico
@@ -177,8 +178,22 @@
                 <label for="fecha_creacion">Fecha de creación</label>
                 <input type="text" class="form-control" id="fecha_creacion"
                        value="{{ isset($predio) ? $predio->getFechaCreacion(): old('fecha_creacion')}}"
-                       name="fecha_creacion" disabled>
+                       name="fecha_creacion" readonly="readonly">
                 @if($errors->has('fecha_creacion'))
+                    <div class="alert alert-danger">Este campo es requerido</div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" hidden>
+        <div class="row">
+            <div class="col">
+                <label for="estatus">Estatus</label>
+                <input type="text" class="form-control" id="estatus"
+                       value="{{ isset($predio) ? $predio->getEstatus(): old('estatus')}}"
+                       name="estatus" hidden readonly="readonly">
+                @if($errors->has('estatus'))
                     <div class="alert alert-danger">Este campo es requerido</div>
                 @endif
             </div>

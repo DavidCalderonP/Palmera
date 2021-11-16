@@ -56,7 +56,7 @@
                             </td>
                         </tr>
                     @empty
-
+                        <div>No se encontró ningún predio</div>
                     @endforelse
                     </tbody>
                 </table>

@@ -2,13 +2,16 @@
 
 namespace App;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Predio;
 use Illuminate\Support\Facades\Http;
 
-class DataBase{
+class DataBase
+{
 
-    function getPredios(){
+    function getPredios()
+    {
         return Predio::paginate(5);
     }
 //    function getPredios(){
@@ -26,22 +29,23 @@ class DataBase{
         try {
             $query = Predio::findOrFail($id);
         } catch (\Throwable $e) {
+//            dd($e->getMessage());
             return null;
         }
         return $query;
     }
 
-    function savePredio($predio){
+    function savePredio($predio)
+    {
         DB::beginTransaction();
         try {
-            $newKey= DB::select("CALL gk_getKey(@id)");
+            $newKey = DB::select("CALL gk_getKey(@id)");
             $predio->id = $newKey[0]->id;
             $predio->save();
             DB::select("CALL ak_addKey('{$newKey[0]->id}')");
             DB::commit();
-        }catch (\Throwable $e){
+        } catch (\Throwable $e) {
             DB::rollBack();
-            dd($e->getMessage());
             return false;
         }
         return true;
@@ -106,6 +110,27 @@ class DataBase{
 //        return $aux;
 //    }
 
+    function updatePredio($newPredio){
+        try {
+            $newPredio::where('estatus', $newPredio->getId())
+            ->update([
+                'metros_cuadrados' => $newPredio->getMetrosCuadrados(),
+                'numero_palmeras' => $newPredio->getNumeroDePalmeras(),
+                'tipo_de_suelo' => $newPredio->getTipoDeSuelo(),
+                'ph' => $newPredio->getPh(),
+                'salinidad' => $newPredio->getSalinidad(),
+                'tipo_de_predio' => $newPredio->getTipoDePredio(),
+                'descripcion' => $newPredio->getDescripcion(),
+                'fecha_creacion' => $newPredio->getFechaCreacion(),
+                'latitud' => $newPredio->getLatitud(),
+                'longitud' => $newPredio->getLongitud(),
+                'estatus' => $newPredio->getEstatus()
+            ]);
+        }catch(QueryException $e){
+            return false;
+        }
+        return true;
+    }
 //    function updatePredio($predio, $id){
 //        $consulta = DB::select("Update predio set
 //                                metros_cuadrados = ?,
@@ -131,15 +156,14 @@ class DataBase{
 //        return $consulta;
 //    }
 
-    function deletePredio($id)
-    {
+    function deletePredio($id){
         try {
-            Predio::where('id', $id)->update(['estatus' => 0]);
+            $a = Predio::where('id', $id)->update(['estatus' => 0]);
             Predio::where('id', $id)->delete();
         } catch (\Throwable $e) {
-            return false;
+            return null;
         }
-        return true;
+        return $a;
     }
 
     public function validarPredio()
