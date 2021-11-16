@@ -30,7 +30,7 @@ class Model{
         $this->DB->updatePredio($predio);
     }
 
-    function validarPredio(){
-        $this->DB->validarPredio();
+    function validarPredio($request){
+        return $this->DB->validarPredio($request);
     }
 }
