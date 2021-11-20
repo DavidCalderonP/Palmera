@@ -7,4 +7,9 @@ services:
       - 8000:8000
     volumes:
       - ./:/app:delegated
+    environment:
+        - DB_HOST=127.0.0.1
+        - DB_USERNAME="root"
+        - DB_PASSWORD="1234"
+        - DB_DATABASE=palmera
     command: ["php","artisan","serve", "--host", "0.0.0.0", "--port", "8000"]

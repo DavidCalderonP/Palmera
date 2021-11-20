@@ -11,7 +11,7 @@ class DataBase
 {
     function getPredios()
     {
-        return Predio::paginate(5);
+        return Predio::with('suelos')->where('estatus', '=', 1)->paginate(5);
     }
 
     function getPredio($id)

@@ -1,9 +1,9 @@
 <?php
 
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrediosController;
-use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return view('welcome');
