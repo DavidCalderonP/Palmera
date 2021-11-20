@@ -1,7 +1,7 @@
 <?php
 
 
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ActPredOrgController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrediosController;
 
@@ -10,6 +10,7 @@ Route::get('/', function () {
 });
 
 Route::resource('predio', PrediosController::class);
+Route::resource('asignarActividades', ActPredOrgController::class);
 
 Auth::routes();
 

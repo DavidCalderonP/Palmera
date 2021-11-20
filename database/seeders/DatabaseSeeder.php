@@ -10,5 +10,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(SuelosSeeder::class);
         $this->call(PrediosSeeder::class);
+        $this->call(TipoDatilSeeder::class);
+        $this->call(PalmerasSeeder::class);
     }
 }

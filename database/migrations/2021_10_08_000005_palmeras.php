@@ -9,12 +9,13 @@ class Palmeras extends Migration
     public function up()
     {
         Schema::create('Palmeras', function (Blueprint $table){
-            $table->string('id')->unique();
+            $table->string('id');
             $table->boolean('tipo_palmera');
             $table->string('predio_id');
             $table->bigInteger('tipo_datil')->unsigned();
             $table->boolean('estatus');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary('id');
             $table->foreign('predio_id')->references('id')->on('Predios');

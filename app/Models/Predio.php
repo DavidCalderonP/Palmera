@@ -136,4 +136,8 @@ class Predio extends Model
         return $this->belongsTo(Suelo::class, 'tipo_de_suelo');
     }
 
+    function palmeras(){
+        return $this->hasMany(Palmera::class, 'predio_id');
+    }
+
 }
