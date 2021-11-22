@@ -93,6 +93,7 @@ class DataBase
 
     function saveActividades($actividades, $predio)
     {
+//        dd($actividades->getIdActividad());
         try {
             DB::beginTransaction();
 //        sleep(15);
@@ -106,8 +107,8 @@ class DataBase
             foreach ($palmeras as $key => $palmera) {
                 $data[] = [
                     'id' => $palmera->getId() . $actividades->getIdActividad() . $actividades->getAnio() . ($count + $key),
-                    'id_palmera' => $palmera->getId(),
-                    'id_actividad' => $actividades->getIdActividad(),
+                    'palmera_id' => $palmera->getId(),
+                    'actividad_id' => $actividades->getIdActividad(),
                     'anio' => $actividades->getAnio(),
                     'fecha_programada' => $actividades->getFechaProgramada(),
                     'fecha_ejecucion' => $actividades->getFechaEjecucion(),

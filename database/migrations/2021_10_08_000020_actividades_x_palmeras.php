@@ -11,8 +11,8 @@ class ActividadesXPalmeras extends Migration
     {
         Schema::create('ActividadesPorPalmeras', function (Blueprint $table){
             $table->string('id');
-            $table->string('id_palmera');
-            $table->bigInteger('id_actividad')->unsigned();
+            $table->string('palmera_id');
+            $table->bigInteger('actividad_id')->unsigned();
             $table->string('anio');
             $table->date('fecha_programada');
             $table->date('fecha_ejecucion')->nullable();

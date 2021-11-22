@@ -15,7 +15,7 @@ class ActividadesPorPredio extends Model
     protected $table = 'ActividadesPorPalmeras';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
-    protected $fillable = ['id', 'id_palmera', 'id_actividad', 'anio', 'fecha_programada', 'fecha_ejecucion', 'costo', 'estatus'];
+    protected $fillable = ['id', 'palmera_id', 'actividad_id', 'anio', 'fecha_programada', 'fecha_ejecucion', 'costo', 'estatus'];
 
     function __construct($attributes = [])
     {
@@ -27,11 +27,11 @@ class ActividadesPorPredio extends Model
     }
 
     public function getIdPalmera(){
-        return $this->id_palmera;
+        return $this->palmera_id;
     }
 
     public function getIdActividad(){
-        return $this->id_actividad;
+        return $this->actividad_id;
     }
 
     public function getAnio(){
@@ -52,9 +52,5 @@ class ActividadesPorPredio extends Model
 
     public function getEstatus(){
         return $this->estatus;
-    }
-
-    public function actividades(){
-        return $this->belongsTo(Actividad::class, 'id_actividad');
     }
 }

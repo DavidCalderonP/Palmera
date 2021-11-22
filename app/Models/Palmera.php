@@ -41,4 +41,8 @@ class Palmera extends Model
         return $this->belongsTo(Predio::class, 'predio_id');
     }
 
+    public function actividades(){
+        return $this->belongsToMany(Actividad::class, 'ActividadesPorPalmeras');
+    }
+
 }

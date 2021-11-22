@@ -32,17 +32,17 @@ class ActPredOrgController extends Controller
     {
         $request->validate([
             'id_predio' => ['required'],
-            'id_actividad' => ['required'],
+            'actividad_id' => ['required'],
             'fecha_programada' => ['required'],
         ]);
 //        dd(substr($request->fecha_programada,0, 4));
-        $fieldsRemaining = (['id' => null, 'id_palmera' => null, 'anio' => substr($request->fecha_programada, 0, 4), 'costo' => null, 'estatus' => 1, 'fecha_ejecucion' => null]);
+        $fieldsRemaining = (['id' => null, 'palmera_id' => null, 'anio' => substr($request->fecha_programada, 0, 4), 'costo' => null, 'estatus' => 1, 'fecha_ejecucion' => null]);
 //        dd($fieldsRemaining);
 //        dd($request->all());
         $data = array_merge($request->all(), $fieldsRemaining);
         $asignacionMasiva = new ActividadesPorPredio($data);
         $res = $this->model->saveActividades($asignacionMasiva, $request->id_predio);
-        return $this->create();
+        return $res ? "Si jala" : "No jala";
     }
     public function show($id)
     {

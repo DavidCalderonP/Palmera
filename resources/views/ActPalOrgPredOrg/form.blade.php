@@ -25,9 +25,9 @@
     <div class="row">
         <div class="col">
             @isset($actividades)
-                <label for="id_actividad">Actividades</label>
-                <select class="form-control" id="id_actividad"
-                        name="id_actividad">
+                <label for="actividad_id">Actividades</label>
+                <select class="form-control" id="actividad_id"
+                        name="actividad_id">
                     <option value="" selected="selected">Seleccione una actividad</option>
                     @foreach ($actividades as $key => $actividad)
                         <option value="{{ $actividad->getId()  }}">
@@ -35,7 +35,7 @@
                         </option>
                     @endforeach
                 </select>
-                @if($errors->has('id_actividad'))
+                @if($errors->has('actividad_id'))
                     <div class="alert alert-danger">Este campo es requerido</div>
                 @endif
             @endisset

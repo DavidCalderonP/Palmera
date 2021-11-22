@@ -15,29 +15,49 @@ class Actividad extends Model
     protected $table = 'Actividades';
     protected $primaryKey = 'id';
     protected $keyType = 'int';
-    protected $fillable = ['id','nombre_actividad','descripcion','costo','tipo_actividad', 'estatus'];
+    protected $fillable = ['id', 'nombre_actividad', 'descripcion', 'costo', 'tipo_actividad', 'estatus'];
 
     function __construct($attributes = [])
     {
         parent::__construct($attributes);
     }
 
-    function getId(){
+    function getId()
+    {
         return $this->id;
     }
-    function getNombreActividad(){
+
+    function getNombreActividad()
+    {
         return $this->nombre_actividad;
     }
-    function getDescripcion(){
+
+    function getDescripcion()
+    {
         return $this->descripcion;
     }
-    function getCosto(){
+
+    function getCosto()
+    {
         return $this->costo;
     }
-    function getTipoActividad(){
+
+    function getTipoActividad()
+    {
         return $this->tipo_actividad;
     }
-    function getEstatus(){
+
+    function getEstatus()
+    {
         return $this->estatus;
+    }
+
+//    function obtenerAsignaciones()
+//    {
+//        return $this->hasMany(ActividadesPorPredio::class, 'id_actividad');
+//    }
+
+    function palmeras(){
+        return $this->belongsToMany(Palmera::class, 'ActividadesPorPalmeras');
     }
 }
