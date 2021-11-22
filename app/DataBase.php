@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Models\ActividadesPorPredio;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Predio;
+use App\Models\Actividad;
 use Illuminate\Support\Facades\Http;
 
 class DataBase
@@ -40,29 +42,31 @@ class DataBase
         return true;
     }
 
-    function updatePredio($newPredio){
+    function updatePredio($newPredio)
+    {
         try {
             $newPredio::where('id', $newPredio->getId())
-            ->update([
-                'metros_cuadrados' => $newPredio->getMetrosCuadrados(),
-                'numero_palmeras' => $newPredio->getNumeroDePalmeras(),
-                'tipo_de_suelo' => $newPredio->getTipoDeSuelo(),
-                'ph' => $newPredio->getPh(),
-                'salinidad' => $newPredio->getSalinidad(),
-                'tipo_de_predio' => $newPredio->getTipoDePredio(),
-                'descripcion' => $newPredio->getDescripcion(),
-                'fecha_creacion' => $newPredio->getFechaCreacion(),
-                'latitud' => $newPredio->getLatitud(),
-                'longitud' => $newPredio->getLongitud(),
-                'estatus' => $newPredio->getEstatus()
-            ]);
-        }catch(QueryException $e){
+                ->update([
+                    'metros_cuadrados' => $newPredio->getMetrosCuadrados(),
+                    'numero_palmeras' => $newPredio->getNumeroDePalmeras(),
+                    'tipo_de_suelo' => $newPredio->getTipoDeSuelo(),
+                    'ph' => $newPredio->getPh(),
+                    'salinidad' => $newPredio->getSalinidad(),
+                    'tipo_de_predio' => $newPredio->getTipoDePredio(),
+                    'descripcion' => $newPredio->getDescripcion(),
+                    'fecha_creacion' => $newPredio->getFechaCreacion(),
+                    'latitud' => $newPredio->getLatitud(),
+                    'longitud' => $newPredio->getLongitud(),
+                    'estatus' => $newPredio->getEstatus()
+                ]);
+        } catch (QueryException $e) {
             return false;
         }
         return true;
     }
 
-    function deletePredio($id){
+    function deletePredio($id)
+    {
         try {
             $a = Predio::where('id', $id)->update(['estatus' => 0]);
             Predio::where('id', $id)->delete();
@@ -72,9 +76,52 @@ class DataBase
         return $a;
     }
 
+    public function getActividades()
+    {
+        return Actividad::where('estatus', '=', 1)->get();
+    }
+
     public function validarPredio($request)
     {
         return Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
+    }
+
+    public function getAllPredios()
+    {
+        return Predio::where('estatus', '=', 1)->get();
+    }
+
+    function saveActividades($actividades, $predio)
+    {
+        try {
+            DB::beginTransaction();
+//        sleep(15);
+            $count = ActividadesPorPredio::count() + 1;
+//        dd($predio);
+            $palmeras = Predio::find($predio)->palmeras;
+            $actividad = Actividad::find($actividades->getIdActividad());
+//        dd($palmeras);
+            $data = [];
+            //dd($palmeras[0]->getId() . $actividades->getIdActividad() . $actividades->getAnio() . (ActividadesPorPredio::count()+1));
+            foreach ($palmeras as $key => $palmera) {
+                $data[] = [
+                    'id' => $palmera->getId() . $actividades->getIdActividad() . $actividades->getAnio() . ($count + $key),
+                    'id_palmera' => $palmera->getId(),
+                    'id_actividad' => $actividades->getIdActividad(),
+                    'anio' => $actividades->getAnio(),
+                    'fecha_programada' => $actividades->getFechaProgramada(),
+                    'fecha_ejecucion' => $actividades->getFechaEjecucion(),
+                    'costo' => $actividad->getCosto(),
+                    'estatus' => 1
+                ];
+            }
+            $res = ActividadesPorPredio::insert($data);
+            DB::commit();
+        }catch (\Throwable $e){
+            DB::rollBack();
+            dd($e->getMessage());
+        }
+        return $res;
     }
 
 }

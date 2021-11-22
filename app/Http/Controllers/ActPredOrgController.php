@@ -2,25 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Model;
+use App\Models\ActividadesPorPredio;
 use App\Models\Palmera;
 use App\Models\Predio;
 use Illuminate\Http\Request;
 
 class ActPredOrgController extends Controller
 {
+    private $model;
+
+    function __construct()
+    {
+        $this->model = new Model();
+    }
     public function index()
     {
         return $this->create();
     }
-    public function create()
+    public function create($cache=null)
     {
-        return view('ActPalOrgPredOrg.assingActivity');
+        $number = 1;
+        $word = "eowvbcielubcvie";
+        $predios = $this->model->getAllPredios();
+        $actividades = $this->model->getActividades();
+        return view('ActPalOrgPredOrg.assingActivity', compact('number', 'word', 'predios', 'actividades'));
     }
     public function store(Request $request)
     {
-        foreach (Predio::find('P001')->palmeras as $item){
-            var_dump($item->getId());
-        }
+        $request->validate([
+            'id_predio' => ['required'],
+            'id_actividad' => ['required'],
+            'fecha_programada' => ['required'],
+        ]);
+//        dd(substr($request->fecha_programada,0, 4));
+        $fieldsRemaining = (['id' => null, 'id_palmera' => null, 'anio' => substr($request->fecha_programada, 0, 4), 'costo' => null, 'estatus' => 1, 'fecha_ejecucion' => null]);
+//        dd($fieldsRemaining);
+//        dd($request->all());
+        $data = array_merge($request->all(), $fieldsRemaining);
+        $asignacionMasiva = new ActividadesPorPredio($data);
+        $res = $this->model->saveActividades($asignacionMasiva, $request->id_predio);
+        return $this->create();
     }
     public function show($id)
     {

@@ -17,7 +17,6 @@ class ActividadesXPalmeras extends Migration
             $table->date('fecha_programada');
             $table->date('fecha_ejecucion')->nullable();
             $table->double('costo');
-            $table->boolean('estatus');
             $table->timestamps();
 
             $table->primary('id');
