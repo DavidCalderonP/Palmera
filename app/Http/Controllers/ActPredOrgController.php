@@ -6,6 +6,7 @@ use App\Model;
 use App\Models\ActividadesPorPredio;
 use App\Models\Palmera;
 use App\Models\Predio;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ActPredOrgController extends Controller
@@ -20,11 +21,11 @@ class ActPredOrgController extends Controller
     {
         return $this->create();
     }
-    public function create($cache=null)
+    public function create($data=null)
     {
         $number = 1;
         $word = "eowvbcielubcvie";
-        $predios = $this->model->getAllPredios();
+        $predios = $this->model->obtenerPrediosOrganicos();
         $actividades = $this->model->getActividades();
         return view('ActPalOrgPredOrg.assingActivity', compact('number', 'word', 'predios', 'actividades'));
     }
@@ -42,7 +43,7 @@ class ActPredOrgController extends Controller
         $data = array_merge($request->all(), $fieldsRemaining);
         $asignacionMasiva = new ActividadesPorPredio($data);
         $res = $this->model->saveActividades($asignacionMasiva, $request->id_predio);
-        return $res ? "Si jala" : "No jala";
+        return $res ? $this->create() : "No jala";
     }
     public function show($id)
     {

@@ -108,7 +108,7 @@
                         class="form-control"
                         id="tipo_de_predio"
                         value="{{ isset($predio) ? $predio->getTipoDePredio() == 0 ? 'No Orgánico' : 'Orgánico' : old('tipo_de_predio')}}"
-                        name="tipo_de_predio" readonly="readonly">
+                        name="tipo_de_predio" {{ isset($predio) ? 'disabled' : ''  }} >
 {{--                    {{ isset($predio) ? 'disabled' : '' }}>--}}
                     @if(isset($predio))
                         <option value="">Seleccione tipo de predio</option>

@@ -80,13 +80,16 @@ class PrediosController extends Controller
     }
 
     public function destroy($id){
+        if(!Auth::user('id')){
+            return view('predios/needLogin');
+        }
         $resp = $this->model->deletePredio($id);
-        if($resp == 0){
+        if($resp==0){
             echo "<script>";
             echo "alert('El predio que seleccionó ya no existe');";
             echo "</script>";
         }
-        return !Auth::user('id') ? view('predios/needLogin') : redirect('predio');
+        return redirect('predio');
     }
 }
 

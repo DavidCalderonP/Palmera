@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="row" style="margin-top: 4em !important;">
         <div class="container">
             <div class="col-12">
                 <table class="table table-hover">
@@ -63,7 +63,7 @@
 
             </div>
             <div style="display: inline-flex !important;">
-                {{$res->links("pagination::bootstrap-4")}}
+{{--                {{$res->links("pagination::bootstrap-4")}}--}}
             </div>
         </div>
     </div>

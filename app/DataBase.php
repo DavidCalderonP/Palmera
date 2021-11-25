@@ -13,7 +13,7 @@ class DataBase
 {
     function getPredios()
     {
-        return Predio::with('suelos')->where('estatus', '=', 1)->paginate(5);
+        return Predio::with('suelos')->where('estatus', '=', 1)->paginate(15);
     }
 
     function getPredio($id)
@@ -86,9 +86,9 @@ class DataBase
         return Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
     }
 
-    public function getAllPredios()
+    public function obtenerPrediosOrganicos()
     {
-        return Predio::where('estatus', '=', 1)->get();
+        return Predio::where([['estatus', '=', 1],['tipo_de_predio', '=', 1]])->get();
     }
 
     function saveActividades($actividades, $predio)

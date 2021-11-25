@@ -35,6 +35,24 @@ class Predio extends Model
         parent::__construct($predio);
     }
 
+//    protected $privateProperties = ['name'];   Este es nuestro fillable
+//
+//    public function __get($varName) {
+//        $this->isPrivate($varName); Manda a llamar el metodo is Private
+//        return parent::__get($varName);
+//    }
+//
+//    public function __set($varName, $value) {
+//        $this->isPrivate($varName);
+//        return parent::__set($varName, $value);
+//    }
+//
+//    protected function isPrivate($varName) { Va abuscar el nombre de la propiedad y si lo encuentra lanzara un error
+//        if (in_array($varName, $this->privateProperties)) {
+//            throw new \Exception('The ' . $varName. ' property is private');
+//        }
+//    }
+
     function getId()
     {
         return $this->id;

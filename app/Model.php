@@ -37,9 +37,9 @@ class Model
         $this->DB->updatePredio($predio);
     }
 
-    function getAllPredios()
+    function obtenerPrediosOrganicos()
     {
-        return $this->DB->getAllPredios();
+        return $this->DB->obtenerPrediosOrganicos();
     }
 
     function getActividades(){

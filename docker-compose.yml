@@ -4,12 +4,12 @@ services:
     image: php:73
     working_dir: /app
     ports:
-      - 8000:8000
+      - 5678:5678
     volumes:
       - ./:/app:delegated
     environment:
         - DB_HOST=127.0.0.1
-        - DB_USERNAME="root"
+        - DB_USERNAME=root
         - DB_PASSWORD="1234"
         - DB_DATABASE=palmera
-    command: ["php","artisan","serve", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["php","artisan","serve", "--host", "0.0.0.0", "--port", "5678"]
