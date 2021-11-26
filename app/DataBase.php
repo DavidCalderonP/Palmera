@@ -112,6 +112,8 @@ class DataBase
                     'anio' => $actividades->getAnio(),
                     'fecha_programada' => $actividades->getFechaProgramada(),
                     'fecha_ejecucion' => $actividades->getFechaEjecucion(),
+                    'empleado_programo' => $actividades->getEmpleadoProgramo(),
+                    'empleado_ejecuto' => $actividades->getEmpleadoEjecuto(),
                     'costo' => $actividad->getCosto(),
                     'estatus' => 1
                 ];
@@ -120,6 +122,7 @@ class DataBase
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
+            dd($e->getMessage());
             return false;
         }
         return true;

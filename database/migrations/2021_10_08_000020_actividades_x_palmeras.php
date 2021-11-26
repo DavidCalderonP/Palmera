@@ -16,6 +16,8 @@ class ActividadesXPalmeras extends Migration
             $table->string('anio');
             $table->date('fecha_programada');
             $table->date('fecha_ejecucion')->nullable();
+            $table->integer('empleado_programo');
+            $table->integer('empleado_ejecuto')->nullable();
             $table->double('costo');
             $table->timestamps();
 

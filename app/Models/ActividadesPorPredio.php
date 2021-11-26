@@ -15,7 +15,7 @@ class ActividadesPorPredio extends Model
     protected $table = 'ActividadesPorPalmeras';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
-    protected $fillable = ['id', 'palmera_id', 'actividad_id', 'anio', 'fecha_programada', 'fecha_ejecucion', 'costo', 'estatus'];
+    protected $fillable = ['id', 'palmera_id', 'actividad_id', 'anio', 'fecha_programada', 'fecha_ejecucion', 'empleado_programo', 'empleado_ejecuto', 'costo', 'estatus'];
 
     function __construct($attributes = [])
     {
@@ -52,5 +52,13 @@ class ActividadesPorPredio extends Model
 
     public function getEstatus(){
         return $this->estatus;
+    }
+
+    public function getEmpleadoProgramo(){
+        return $this->empleado_programo;
+    }
+
+    public function getEmpleadoEjecuto(){
+        return $this->empleado_ejecuto;
     }
 }
