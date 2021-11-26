@@ -63,7 +63,7 @@
 
             </div>
             <div style="display: inline-flex !important;">
-{{--                {{$res->links("pagination::bootstrap-4")}}--}}
+                {{$res->links("pagination::bootstrap-4")}}
             </div>
         </div>
     </div>

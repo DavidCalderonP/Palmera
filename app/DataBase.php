@@ -116,13 +116,13 @@ class DataBase
                     'estatus' => 1
                 ];
             }
-            $res = ActividadesPorPredio::insert($data);
+            ActividadesPorPredio::insert($data);
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
-            dd($e->getMessage());
+            return false;
         }
-        return $res;
+        return true;
     }
 
 }

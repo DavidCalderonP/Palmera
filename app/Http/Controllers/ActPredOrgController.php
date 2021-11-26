@@ -23,12 +23,18 @@ class ActPredOrgController extends Controller
     }
     public function create($data=null)
     {
-        $number = 1;
-        $word = "eowvbcielubcvie";
         $predios = $this->model->obtenerPrediosOrganicos();
+        if(!count($predios)){
+            return view('ActPalOrgPredOrg/prediosNotFound');
+        }
         $actividades = $this->model->getActividades();
-        return view('ActPalOrgPredOrg.assingActivity', compact('number', 'word', 'predios', 'actividades'));
+        if(!count($actividades)){
+            return view('ActPalOrgPredOrg/actividadesNotFound');
+        }
+
+        return view('ActPalOrgPredOrg.assingActivity', compact( 'predios', 'actividades', 'data'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -36,15 +42,15 @@ class ActPredOrgController extends Controller
             'actividad_id' => ['required'],
             'fecha_programada' => ['required'],
         ]);
-//        dd(substr($request->fecha_programada,0, 4));
         $fieldsRemaining = (['id' => null, 'palmera_id' => null, 'anio' => substr($request->fecha_programada, 0, 4), 'costo' => null, 'estatus' => 1, 'fecha_ejecucion' => null]);
-//        dd($fieldsRemaining);
-//        dd($request->all());
         $data = array_merge($request->all(), $fieldsRemaining);
         $asignacionMasiva = new ActividadesPorPredio($data);
         $res = $this->model->saveActividades($asignacionMasiva, $request->id_predio);
-        return $res ? $this->create() : "No jala";
+        $msg = $res ? 'Operación realizada exitosamente.' : 'La operación falló. No se realizaron las asignaciones.';
+        return $res ? $this->create($request->id_predio) : $this->create();
+
     }
+
     public function show($id)
     {
     }
