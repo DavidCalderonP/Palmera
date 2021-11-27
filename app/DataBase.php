@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\ActividadesPorPredio;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Predio;
 use App\Models\Actividad;
@@ -13,7 +14,7 @@ class DataBase
 {
     function getPredios()
     {
-        return Predio::with('suelos')->where('estatus', '=', 1)->paginate(15);
+        return Predio::with('suelos')->where('estatus', '=', 1)->paginate(25);
     }
 
     function getPredio($id)
@@ -28,8 +29,8 @@ class DataBase
 
     function savePredio($predio)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $newKey = DB::select("CALL gk_getKey(@id)");
             $predio->setId($newKey[0]->id);
             $predio->save();
@@ -69,7 +70,7 @@ class DataBase
     {
         try {
             $a = Predio::where('id', $id)->update(['estatus' => 0]);
-            Predio::where('id', $id)->delete();
+            //Predio::where('id', $id)->delete();
         } catch (\Throwable $e) {
             return null;
         }
@@ -83,7 +84,12 @@ class DataBase
 
     public function validarPredio($request)
     {
-        return Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
+        try{
+            $response = Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
+        }catch (ConnectionException $failedConnection){
+            return null;
+        }
+        return $response;
     }
 
     public function obtenerPrediosOrganicos()
@@ -93,17 +99,12 @@ class DataBase
 
     function saveActividades($actividades, $predio)
     {
-//        dd($actividades->getIdActividad());
         try {
             DB::beginTransaction();
-//        sleep(15);
             $count = ActividadesPorPredio::count() + 1;
-//        dd($predio);
             $palmeras = Predio::find($predio)->palmeras;
             $actividad = Actividad::find($actividades->getIdActividad());
-//        dd($palmeras);
             $data = [];
-            //dd($palmeras[0]->getId() . $actividades->getIdActividad() . $actividades->getAnio() . (ActividadesPorPredio::count()+1));
             foreach ($palmeras as $key => $palmera) {
                 $data[] = [
                     'id' => $palmera->getId() . $actividades->getIdActividad() . $actividades->getAnio() . ($count + $key),
@@ -122,7 +123,6 @@ class DataBase
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
-            dd($e->getMessage());
             return false;
         }
         return true;

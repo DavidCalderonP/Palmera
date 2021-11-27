@@ -6,6 +6,7 @@ use App\Model;
 use App\Models\Predio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Client\ConnectionException;
 
 class PrediosController extends Controller
 {
@@ -40,12 +41,16 @@ class PrediosController extends Controller
             'longitud' => ['required'],
         ]);
         $aux = array_merge($request->all(), ['id' => NULL, 'fecha_creacion' => now('GMT-7')->format('Y-m-d'), 'estatus' => 1]);
-//        if($aux['tipo_de_predio'] == 0){
-//            dd($this->model->validarPredio($aux));
-//        }
+        if($aux['tipo_de_predio'] == 1){
+            $response = $this->model->validarPredio($aux);
+            if($response){
+                $aux['tipo_de_predio'] = $response['approved'];
+            }
+        }
         $predio = new Predio($aux);
-        $this->model->savePredio($predio);
-        return redirect('predio');
+        $res = $this->model->savePredio($predio);
+        $this->index();
+        return $res ? view('predios/success') : view('predios/failed') ;
     }
 
     public function show($id){}

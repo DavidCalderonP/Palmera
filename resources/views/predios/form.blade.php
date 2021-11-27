@@ -200,6 +200,6 @@
         </div>
     </div>
 @endisset
-<button type="submit" class="btn btn-primary">
+<button type="submit" class="btn btn-primary" onclick="return confirm('¿Desea continuar con la operación?')">
     Guardar
 </button>

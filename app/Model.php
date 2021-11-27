@@ -24,7 +24,7 @@ class Model
 
     function savePredio($predio)
     {
-        $this->DB->savePredio($predio);
+        return $this->DB->savePredio($predio);
     }
 
     function deletePredio($id)
