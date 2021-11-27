@@ -15,7 +15,7 @@ class Predio extends Model
     protected $table = 'Predios';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
-    protected $fillable = ['id', 'metros_cuadrados', 'numero_palmeras', 'tipo_de_suelo', 'ph', 'salinidad', 'tipo_de_predio', 'descripcion', 'fecha_creacion', 'latitud', 'longitud', 'estatus'];
+    protected $fillable = ['id', 'metros_cuadrados', 'numero_palmeras', 'tipo_de_suelo', 'ph', 'salinidad', 'tipo_de_predio', 'descripcion', 'fecha_creacion', 'estatus'];
 
 //    private $id;
 //    private $metros_cuadrados;
@@ -122,16 +122,6 @@ class Predio extends Model
     {
         $this->tipo_de_predio = $tipo_de_predio;
 
-    }
-
-    function getLatitud()
-    {
-        return $this->latitud;
-    }
-
-    function getLongitud()
-    {
-        return $this->longitud;
     }
 
     function getDescripcion()

@@ -16,6 +16,7 @@ class Actividades extends Migration
             $table->boolean('tipo_actividad');
             $table->boolean('estatus');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

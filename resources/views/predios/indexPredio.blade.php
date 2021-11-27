@@ -14,8 +14,8 @@
                         <th scope="col">PH</th>
                         <th scope="col">Salinidad</th>
                         <th scope="col">Tipo de predio</th>
-                        <th scope="col">Latiud</th>
-                        <th scope="col">Longitud</th>
+{{--                        <th scope="col">Latiud</th>--}}
+{{--                        <th scope="col">Longitud</th>--}}
                         <th colspan="2">
                             <a href="{{ url('/predio/create')}}">
                                 <button class="btn btn-success">
@@ -35,8 +35,8 @@
                             <td>{{$predio->getPh()}}</td>
                             <td>{{$predio->getSalinidad()}}</td>
                             <td>{{$predio->getTipoDePredio()==0 ? "No Orgánico" : "Orgánico"}}</td>
-                            <td>{{$predio->getLatitud()}}</td>
-                            <td>{{$predio->getLongitud()}}</td>
+{{--                            <td>{{$predio->getLatitud()}}</td>--}}
+{{--                            <td>{{$predio->getLongitud()}}</td>--}}
                             <td>
                                 <a href="{{ url('/predio/'.$predio->getId().'/edit')}}">
                                     <button class="btn btn-warning">

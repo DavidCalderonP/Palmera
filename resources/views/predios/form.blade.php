@@ -148,29 +148,29 @@
     </div>
 </div>
 
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-            <label>Latitud</label>
-            <input type="text" class="form-control" id="latitud"
-                   value="{{ isset($predio) ? $predio->getLatitud() : old('latitud')}}"
-                   name="latitud">
-            @if($errors->has('latitud'))
-                <div class="alert alert-danger">Este campo es requerido</div>
-            @endif
-        </div>
+{{--<div class="form-group">--}}
+{{--    <div class="row">--}}
+{{--        <div class="col">--}}
+{{--            <label>Latitud</label>--}}
+{{--            <input type="text" class="form-control" id="latitud"--}}
+{{--                   value="{{ isset($predio) ? $predio->getLatitud() : old('latitud')}}"--}}
+{{--                   name="latitud">--}}
+{{--            @if($errors->has('latitud'))--}}
+{{--                <div class="alert alert-danger">Este campo es requerido</div>--}}
+{{--            @endif--}}
+{{--        </div>--}}
 
-        <div class="col">
-            <label>Longitud</label>
-            <input type="text" class="form-control" id="longitud"
-                   value="{{ isset($predio) ? $predio->getLongitud() : old('longitud')}}"
-                   name="longitud">
-            @if($errors->has('longitud'))
-                <div class="alert alert-danger">Este campo es requerido</div>
-            @endif
-        </div>
-    </div>
-</div>
+{{--        <div class="col">--}}
+{{--            <label>Longitud</label>--}}
+{{--            <input type="text" class="form-control" id="longitud"--}}
+{{--                   value="{{ isset($predio) ? $predio->getLongitud() : old('longitud')}}"--}}
+{{--                   name="longitud">--}}
+{{--            @if($errors->has('longitud'))--}}
+{{--                <div class="alert alert-danger">Este campo es requerido</div>--}}
+{{--            @endif--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 @isset($predio)
     <div class="form-group">
         <div class="row">

@@ -36,9 +36,7 @@ class PrediosController extends Controller
             'ph' => ['required'],
             'salinidad' => ['required'],
             'tipo_de_predio' => ['required'],
-            'descripcion' => ['required'],
-            'latitud' => ['required'],
-            'longitud' => ['required'],
+            'descripcion' => ['required']
         ]);
         $aux = array_merge($request->all(), ['id' => NULL, 'fecha_creacion' => now('GMT-7')->format('Y-m-d'), 'estatus' => 1]);
         if($aux['tipo_de_predio'] == 1){

@@ -123,6 +123,7 @@ class DataBase
             DB::commit();
         }catch (\Throwable $e){
             DB::rollBack();
+            dd($e->getMessage());
             return false;
         }
         return true;

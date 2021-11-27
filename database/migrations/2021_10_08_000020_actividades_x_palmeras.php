@@ -20,10 +20,11 @@ class ActividadesXPalmeras extends Migration
             $table->integer('empleado_ejecuto')->nullable();
             $table->double('costo');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary('id');
-            $table->foreign('id_palmera')->references('id')->on('Palmeras');
-            $table->foreign('id_actividad')->references('id')->on('Actividades');
+            $table->foreign('palmera_id')->references('id')->on('Palmeras');
+            $table->foreign('actividad_id')->references('id')->on('Actividades');
         });
     }
 
