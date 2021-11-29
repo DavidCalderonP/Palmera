@@ -4,13 +4,14 @@
             @isset($predios)
                 <label for="id_predio">Predio Orgánico</label>
                 <select class="form-control" id="id_predio"
+                        onchange="this.form.submit()"
                         value="{{old('id_predio')}}"
                         name="id_predio">
                     <option value="" selected="selected">Seleccione un predio orgánico</option>
                     @foreach ($predios as $key => $predio)
                         {{--                        {{ ( $key == 0) ? 'selected' : '' }}--}}
                         <option
-                            @if($predio->getId() == $data) selected='selected' @endif
+                            @if($predio->getId() == $cache) selected='selected' @endif
                             value="{{ $predio->getId()   }}"
                         {{old('id_predio') == $predio->getId() ? 'selected' : ''}}>{{ $predio->getId() }}</option>
                     @endforeach

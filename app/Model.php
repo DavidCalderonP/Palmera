@@ -54,4 +54,10 @@ class Model
     {
         return $this->DB->validarPredio($request);
     }
+
+    function forTable($id){
+        return $this->DB->forTable($id);
+    }
+
+
 }

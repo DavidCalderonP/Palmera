@@ -22,7 +22,7 @@ class ActPredOrgController extends Controller
     {
         return $this->create();
     }
-    public function create($data=null)
+    public function create($cache = null, $data=null)
     {
         $predios = $this->model->obtenerPrediosOrganicos();
         if(!count($predios)){
@@ -33,11 +33,28 @@ class ActPredOrgController extends Controller
             return view('ActPalOrgPredOrg/actividadesNotFound');
         }
 
-        return view('ActPalOrgPredOrg.assingActivity', compact( 'predios', 'actividades', 'data'));
+        return view('ActPalOrgPredOrg.assingActivity', compact( 'predios', 'actividades', 'cache', 'data'));
     }
 
     public function store(Request $request)
     {
+        $finalData = [];
+
+        //dd($request->actividad_id == null);
+        if ($request->id_predio != null && ($request->actividad_id == null) && ($request->fecha_programada == null)){
+            return $this->create($request->id_predio, $this->model->forTable($request->id_predio));
+        }
+
+        //dd($request->all());
+
+        $palmeras =Predio::find('P009')->palmeras;
+//        foreach ($palmeras as $key => $palmera){
+            //$palmera->actividades = $palmeras[$key]->actividades;
+//        }
+//        dd($palmeras);
+//        dd(Predio::with('palmeras')
+//            ->where([['tipo_de_predio','=',1],['estatus','=',1]])->get()[0]->palmeras);
+
         $request->validate([
             'id_predio' => ['required'],
             'actividad_id' => ['required'],
@@ -56,8 +73,7 @@ class ActPredOrgController extends Controller
             echo "alert('Algo salió mal. La operación falló.')";
             echo "</script>";
         }
-        //$msg = $res ? 'Operación realizada exitosamente.' : 'La operación falló. No se realizaron las asignaciones.';
-        return $res ? $this->create($request->id_predio) : $this->create();
+        return $res ? $this->create($request->id_predio, $this->model->forTable($request->id_predio)) : $this->create();
     }
 
     public function show($id)

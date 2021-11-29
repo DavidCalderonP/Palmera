@@ -84,9 +84,9 @@ class DataBase
 
     public function validarPredio($request)
     {
-        try{
+        try {
             $response = Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
-        }catch (ConnectionException $failedConnection){
+        } catch (ConnectionException $failedConnection) {
             return null;
         }
         return $response;
@@ -94,7 +94,7 @@ class DataBase
 
     public function obtenerPrediosOrganicos()
     {
-        return Predio::where([['estatus', '=', 1],['tipo_de_predio', '=', 1]])->get();
+        return Predio::where([['estatus', '=', 1], ['tipo_de_predio', '=', 1]])->get();
     }
 
     function saveActividades($actividades, $predio)
@@ -121,12 +121,23 @@ class DataBase
             }
             ActividadesPorPredio::insert($data);
             DB::commit();
-        }catch (\Throwable $e){
+        } catch (\Throwable $e) {
             DB::rollBack();
             dd($e->getMessage());
             return false;
         }
         return true;
     }
+
+    function forTable($id)
+    {
+        return Predio::find($id)->palmeras;
+//        $query = "select p.id, a.nombre_actividad, app.fecha_programada from ActividadesPorPalmeras as app
+//inner join Palmeras as p on p.id = app.palmera_id
+//inner join Actividades as a on a.id = app.actividad_id
+//inner join Predios as pred on pred.id = p.predio_id where pred.id = 'P009'";
+
+    }
+
 
 }
