@@ -17,7 +17,6 @@ class PrediosController extends Controller
         $this->model = new Model();
     }
 
-
     public function index(){
         $res = $this->model->getPredios();
         return view('predios/indexPredio', compact('res'));

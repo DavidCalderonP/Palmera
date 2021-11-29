@@ -24,6 +24,12 @@ class ActPredOrgController extends Controller
     }
     public function create($cache = null, $data=null)
     {
+        if(!Auth::user('id')){
+            echo "<script>";
+            echo "alert('Necesitas inciar sesión.')";
+            echo "</script>";
+            return redirect('http://localhost:8000/predio');
+        }
         $predios = $this->model->obtenerPrediosOrganicos();
         if(!count($predios)){
             return view('ActPalOrgPredOrg/prediosNotFound');
@@ -38,23 +44,9 @@ class ActPredOrgController extends Controller
 
     public function store(Request $request)
     {
-        $finalData = [];
-
-        //dd($request->actividad_id == null);
         if ($request->id_predio != null && ($request->actividad_id == null) && ($request->fecha_programada == null)){
             return $this->create($request->id_predio, $this->model->forTable($request->id_predio));
         }
-
-        //dd($request->all());
-
-        $palmeras =Predio::find('P009')->palmeras;
-//        foreach ($palmeras as $key => $palmera){
-            //$palmera->actividades = $palmeras[$key]->actividades;
-//        }
-//        dd($palmeras);
-//        dd(Predio::with('palmeras')
-//            ->where([['tipo_de_predio','=',1],['estatus','=',1]])->get()[0]->palmeras);
-
         $request->validate([
             'id_predio' => ['required'],
             'actividad_id' => ['required'],

@@ -14,7 +14,7 @@ class DataBase
 {
     function getPredios()
     {
-        return Predio::with('suelos')->where('estatus', '=', 1)->paginate(25);
+        return Predio::with('suelos')->where('estatus', '=', 1)->paginate(15);
     }
 
     function getPredio($id)
@@ -123,7 +123,6 @@ class DataBase
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
-            dd($e->getMessage());
             return false;
         }
         return true;

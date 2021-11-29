@@ -14,7 +14,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('predio', PrediosController::class);
+Route::resource('predio', PrediosController::class)->names(['predio']);
 Route::resource('asignarActividades', ActPredOrgController::class);
 
 Auth::routes();

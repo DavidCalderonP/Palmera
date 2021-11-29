@@ -29,10 +29,11 @@
             @isset($actividades)
                 <label for="actividad_id">Actividades</label>
                 <select class="form-control" id="actividad_id"
+                        value="{{old('actividad_id')}}"
                         name="actividad_id">
                     <option value="" selected="selected">Seleccione una actividad</option>
                     @foreach ($actividades as $key => $actividad)
-                        <option value="{{ $actividad->getId()  }}">
+                        <option value="{{ $actividad->getId()  }}" {{old('actividad_id') == $actividad->getId() ? 'selected' : ''}}>
                             {{ $actividad->getNombreActividad() }}
                         </option>
                     @endforeach
@@ -49,7 +50,7 @@
     <div class="row">
         <div class="col">
             <label for="fecha_programada">Fecha</label>
-            <input id="fecha_programada" name="fecha_programada" min="{{now('GMT-7')->format('Y-m-d')}}" class="form-control" type="date">
+            <input id="fecha_programada" value="{{old('fecha_programada')}}" name="fecha_programada" min="{{now('GMT-7')->format('Y-m-d')}}" class="form-control" type="date">
             @if($errors->has('fecha_programada'))
                 <div class="alert alert-danger">Este campo es requerido</div>
             @endif
