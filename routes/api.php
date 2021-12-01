@@ -22,6 +22,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('productos', [MovilController::class, 'index']);
 
-//Route::post('valorarPredio', [PredioAsociacionController::class, 'store']); //Ruta del servcio
-
-
