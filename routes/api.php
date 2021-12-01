@@ -3,6 +3,7 @@
 use App\Http\Controllers\PredioAsociacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MovilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('valorarPredio', [PredioAsociacionController::class, 'store']); //Ruta del servcio
+Route::get('productos', [MovilController::class, 'index']);
+
+//Route::post('valorarPredio', [PredioAsociacionController::class, 'store']); //Ruta del servcio
 
 

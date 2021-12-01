@@ -17,7 +17,7 @@ class Predio extends Model
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $fillable = ['id', 'metros_cuadrados', 'numero_palmeras', 'tipo_de_suelo', 'ph', 'salinidad', 'tipo_de_predio', 'descripcion', 'fecha_creacion', 'estatus'];
-
+//
 //    private $id;
 //    private $metros_cuadrados;
 //    private $numero_palmeras;
@@ -27,32 +27,43 @@ class Predio extends Model
 //    private $tipo_de_predio;
 //    private $descripcion;
 //    private $fecha_creacion;
-//    private $latitud;
-//    private $longitud;
 //    private $estatus;
 
     function __construct($predio = array())
     {
         parent::__construct($predio);
+        //ESTOS VALORES VIENEN CON NULL
+//        $this->id = parent::getAttributeValue('id');
+//        $this->metros_cuadrados = parent::getAttributeValue('metros_cuadrados');
+//        $this->numero_palmeras = parent::getAttributeValue('numero_palmeras');
+//        $this->tipo_de_suelo = parent::getAttributeValue('tipo_de_suelo');
+//        $this->ph = parent::getAttributeValue('ph');
+//        $this->salinidad = parent::getAttributeValue('salinidad');
+//        $this->tipo_de_predio = parent::getAttributeValue('tipo_de_predio');
+//        $this->descripcion = parent::getAttributeValue('descripcion');
+//        $this->fecha_creacion = parent::getAttributeValue('fecha_creacion');
+//        $this->estatus = parent::getAttributeValue('estatus');
     }
 
 //    protected $privateProperties = ['name'];   Este es nuestro fillable
-//
+//      ESTE METODO NO FUNCIONA PORQUE LAS VARIABLES SI LAS HACE PRIVADAS PERO LLEGA UN MOMENTO EN DONDE INTERNAMENTE EL
+//        FRAMEWORK INTENTA ACCEDER A UNA PROPIEDAD Y LANZA UN ERROR
 //    public function __get($varName) {
-//        $this->isPrivate($varName); Manda a llamar el metodo is Private
+//        $this->isPrivate($varName); //Manda a llamar el metodo is Private
 //        return parent::__get($varName);
 //    }
 //
 //    public function __set($varName, $value) {
 //        $this->isPrivate($varName);
-//        return parent::__set($varName, $value);
+//        parent::__set($varName, $value);
 //    }
 //
-//    protected function isPrivate($varName) { Va abuscar el nombre de la propiedad y si lo encuentra lanzara un error
-//        if (in_array($varName, $this->privateProperties)) {
+//    protected function isPrivate($varName) { //Va abuscar el nombre de la propiedad y si lo encuentra lanzara un error
+//        if (in_array($varName, $this->fillable)) {
 //            throw new \Exception('The ' . $varName. ' property is private');
 //        }
 //    }
+
 
     function getId()
     {
@@ -145,7 +156,8 @@ class Predio extends Model
         return $this->belongsTo(Suelo::class, 'tipo_de_suelo');
     }
 
-    function palmeras(){
+    function palmeras()
+    {
         return $this->hasMany(Palmera::class, 'predio_id');
     }
 

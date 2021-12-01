@@ -33,6 +33,7 @@
                     @endforeach
                 @empty
                     <div>No se encontró ninguna palmera asignada al predio seleccionado.</div>
+
                 @endforelse
                 </tbody>
             </table>

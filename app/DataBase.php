@@ -140,3 +140,38 @@ class DataBase
 
 
 }
+
+
+/*
+CREATE VIEW test AS
+SELECT app.id, app.palmera_id, app.actividad_id, app.anio, app.fecha_programada, app.fecha_ejecucion, app.empleado_programo, app.empleado_ejecuto, app.costo, app.estatus,
+		pal.id,	pal.tipo_palmera, pal.predio_id, pal.tipo_datil, pal.estatus,
+		cos.id,	cos.id_palmera,	cos.kilogramos,	cos.fecha_cosecha, cos.tipo_cosecha, cos.estatus,
+		cpc.id,	cpc.id_contenedor, cpc.id_cosecha, cpc.cantidad_ingreso, cpc.cantidad_vendida, cpc.fecha_ingreso,
+		con.id,	con.cantidad_maxima, con.cantidad_vendida, con.cantidad_actual, con.tipo_cosecha, con.estatus,
+		tdd.id,	tdd.nombre_datil, tdd.descripcion, tdd.costo, tdd.tipo,	tdd.estatus
+FROM ActividadesPorPalmeras as app
+inner join Palmeras as pal on pal.id = app.palmera_id
+inner join Cosecha as cos on cos.id_palmera = pal.id
+inner join ContenedoresXCosecha as cpc on cpc.id_cosecha = cos.id
+inner join Contenedores as con on con.id = cpc.id_contenedor
+inner join TipoDeDatil as tdd on tdd.id = pal.tipo_datil
+
+CREATE VIEW test AS
+SELECT app.id, app.palmera_id, app.actividad_id, app.anio, app.fecha_programada, app.costo as 'APPCosto', app.estatus as 'APPEstatus',
+		pal.id as 'PalmeraID',	pal.tipo_palmera, pal.predio_id, pal.tipo_datil, pal.estatus as 'PalmeraEstatus',
+		cos.id as 'CosechaID',	cos.id_palmera,	cos.kilogramos,	cos.fecha_cosecha, cos.estatus as 'CosechaEstatus',
+		cpc.id as 'CPCID',	cpc.id_contenedor, cpc.id_cosecha, cpc.cantidad_ingreso, cpc.fecha_ingreso as 'CPCEstatus',
+		con.id as 'ContenedorID',	con.cantidad_maxima, con.cantidad_vendida, con.cantidad_actual, con.tipo_cosecha, con.estatus as 'ContenedorEstatus',
+		tdd.id as 'TDDID',	tdd.nombre_datil, tdd.descripcion, tdd.costo as 'TDDCosto', tdd.tipo,	tdd.estatus as 'TDDEstatus'
+FROM ActividadesPorPalmeras as app
+inner join Palmeras as pal on pal.id = app.palmera_id
+inner join Cosecha as cos on cos.id_palmera = pal.id
+inner join ContenedoresXCosecha as cpc on cpc.id_cosecha = cos.id
+inner join Contenedores as con on con.id = cpc.id_contenedor
+inner join TipoDeDatil as tdd on tdd.id = pal.tipo_datil
+
+select * from test;
+
+select nombre_datil, tipo_cosecha, descripcion, cantidad_actual, sum(APPCosto)/cantidad_ingreso as 'Precio P/Kg' from test group by PalmeraID order by nombre_datil;
+ */
