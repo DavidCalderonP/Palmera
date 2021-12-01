@@ -33,4 +33,8 @@ class Model{
     function validarPredio($request){
         return $this->DB->validarPredio($request);
     }
+
+    function getProductos() {
+        return $this->DB->getProductos();
+    }
 }

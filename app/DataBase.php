@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Predio;
+use App\Models\Producto;
 use Illuminate\Support\Facades\Http;
 
 class DataBase
@@ -12,6 +13,11 @@ class DataBase
     function getPredios()
     {
         return Predio::paginate(5);
+    }
+
+    function getProductos()
+    {
+        return Producto::paginate(10);
     }
 
     function getPredio($id)
