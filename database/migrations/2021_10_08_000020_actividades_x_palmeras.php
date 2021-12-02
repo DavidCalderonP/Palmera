@@ -19,6 +19,7 @@ class ActividadesXPalmeras extends Migration
             $table->integer('empleado_programo');
             $table->integer('empleado_ejecuto')->nullable();
             $table->double('costo');
+            $table->boolean('estatus');
             $table->timestamps();
             $table->softDeletes();
 

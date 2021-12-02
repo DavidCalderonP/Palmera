@@ -41,7 +41,9 @@ class PrediosController extends Controller
         if($aux['tipo_de_predio'] == 1){
             $response = $this->model->validarPredio($aux);
             if($response){
-                $aux['tipo_de_predio'] = $response['approved'];
+                $aux['tipo_de_predio'] = $response['approved'] ? 1: 0;
+            }else{
+                return view('predios/failed');
             }
         }
         $predio = new Predio($aux);

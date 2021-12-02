@@ -34,10 +34,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8000/predio">Predios</a>
+                            <a class="nav-link" href={{url("/predio")}}>Predios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8000/asignarActividades">Asinación de actividades</a>
+                            <a class="nav-link" href={{url("/asignarActividades")}}>Asinación de actividades</a>
                         </li>
                     </ul>
 

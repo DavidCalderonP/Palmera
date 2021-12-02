@@ -27,20 +27,29 @@ class DataBase
         return $query;
     }
 
-    function savePredio($predio)
+    function savePredio(Predio $predio)
     {
         try {
-            DB::beginTransaction();
-            $newKey = DB::select("CALL gk_getKey(@id)");
-            $predio->setId($newKey[0]->id);
-            $predio->save();
-            DB::select("CALL ak_addKey('{$newKey[0]->id}')");
-            DB::commit();
-        } catch (\Throwable $e) {
-            DB::rollBack();
+            $statement = "CALL addPredio({$predio->getMetrosCuadrados()},{$predio->getNumeroDePalmeras()},{$predio->getTipoDeSuelo()},{$predio->getPh()},{$predio->getSalinidad()},{$predio->getTipoDePredio()},'{$predio->getDescripcion()}', '{$predio->getFechaCreacion()}', {$predio->getEstatus()})";
+            DB::select($statement);
+        } catch (\Throwable $error) {
+            dd($error->getMessage());
             return false;
         }
         return true;
+//        try {
+//            DB::beginTransaction();
+//            $newKey = DB::select("CALL gk_getKey(@id)");
+//            $predio->setId($newKey[0]->id);
+//            $predio->save();
+//            DB::select("CALL ak_addKey('{$newKey[0]->id}')");
+//            DB::commit();
+//        } catch (\Throwable $e) {
+//            DB::rollBack();
+//            dd($e->getMessage());
+//            return false;
+//        }
+//        return true;
     }
 
     function updatePredio($newPredio)
@@ -87,6 +96,7 @@ class DataBase
         try {
             $response = Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
         } catch (ConnectionException $failedConnection) {
+            //dd("Esta fallando el servicio Web");
             return null;
         }
         return $response;
@@ -100,29 +110,29 @@ class DataBase
     function saveActividades($actividades, $predio)
     {
         try {
-            DB::beginTransaction();
-            $count = ActividadesPorPredio::count() + 1;
-            $palmeras = Predio::find($predio)->palmeras;
-            $actividad = Actividad::find($actividades->getIdActividad());
-            $data = [];
-            foreach ($palmeras as $key => $palmera) {
-                $data[] = [
-                    'id' => $palmera->getId() . $actividades->getIdActividad() . $actividades->getAnio() . ($count + $key),
-                    'palmera_id' => $palmera->getId(),
-                    'actividad_id' => $actividades->getIdActividad(),
-                    'anio' => $actividades->getAnio(),
-                    'fecha_programada' => $actividades->getFechaProgramada(),
-                    'fecha_ejecucion' => $actividades->getFechaEjecucion(),
-                    'empleado_programo' => $actividades->getEmpleadoProgramo(),
-                    'empleado_ejecuto' => $actividades->getEmpleadoEjecuto(),
-                    'costo' => $actividad->getCosto(),
-                    'estatus' => 1
-                ];
-            }
-            ActividadesPorPredio::insert($data);
-            DB::commit();
-        } catch (\Throwable $e) {
-            DB::rollBack();
+            DB::transaction(function() use ($actividades, $predio) {
+                $count = ActividadesPorPredio::count() + 1;
+                $palmeras = Predio::find($predio)->palmeras;
+                $actividad = Actividad::find($actividades->getIdActividad());
+                $data = [];
+                foreach ($palmeras as $key => $palmera) {
+                    $data[] = [
+                        'id' => $palmera->getId() . $actividades->getIdActividad() . $actividades->getAnio() . ($count + $key),
+                        'palmera_id' => $palmera->getId(),
+                        'actividad_id' => $actividades->getIdActividad(),
+                        'anio' => $actividades->getAnio(),
+                        'fecha_programada' => $actividades->getFechaProgramada(),
+                        'fecha_ejecucion' => $actividades->getFechaEjecucion(),
+                        'empleado_programo' => $actividades->getEmpleadoProgramo(),
+                        'empleado_ejecuto' => $actividades->getEmpleadoEjecuto(),
+                        'costo' => $actividad->getCosto(),
+                        'estatus' => 1
+                    ];
+                }
+                ActividadesPorPredio::insert($data);
+            });
+        } catch (\Throwable $error) {
+            dd($error->getMessage());
             return false;
         }
         return true;
