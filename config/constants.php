@@ -26,4 +26,19 @@ return ['data' => [
         'title' => 'Titulo número 5',
         'description' => 'Descripción número 5'
     ],
+    [
+        'dir' => 'assets/img6.jpeg',
+        'title' => 'Titulo número 6',
+        'description' => 'Descripción número 6'
+    ],
+    [
+        'dir' => 'assets/img7.jpeg',
+        'title' => 'Titulo número 7',
+        'description' => 'Descripción número 7'
+    ],
+    [
+        'dir' => 'assets/img8.jpeg',
+        'title' => 'Titulo número 8',
+        'description' => 'Descripción número 8'
+    ]
 ]];
