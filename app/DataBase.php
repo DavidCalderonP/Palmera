@@ -78,12 +78,12 @@ class DataBase
     function deletePredio($id)
     {
         try {
-            $a = Predio::where('id', $id)->update(['estatus' => 0]);
-            //Predio::where('id', $id)->delete();
+            //if(Predio::where([['estatus','=',1],['id','=',$id]])->get()->count()) return null;
+            $affectedRows = Predio::where([['id', $id],['estatus','=',1]])->update(['estatus' => 0]);
         } catch (\Throwable $e) {
             return null;
         }
-        return $a;
+        return $affectedRows;
     }
 
     public function getActividades()

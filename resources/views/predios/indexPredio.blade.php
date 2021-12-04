@@ -48,7 +48,7 @@
                                 <form action="{{ url('/predio/'.$predio->getId())}}" method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}
-                                    <button class="btn btn-danger" type="submit"
+                                    <button class="btn btn-danger delete-confirm" type="submit" id="delete"
                                             onclick="return confirm('¿Desea borrar el predio seleccionado?')">
                                         Eliminar
                                     </button>
@@ -67,4 +67,30 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{--    <script type="application/javascript">--}}
+{{--        $('.delete-confirm').on('click', function (event) {--}}
+{{--            event.preventDefault();--}}
+{{--            const url = parent;--}}
+{{--            Swal.fire({--}}
+{{--                title: 'Are you sure?',--}}
+{{--                text: "You won't be able to revert this!",--}}
+{{--                icon: 'warning',--}}
+{{--                showCancelButton: true,--}}
+{{--                confirmButtonColor: '#3085d6',--}}
+{{--                cancelButtonColor: '#d33',--}}
+{{--                confirmButtonText: 'Yes, delete it!'--}}
+{{--            }).then((result) => {--}}
+{{--                document.getElementById('delete').click();--}}
+{{--                if (result.isConfirmed) {--}}
+{{--                    Swal.fire(--}}
+{{--                        'Deleted!',--}}
+{{--                        'Your file has been deleted.',--}}
+{{--                        'success'--}}
+{{--                    )--}}
+{{--                }--}}
+{{--            })--}}
+{{--        });--}}
+{{--    </script>--}}
 @endsection

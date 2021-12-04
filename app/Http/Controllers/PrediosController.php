@@ -6,7 +6,7 @@ use App\Model;
 use App\Models\Predio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Client\ConnectionException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PrediosController extends Controller
 {
@@ -18,13 +18,19 @@ class PrediosController extends Controller
     }
 
     public function index(){
+        if(!$this->isLogged()){
+            return $this->needLogin();
+        }
         $res = $this->model->getPredios();
         return view('predios/indexPredio', compact('res'));
     }
 
     public function create()
     {
-        return !Auth::user('id') ? view('predios/needLogin') : view('predios.createPredio');
+        if(!$this->isLogged()){
+            return $this->needLogin();
+        }
+        return view('predios.createPredio');
     }
 
     public function store(Request $request){
@@ -43,13 +49,13 @@ class PrediosController extends Controller
             if($response){
                 $aux['tipo_de_predio'] = $response['approved'] ? 1: 0;
             }else{
-                return view('predios/failed');
+                return $this->error();
             }
         }
         $predio = new Predio($aux);
         $res = $this->model->savePredio($predio);
         $this->index();
-        return $res ? view('predios/success') : view('predios/failed') ;
+        return $res ? $this->success() : $this->error() ;
     }
 
     public function show($id){}
@@ -57,12 +63,10 @@ class PrediosController extends Controller
     public function edit($id){
         $predio = $this->model->getPredio($id);
         if ($predio == null) {
-            echo "<script>";
-            echo "alert('El predio que seleccionó ya no existe');";
-            echo "</script>";
+            Alert::warning('Aviso!', 'El predio que ha solicitado ya no existe.');
             return redirect('predio');
         }
-        return !Auth::user($id) ? view('predios/needLogin') : view('predios.editPredio', compact('predio'));
+        return !$this->isLogged() ? $this->needLogin() : view('predios.editPredio', compact('predio'));
     }
 
     public function update(Request $request, $id){
@@ -84,15 +88,34 @@ class PrediosController extends Controller
     }
 
     public function destroy($id){
-        if(!Auth::user('id')){
-            return view('predios/needLogin');
+        if(!$this->isLogged()){
+            return $this->needLogin();
         }
         $resp = $this->model->deletePredio($id);
         if($resp==0){
-            echo "<script>";
-            echo "alert('El predio que seleccionó ya no existe');";
-            echo "</script>";
+            Alert::warning('Aviso!', 'El predio que ha solicitado ya no existe.');
+        }else{
+            Alert::success('Hecho!', 'Operación realizada exitosamente!');
         }
+        return redirect('predio');
+    }
+
+    public function isLogged(){
+        return Auth::id('id');
+    }
+
+    public function needLogin(){
+        Alert::info(session('info', 'Incio de sesión necesario'), 'Es necesario inciar sesión para continuar.');
+        return redirect('login');
+    }
+
+    public function error(){
+        Alert::error('Algo salió mal', 'Ocurrió un error');
+        return redirect('predio');
+    }
+
+    public function success(){
+        Alert::success('Hecho!', 'Operación realizada exitosamente!');
         return redirect('predio');
     }
 }
