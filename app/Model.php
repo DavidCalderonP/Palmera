@@ -59,5 +59,17 @@ class Model
         return $this->DB->forTable($id);
     }
 
+    //Palmeras Organicas en Predios No Organicos
+    function obtenerPrediosNoOrganicos(){
+        return $this->DB->obtenerPrediosNoOrganicos();
+    }
+
+    function obtenerPalmerasPorPredioNoOrganico($id){
+        return $this->DB->obtenerPalmerasPorPredioNoOrganico($id);
+    }
+
+    function saveActividadesPredNoOrg($actividad){
+        return $this->DB->saveActividadesPredNoOrg($actividad);
+}
 
 }

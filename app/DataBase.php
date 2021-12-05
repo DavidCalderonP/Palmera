@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\ActividadesPorPredio;
+use App\Models\ActPredNoOrg;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\DB;
@@ -112,7 +113,9 @@ class DataBase
         try {
             DB::transaction(function() use ($actividades, $predio) {
                 $count = ActividadesPorPredio::count() + 1;
-                $palmeras = Predio::find($predio)->palmeras;
+                //$palmeras = Predio::find($predio)->palmeras;
+                $palmeras = Predio::where([['id', '=', $predio],['estatus', '=', 1]])->get()[0]->palmerasOrganicas;
+                //dd($palmeras);
                 $actividad = Actividad::find($actividades->getIdActividad());
                 $data = [];
                 foreach ($palmeras as $key => $palmera) {
@@ -138,6 +141,7 @@ class DataBase
         return true;
     }
 
+
     function forTable($id)
     {
         return Predio::find($id)->palmeras;
@@ -148,7 +152,53 @@ class DataBase
 
     }
 
+    //------------------------------Palmeras Orgánicas En Predios No Orgánicos----------------------------------------
 
+    function obtenerPrediosNoOrganicos(){
+        return Predio::where([['estatus', '=', 1], ['tipo_de_predio', '=', 0]])->get();
+    }
+
+    function obtenerPalmerasPorPredioNoOrganico($id){
+        //dd(Predio::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->palmerasNoOrganicas);
+        return Predio::find($id)->palmeras;
+    }
+
+    function saveActividadesPredNoOrg(ActPredNoOrg $actividad){
+        //identificador, id, palmera_id, actividad_id, anio, fecha_programada, fecha_ejecucion, empleado_programo, empleado_ejecuto, costo, estatus,
+        $query = "CALL addActividadPredNoOrg('{$actividad->getIdPalmera()}',{$actividad->getIdActividad()},'{$actividad->getAnio()}',{$actividad->getFechaProgramada()},NULL,{$actividad->getEmpleadoProgramo()},NULL,{$actividad->getCosto()},{$actividad->getEstatus()});";
+        dd($query);
+
+        /*
+         * desarrollando procedimiento para agregar actividad, falta consultar el costo de la actividad para hacer la insercion
+         *DELIMITER ;;
+CREATE PROCEDURE addActividadPredNoOrg(IN palmera_id VARCHAR(255), IN actividad_id INT, IN anio VARCHAR(255), IN fecha_programada DATE, IN empleado_programo INT, IN costo DOUBLE, IN estatus TINYINT)
+BEGIN
+	DECLARE incremental INT DEFAULT 0;
+	DECLARE identificador varchar(255) default '';
+ 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+        	SELECT 'Ocurrio un error al registrar';
+            ROLLBACK;
+        END;
+	SET @@AUTOCOMMIT = 0;
+	START TRANSACTION;
+	SELECT count(*) INTO incremental FROM ActividadesPorPalmeras FOR UPDATE;
+	#SELECT CONVERT( SUBSTRING(id,2,3), UNSIGNED INTEGER) INTO lastPredio FROM predio WHERE (SELECT MAX(id) FROM predio)=id;
+	set identificador = concat(palmera_id, actividad_id, anio, incremental);#concat('P', LPAD((lastPredio+1), 3, 0));
+	INSERT INTO ActividadesPorPalmeras VALUES(identificador, palmera_id, actividad_id, anio, fecha_programada, NULL, empleado_programo, NULL, costo, estatus, CURRENT_TIMESTAMP, NULL, NULL);
+	COMMIT;
+END;;
+DELIMITER ;
+
+CALL addActividadPredNoOrg('PAL011',3,'2021',2021-12-24,NULL,1,NULL,276354,1);
+         */
+        try {
+            DB::select($query);
+        }catch (\Throwable $error){
+            dd($error->getMessage());
+        }
+        return true;
+    }
 }
 
 

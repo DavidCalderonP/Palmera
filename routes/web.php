@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\ActPredOrgController;
+use App\Http\Controllers\ActPredNoOrgController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrediosController;
 
@@ -11,6 +12,7 @@ Route::get('/home', function () {
 
 Route::resource('predio', PrediosController::class)->names(['predio']);
 Route::resource('asignarActividades', ActPredOrgController::class);
+Route::resource('asignarActividadesPredNoOrg', ActPredNoOrgController::class);
 
 Auth::routes();
 
