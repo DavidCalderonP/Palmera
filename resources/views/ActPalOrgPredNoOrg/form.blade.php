@@ -27,7 +27,7 @@
 <div class="form-group">
     <div class="row">
         <div class="col">
-            <label for="palmera_id">Palmera No Orgánico</label>
+            <label for="palmera_id">Palmera Orgánica</label>
             <select class="form-control" id="palmera_id"
                     onchange="this.form.submit()"
                     value="{{old('palmera_id')}}"

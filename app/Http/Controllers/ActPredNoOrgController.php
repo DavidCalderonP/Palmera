@@ -55,7 +55,6 @@ class ActPredNoOrgController extends Controller
         $data = array_merge($request->all(), $fieldsRemaining);
         $actividad = new ActPredNoOrg($data);
         $res = $this->model->saveActividadesPredNoOrg($actividad);
-        dd($res);
         if($res){
             echo "<script>";
             echo "alert('Operación realizada exitosamente.')";
@@ -65,7 +64,7 @@ class ActPredNoOrgController extends Controller
             echo "alert('Algo salió mal. La operación falló.')";
             echo "</script>";
         }
-        return $res ? $this->create([$request->id_predio, $request->palmera_id], $this->model->forTable($request->id_predio)) : $this->create();
+        return $res ? $this->create([$request->id_predio, $request->palmera_id], $this->model->obtenerPalmerasPorPredioNoOrganico($request->id_predio), $this->model->forTable($request->id_predio)) : $this->create();
     }
 
     public function show($id)

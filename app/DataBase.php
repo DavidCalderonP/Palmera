@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\ActividadesPorPredio;
 use App\Models\ActPredNoOrg;
+use App\Models\Palmera;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\DB;
@@ -159,45 +160,50 @@ class DataBase
     }
 
     function obtenerPalmerasPorPredioNoOrganico($id){
-        //dd(Predio::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->palmerasNoOrganicas);
-        return Predio::find($id)->palmeras;
+//        dd(Predio::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->palmerasOrganicas);
+        return Predio::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->palmerasOrganicas;
     }
 
+    function obtenerActPalOrgPredNoOrg($id){
+        return Palmera::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->actividades;
+    }
     function saveActividadesPredNoOrg(ActPredNoOrg $actividad){
         //identificador, id, palmera_id, actividad_id, anio, fecha_programada, fecha_ejecucion, empleado_programo, empleado_ejecuto, costo, estatus,
-        $query = "CALL addActividadPredNoOrg('{$actividad->getIdPalmera()}',{$actividad->getIdActividad()},'{$actividad->getAnio()}',{$actividad->getFechaProgramada()},NULL,{$actividad->getEmpleadoProgramo()},NULL,{$actividad->getCosto()},{$actividad->getEstatus()});";
-        dd($query);
-
-        /*
-         * desarrollando procedimiento para agregar actividad, falta consultar el costo de la actividad para hacer la insercion
-         *DELIMITER ;;
-CREATE PROCEDURE addActividadPredNoOrg(IN palmera_id VARCHAR(255), IN actividad_id INT, IN anio VARCHAR(255), IN fecha_programada DATE, IN empleado_programo INT, IN costo DOUBLE, IN estatus TINYINT)
-BEGIN
-	DECLARE incremental INT DEFAULT 0;
-	DECLARE identificador varchar(255) default '';
- 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-        	SELECT 'Ocurrio un error al registrar';
-            ROLLBACK;
-        END;
-	SET @@AUTOCOMMIT = 0;
-	START TRANSACTION;
-	SELECT count(*) INTO incremental FROM ActividadesPorPalmeras FOR UPDATE;
-	#SELECT CONVERT( SUBSTRING(id,2,3), UNSIGNED INTEGER) INTO lastPredio FROM predio WHERE (SELECT MAX(id) FROM predio)=id;
-	set identificador = concat(palmera_id, actividad_id, anio, incremental);#concat('P', LPAD((lastPredio+1), 3, 0));
-	INSERT INTO ActividadesPorPalmeras VALUES(identificador, palmera_id, actividad_id, anio, fecha_programada, NULL, empleado_programo, NULL, costo, estatus, CURRENT_TIMESTAMP, NULL, NULL);
-	COMMIT;
-END;;
-DELIMITER ;
-
-CALL addActividadPredNoOrg('PAL011',3,'2021',2021-12-24,NULL,1,NULL,276354,1);
-         */
+        $actividadDetalle = Actividad::where([['estatus','=',1],['id','=',$actividad->getIdActividad()]])->get()[0];
+        $query = "CALL addActividadPredNoOrg('{$actividad->getIdPalmera()}',{$actividad->getIdActividad()},'{$actividad->getAnio()}','{$actividad->getFechaProgramada()}',{$actividad->getEmpleadoProgramo()},{$actividadDetalle->getCosto()},{$actividad->getEstatus()});";
         try {
             DB::select($query);
         }catch (\Throwable $error){
             dd($error->getMessage());
         }
         return true;
+//        dd($query);
+        /*
+         * desarrollando procedimiento para agregar actividad, falta consultar el costo de la actividad para hacer la insercion
+         DROP PROCEDURE IF EXISTS addActividadPredNoOrg;
+DELIMITER ;;
+CREATE PROCEDURE addActividadPredNoOrg(IN palmera_id VARCHAR(255), IN actividad_id INT, IN anio VARCHAR(255), IN fecha_programada DATE, IN empleado_programo INT, IN costo DOUBLE, IN estatus TINYINT)
+BEGIN
+	DECLARE incremental INT DEFAULT 0;
+	DECLARE identificador varchar(255) default '';
+ 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+        	SELECT HANDLER;
+            ROLLBACK;
+        END;
+	SET @@AUTOCOMMIT = 0;
+	START TRANSACTION;
+	SELECT count(*) INTO incremental FROM ActividadesPorPalmeras FOR UPDATE;
+	#SELECT CONVERT( SUBSTRING(id,2,3), UNSIGNED INTEGER) INTO lastPredio FROM predio WHERE (SELECT MAX(id) FROM predio)=id;
+	set identificador = concat(palmera_id, actividad_id, anio, (incremental+1));#concat('P', LPAD((lastPredio+1), 3, 0));
+	INSERT INTO ActividadesPorPalmeras VALUES(identificador, palmera_id, actividad_id, anio, fecha_programada, NULL, empleado_programo, NULL, costo, estatus, CURRENT_TIMESTAMP, NULL, NULL);
+	COMMIT;
+END;;
+DELIMITER ;
+
+#CALL addActividadPredNoOrg('PAL011',3,'2021','2021-12-24',1,276354,1);
+         */
+
     }
 }
 
@@ -234,4 +240,20 @@ inner join TipoDeDatil as tdd on tdd.id = pal.tipo_datil
 select * from test;
 
 select nombre_datil, tipo_cosecha, descripcion, cantidad_actual, sum(APPCosto)/cantidad_ingreso as 'Precio P/Kg' from test group by PalmeraID order by nombre_datil;
+ */
+
+
+/*
+ Aquí está la respuesta de como hacer la validación de que una palmera se vuelva no orgánica por incumplimiento
+de fechas de actividades asignadas
+
+This might be too late for your work, but here is how I did it. I want something run everyday at 1AM - I believe this is
+similar to what you are doing. Here is how I did it:
+
+CREATE EVENT event_name
+  ON SCHEDULE
+    EVERY 1 DAY
+    STARTS (TIMESTAMP(CURRENT_DATE) + INTERVAL 1 DAY + INTERVAL 1 HOUR)
+  DO
+    # Your awesome query
  */
