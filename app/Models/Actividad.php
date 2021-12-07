@@ -60,4 +60,8 @@ class Actividad extends Model
     function palmeras(){
         return $this->belongsToMany(Palmera::class, 'ActividadesPorPalmeras');
     }
+
+    public function fechas(){
+        return $this->hasMany(ActividadesPorPredio::class, 'actividad_id');
+    }
 }

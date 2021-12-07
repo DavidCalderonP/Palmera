@@ -165,8 +165,8 @@ class Predio extends Model
         return $this->hasMany(Palmera::class, 'predio_id')->where('Palmeras.tipo_palmera','=', 1);
     }
 
-    function palmerasNoOrganicas(){
-        return $this->hasMany(Palmera::class, 'predio_id')->where('Palmeras.tipo_palmera','=', 0);
-    }
+//    function palmerasNoOrganicas(){
+//        return $this->hasMany(Palmera::class, 'predio_id')->where('Palmeras.tipo_palmera','=', 0);
+//    }
 
 }

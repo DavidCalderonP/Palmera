@@ -17,8 +17,9 @@ class PrediosController extends Controller
         $this->model = new Model();
     }
 
-    public function index(){
-        if(!$this->isLogged()){
+    public function index()
+    {
+        if (!$this->isLogged()) {
             return $this->needLogin();
         }
         $res = $this->model->getPredios();
@@ -27,13 +28,14 @@ class PrediosController extends Controller
 
     public function create()
     {
-        if(!$this->isLogged()){
+        if (!$this->isLogged()) {
             return $this->needLogin();
         }
         return view('predios.createPredio');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'metros_cuadrados' => ['required'],
             'numero_palmeras' => ['required'],
@@ -44,23 +46,28 @@ class PrediosController extends Controller
             'descripcion' => ['required']
         ]);
         $aux = array_merge($request->all(), ['id' => NULL, 'fecha_creacion' => now('GMT-7')->format('Y-m-d'), 'estatus' => 1]);
-        if($aux['tipo_de_predio'] == 1){
+        if ($aux['tipo_de_predio'] == 1) {
             $response = $this->model->validarPredio($aux);
-            if($response){
-                $aux['tipo_de_predio'] = $response['approved'] ? 1: 0;
-            }else{
+            if (!$response) {
                 return $this->error();
             }
+            $aux['tipo_de_predio'] = $response['approved'] ? 1 : 0;
         }
         $predio = new Predio($aux);
         $res = $this->model->savePredio($predio);
-        $this->index();
-        return $res ? $this->success() : $this->error() ;
+//        $this->index();
+        if ($res) {
+            return $this->success();
+        }
+        return $this->error();
     }
 
-    public function show($id){}
+    public function show($id)
+    {
+    }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $predio = $this->model->getPredio($id);
         if ($predio == null) {
             Alert::warning('Aviso!', 'El predio que ha solicitado ya no existe.');
@@ -69,7 +76,8 @@ class PrediosController extends Controller
         return !$this->isLogged() ? $this->needLogin() : view('predios.editPredio', compact('predio'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         $request->validate([
             'metros_cuadrados' => ['required'],
@@ -87,34 +95,39 @@ class PrediosController extends Controller
         return redirect('predio');
     }
 
-    public function destroy($id){
-        if(!$this->isLogged()){
+    public function destroy($id)
+    {
+        if (!$this->isLogged()) {
             return $this->needLogin();
         }
         $resp = $this->model->deletePredio($id);
-        if($resp==0){
+        if ($resp == 0) {
             Alert::warning('Aviso!', 'El predio que ha solicitado ya no existe.');
-        }else{
+        } else {
             Alert::success('Hecho!', 'Operación realizada exitosamente!');
         }
         return redirect('predio');
     }
 
-    public function isLogged(){
+    public function isLogged()
+    {
         return Auth::id('id');
     }
 
-    public function needLogin(){
+    public function needLogin()
+    {
         Alert::info(session('info', 'Incio de sesión necesario'), 'Es necesario inciar sesión para continuar.');
         return redirect('login');
     }
 
-    public function error(){
+    public function error()
+    {
         Alert::error('Algo salió mal', 'Ocurrió un error');
         return redirect('predio');
     }
 
-    public function success(){
+    public function success()
+    {
         Alert::success('Hecho!', 'Operación realizada exitosamente!');
         return redirect('predio');
     }

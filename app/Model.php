@@ -42,11 +42,13 @@ class Model
         return $this->DB->obtenerPrediosOrganicos();
     }
 
-    function getActividades(){
+    function getActividades()
+    {
         return $this->DB->getActividades();
     }
 
-    function saveActividades($actividades, $predio){
+    function saveActividades($actividades, $predio)
+    {
         return $this->DB->saveActividades($actividades, $predio);
     }
 
@@ -55,21 +57,30 @@ class Model
         return $this->DB->validarPredio($request);
     }
 
-    function forTable($id){
+    function forTable($id)
+    {
         return $this->DB->forTable($id);
     }
 
     //Palmeras Organicas en Predios No Organicos
-    function obtenerPrediosNoOrganicos(){
+    function obtenerPrediosNoOrganicos()
+    {
         return $this->DB->obtenerPrediosNoOrganicos();
     }
 
-    function obtenerPalmerasPorPredioNoOrganico($id){
+    function obtenerPalmerasPorPredioNoOrganico($id)
+    {
         return $this->DB->obtenerPalmerasPorPredioNoOrganico($id);
     }
 
-    function saveActividadesPredNoOrg($actividad){
+    function saveActividadesPredNoOrg($actividad)
+    {
         return $this->DB->saveActividadesPredNoOrg($actividad);
-}
+    }
+
+    function forTableActPalOrgPredNoOrg($id)
+    {
+        return $this->DB->forTableActPalOrgPredNoOrg($id);
+    }
 
 }

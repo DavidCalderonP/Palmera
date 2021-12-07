@@ -23,17 +23,20 @@
                 <tbody>
 {{--                Data es la coleccion de palmeras--}}
 {{--                Data[indice]->actividades es la coleccion recolentada de actividades por cada palmera de data--}}
-                @forelse($data as $key => $palmera)
-                    @foreach($palmera->actividades as $index => $actividad)
+                @forelse($data as $key => $element)
+{{--                    @foreach($palmera->actividades as $index => $actividad)--}}
                         <tr>
-                            <th scope="row">{{$palmera->getId()}}</th>
-                            <th scope="row">{{$actividad->getNombreActividad()}}</th>
-                            <th scope="row">{{$data[$key]->fechas[$index]->getFechaProgramada()}}</th
+{{--                            <th scope="col">{{$element->getId()}}</th>--}}
+                            <th scope="col">{{$element->getIdPalmera()}}</th>
+                            <th scope="col">{{$element->obtenerActividad->getNombreActividad()}}</th>
+                            <th scope="row">{{$element->getFechaProgramada()}}</th>
+{{--                            <th scope="row">{{$palmera->getId()}}</th>--}}
+{{--                            <th scope="row">{{$actividad->getNombreActividad()}}</th>--}}
+{{--                            <th scope="row">{{$data[$key]->fechas[$index]->getFechaProgramada()}}</th--}}
                         </tr>
-                    @endforeach
+{{--                    @endforeach--}}
                 @empty
-                    <div>No se encontró ninguna palmera asignada al predio seleccionado.</div>
-
+                    <div>Palmera sin actividades asignadas aún.</div>
                 @endforelse
                 </tbody>
             </table>

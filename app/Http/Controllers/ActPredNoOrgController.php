@@ -6,6 +6,7 @@ use App\Model;
 use App\Models\ActPredNoOrg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ActPredNoOrgController extends Controller
 {
@@ -22,10 +23,7 @@ class ActPredNoOrgController extends Controller
     public function create($cache = null, $info = null, $data=null)
     {
         if(!Auth::user('id')){
-            echo "<script>";
-            echo "alert('Necesitas inciar sesión.')";
-            echo "</script>";
-            return redirect('http://localhost:8000/home');
+            return $this->needLogin();
         }
         $predios = $this->model->obtenerPrediosNoOrganicos();
         if(!count($predios)){
@@ -41,9 +39,15 @@ class ActPredNoOrgController extends Controller
 
     public function store(Request $request)
     {
-//        $this->model->obtenerPalmerasPorPredioNoOrganico($request->id_predio);
-        if (($request->id_predio != null)  && ($request->actividad_id == null) && ($request->fecha_programada == null)){
-            return $this->create([$request->id_predio, $request->palmera_id], $this->model->obtenerPalmerasPorPredioNoOrganico($request->id_predio), $this->model->forTable($request->id_predio));
+//        dd($this->model->forTableActPalOrgPredNoOrg('PAL009'));
+        if (($request->id_predio != null && $request->palmera_id == null) && ($request->fecha_programada == null)){
+            $palmerasDisponibles = $this->model->obtenerPalmerasPorPredioNoOrganico($request->id_predio);
+            return $this->create([$request->id_predio, $request->palmera_id],$palmerasDisponibles, null);
+        }
+
+        if (($request->id_predio != null && $request->palmera_id != null) && ($request->fecha_programada == null)){
+            $palmerasDisponibles = $this->model->obtenerPalmerasPorPredioNoOrganico($request->id_predio);
+            return $this->create([$request->id_predio, $request->palmera_id],$palmerasDisponibles, $this->model->forTableActPalOrgPredNoOrg($request->palmera_id));
         }
         $request->validate([
             'id_predio' => ['required'],
@@ -56,15 +60,11 @@ class ActPredNoOrgController extends Controller
         $actividad = new ActPredNoOrg($data);
         $res = $this->model->saveActividadesPredNoOrg($actividad);
         if($res){
-            echo "<script>";
-            echo "alert('Operación realizada exitosamente.')";
-            echo "</script>";
+            $this->success();
         }else{
-            echo "<script>";
-            echo "alert('Algo salió mal. La operación falló.')";
-            echo "</script>";
+            $this->error();
         }
-        return $res ? $this->create([$request->id_predio, $request->palmera_id], $this->model->obtenerPalmerasPorPredioNoOrganico($request->id_predio), $this->model->forTable($request->id_predio)) : $this->create();
+        return $res ? $this->create([$request->id_predio, $request->palmera_id], $this->model->obtenerPalmerasPorPredioNoOrganico($request->id_predio), $this->model->forTableActPalOrgPredNoOrg($request->palmera_id)) : $this->create();
     }
 
     public function show($id)
@@ -78,5 +78,19 @@ class ActPredNoOrgController extends Controller
     }
     public function destroy($id)
     {
+    }
+    public function needLogin(){
+        Alert::info(session('info', 'Incio de sesión necesario'), 'Es necesario inciar sesión para continuar.');
+        return redirect('login');
+    }
+
+    public function error(){
+        Alert::error('Algo salió mal', 'Ocurrió un error');
+        return redirect('asignarActividadesPredNoOrg');
+    }
+
+    public function success(){
+        Alert::success('Hecho!', 'Operación realizada exitosamente!');
+        return redirect('asignarActividadesPredNoOrg');
     }
 }

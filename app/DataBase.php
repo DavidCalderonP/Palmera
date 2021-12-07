@@ -177,6 +177,17 @@ class DataBase
             dd($error->getMessage());
         }
         return true;
+    }
+
+//    function forTableActPalOrgPredNoOrg($id){
+//        return Palmera::where([['estatus', '=', 1],['tipo_palmera','=', 1],['id','=',$id]])->get()[0]->actividades;
+//    }
+
+    function forTableActPalOrgPredNoOrg($id){
+        //dd(ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get());
+        return ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get();
+    }
+}
 //        dd($query);
         /*
          * desarrollando procedimiento para agregar actividad, falta consultar el costo de la actividad para hacer la insercion
@@ -204,8 +215,6 @@ DELIMITER ;
 #CALL addActividadPredNoOrg('PAL011',3,'2021','2021-12-24',1,276354,1);
          */
 
-    }
-}
 
 
 /*

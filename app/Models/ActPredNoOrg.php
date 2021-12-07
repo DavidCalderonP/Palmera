@@ -61,4 +61,8 @@ class ActPredNoOrg extends Model
     public function getEmpleadoEjecuto(){
         return $this->empleado_ejecuto;
     }
+
+    function obtenerActividad(){
+        return $this->belongsTo(Actividad::class, 'actividad_id');//->where('Palmeras.tipo_palmera','=', 1);
+    }
 }

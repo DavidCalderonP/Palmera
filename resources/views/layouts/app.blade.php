@@ -41,6 +41,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href={{url("/asignarActividades")}}>Asinación de actividades(Palmeras y Predios Orgánicos)</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={{url("/asignarActividadesPredNoOrg")}}>Asinación de actividades(Palmeras Orgánicas y Predios No Orgánicos)</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
