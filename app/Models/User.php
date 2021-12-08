@@ -41,4 +41,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function obtenerDominio(){
+        $email = $this->email ?? '@invitado.com';
+        $index = strpos($email,'@');
+        return substr($email,-(strlen($email)-$index));
+    }
 }

@@ -19,6 +19,7 @@ class PrediosController extends Controller
 
     public function index()
     {
+//        var_dump(Auth::user()->obtenerDominio());
         if (!$this->isLogged()) {
             return $this->needLogin();
         }
