@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('/assets/LOGOPALMERA.png') }}">
+    <link rel="shortcut icon" sizes="192x192" href="{{ asset('/assets/LOGOPALMERA.png') }}">
 </head>
 <body>
 @include('sweetalert::alert')
@@ -25,6 +27,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"
          style="position: fixed; z-index: 999; opacity:1;width: 100%;">
         <div class="container">
+            <img alt="Palmera S.A de C.V" style="max-width: 50px" src="{{asset('/assets/LOGOPALMERA.png')}}">
             <a class="navbar-brand" href="{{ url('/home') }}">
                 {{ config('app.name', 'Palmera') }}
             </a>
@@ -44,7 +47,7 @@
                             </li>
                         @endif
                     @endif
-                    {{--                        --------------------------------------------------------------------------------------------------------}}
+                    {{---------------------------------------------------------------------------------------------------------}}
                     @if(\Illuminate\Support\Facades\Auth::user('id'))
                         @if(Auth::user('id')->obtenerDominio()==='@especialistapalmera.com')
                             <li class="nav-item dropdown">
@@ -65,16 +68,7 @@
                     @endif
                 </ul>
 
-            {{--                        ------------------------------------------------------------------------------------------------------}}
-
-            {{--                        <li class="nav-item">--}}
-            {{--                            --}}
-            {{--                        </li>--}}
-            {{--                        <li class="nav-item">--}}
-            {{--                            --}}
-            {{--                        </li>--}}
-            {{--                    </ul>--}}
-
+            {{--------------------------------------------------------------------------------------------------------}}
             <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
