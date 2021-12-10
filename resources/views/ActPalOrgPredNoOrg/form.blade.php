@@ -11,7 +11,7 @@
                     @foreach ($predios as $key => $predio)
                         {{--                        {{ ( $key == 0) ? 'selected' : '' }}--}}
                         <option
-                            @if($predio->getId() == $cache[0]) selected='selected' @endif
+                            @isset($cache[0])@if($predio->getId() == $cache[0]) selected='selected' @endif @endisset
                         value="{{ $predio->getId()   }}"
                             {{old('id_predio') == $predio->getId() ? 'selected' : ''}}>{{ $predio->getId() }}</option>
                     @endforeach

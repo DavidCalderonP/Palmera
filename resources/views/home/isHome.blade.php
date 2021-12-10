@@ -12,8 +12,8 @@
                 <div class="{{ $key==0 ? 'carousel-item active' :'carousel-item' }}" style="max-height: 80em;" data-interval="3000">
                     <img src="{{asset($element['dir'])}}" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>First slide label</h5>
-                        <p>Some representative placeholder content for the first slide.</p>
+                        <h5>{{$element['title']}}</h5>
+                        <p>{{$element['description']}}</p>
                     </div>
                 </div>
             @endforeach
