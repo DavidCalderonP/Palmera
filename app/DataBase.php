@@ -67,8 +67,6 @@ class DataBase
                     'tipo_de_predio' => $newPredio->getTipoDePredio(),
                     'descripcion' => $newPredio->getDescripcion(),
                     'fecha_creacion' => $newPredio->getFechaCreacion(),
-                    'latitud' => $newPredio->getLatitud(),
-                    'longitud' => $newPredio->getLongitud(),
                     'estatus' => $newPredio->getEstatus()
                 ]);
         } catch (QueryException $e) {
@@ -91,17 +89,6 @@ class DataBase
     public function getActividades()
     {
         return Actividad::where('estatus', '=', 1)->get();
-    }
-
-    public function validarPredio($request)
-    {
-        try {
-            $response = Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
-        } catch (ConnectionException $failedConnection) {
-            //dd("Esta fallando el servicio Web");
-            return null;
-        }
-        return $response;
     }
 
     public function obtenerPrediosOrganicos()

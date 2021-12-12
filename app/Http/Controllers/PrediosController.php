@@ -19,9 +19,12 @@ class PrediosController extends Controller
 
     public function index()
     {
-//        var_dump(Auth::user()->obtenerDominio());
-        if (!$this->isLogged()) {
-            return $this->needLogin();
+        if(!Auth::user('id')){
+        return $this->needLogin();
+    }
+        if(!Auth::user('id')->validarTipoDeUsuario('@especialistapredio.com')){
+            Alert::error('Algo salió mal', 'No cuentas con los permisos para acceder a esta sección');
+            return redirect('home');
         }
         $res = $this->model->getPredios();
         return view('predios/indexPredio', compact('res'));
@@ -47,16 +50,8 @@ class PrediosController extends Controller
             'descripcion' => ['required']
         ]);
         $aux = array_merge($request->all(), ['id' => NULL, 'fecha_creacion' => now('GMT-7')->format('Y-m-d'), 'estatus' => 1]);
-        if ($aux['tipo_de_predio'] == 1) {
-            $response = $this->model->validarPredio($aux);
-            if (!$response) {
-                return $this->error();
-            }
-            $aux['tipo_de_predio'] = $response['approved'] ? 1 : 0;
-        }
         $predio = new Predio($aux);
         $res = $this->model->savePredio($predio);
-//        $this->index();
         if ($res) {
             return $this->success();
         }
@@ -79,18 +74,16 @@ class PrediosController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'metros_cuadrados' => ['required'],
             'numero_palmeras' => ['required'],
             'tipo_de_suelo' => ['required'],
             'ph' => ['required'],
             'salinidad' => ['required'],
-            'tipo_de_predio' => ['required'],
-            'descripcion' => ['required'],
-            'latitud' => ['required'],
-            'longitud' => ['required']
+            'descripcion' => ['required']
         ]);
+////        dd("todo jalo bien");
+//        dd("Entrando update", $request->all());
         $predio = new Predio($request->all());
         $this->model->updatePredio($predio);
         return redirect('predio');

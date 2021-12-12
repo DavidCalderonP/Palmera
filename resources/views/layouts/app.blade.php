@@ -41,7 +41,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto" style="text-align: center">
                     @if(\Illuminate\Support\Facades\Auth::user('id'))
-                        @if(Auth::user('id')->obtenerDominio()==='@especialistapredio.com')
+                        @if(Auth::user('id')->validarTipoDeUsuario('@especialistapredio.com'))
                             <li class="nav-item">
                                 <a class="nav-link" href={{url("/predio")}}>Predios</a>
                             </li>
@@ -49,7 +49,7 @@
                     @endif
                     {{---------------------------------------------------------------------------------------------------------}}
                     @if(\Illuminate\Support\Facades\Auth::user('id'))
-                        @if(Auth::user('id')->obtenerDominio()==='@especialistapalmera.com')
+                        @if(Auth::user('id')->validarTipoDeUsuario('@especialistapalmera.com'))
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">

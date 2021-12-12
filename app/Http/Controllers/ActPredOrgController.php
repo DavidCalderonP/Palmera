@@ -6,6 +6,7 @@ use App\Model;
 use App\Models\ActividadesPorPredio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ActPredOrgController extends Controller
 {
@@ -22,18 +23,19 @@ class ActPredOrgController extends Controller
     public function create($cache = null, $data=null)
     {
         if(!Auth::user('id')){
-            echo "<script>";
-            echo "alert('Necesitas inciar sesión.')";
-            echo "</script>";
-            return redirect('http://localhost:8000/predio');
+            return $this->needLogin();
+        }
+        if(!Auth::user('id')->validarTipoDeUsuario('@especialistapalmera.com')){
+            Alert::error('Algo salió mal', 'No cuentas con los permisos para acceder a esta sección');
+            return redirect('home');
         }
         $predios = $this->model->obtenerPrediosOrganicos();
         if(!count($predios)){
-            return view('ActPalOrgPredOrg/prediosNotFound');
+            return $this->prediosOrganicosNoEncontrados();
         }
         $actividades = $this->model->getActividades();
         if(!count($actividades)){
-            return view('ActPalOrgPredOrg/actividadesNotFound');
+            return $this->actividadesNoEncontradas();
         }
 
         return view('ActPalOrgPredOrg.assingActivity', compact( 'predios', 'actividades', 'cache', 'data'));
@@ -54,13 +56,9 @@ class ActPredOrgController extends Controller
         $asignacionMasiva = new ActividadesPorPredio($data);
         $res = $this->model->saveActividades($asignacionMasiva, $request->id_predio);
         if($res){
-            echo "<script>";
-            echo "alert('Operación realizada exitosamente.')";
-            echo "</script>";
+            $this->success();
         }else{
-            echo "<script>";
-            echo "alert('Algo salió mal. La operación falló.')";
-            echo "</script>";
+            $this->error();
         }
         return $res ? $this->create($request->id_predio, $this->model->forTable($request->id_predio)) : $this->create();
     }
@@ -76,5 +74,28 @@ class ActPredOrgController extends Controller
     }
     public function destroy($id)
     {
+    }
+
+    public function needLogin(){
+        Alert::info(session('info', 'Incio de sesión necesario'), 'Es necesario inciar sesión para continuar.');
+        return redirect('login');
+    }
+
+    public function error(){
+        Alert::error('Algo salió mal', 'Ocurrió un error');
+    }
+
+    public function success(){
+        Alert::success('Hecho!', 'Operación realizada exitosamente!');
+    }
+
+    public function prediosOrganicosNoEncontrados(){
+        Alert::warning('Advertencia', 'No se encontró ningun predio orgánico');
+        return redirect('home');
+    }
+
+    public function actividadesNoEncontradas(){
+        Alert::warning('Advertencia', 'No se encontró ninguna actividad');
+        return redirect('home');
     }
 }

@@ -25,6 +25,10 @@ class ActPredNoOrgController extends Controller
         if(!Auth::user('id')){
             return $this->needLogin();
         }
+        if(!Auth::user('id')->validarTipoDeUsuario('@especialistapalmera.com')){
+            Alert::error('Algo salió mal', 'No cuentas con los permisos para acceder a esta sección');
+            return redirect('home');
+        }
         $predios = $this->model->obtenerPrediosNoOrganicos();
         if(!count($predios)){
             return view('ActPalOrgPredOrg/prediosNotFound');

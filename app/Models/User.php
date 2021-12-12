@@ -42,9 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    function obtenerDominio(){
+    function validarTipoDeUsuario($domain){
         $email = $this->email ?? '@invitado.com';
         $index = strpos($email,'@');
-        return substr($email,-(strlen($email)-$index));
+        return substr($email,-(strlen($email)-$index))==$domain;
     }
 }
