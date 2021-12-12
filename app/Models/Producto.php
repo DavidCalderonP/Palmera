@@ -11,9 +11,9 @@ class Producto extends Model {
 
   public $timestamps = true;
   protected $table = 'VariedadDeDatil';
-  protected $primaryKey= 'id';
+  protected $primaryKey= 'idVariedad';
   protected $keyType = 'int';
-  protected $fillable = ['id',
+  protected $fillable = ['idVariedad',
   'nombre_datil',
   'descripcion',
   'costo',
@@ -24,12 +24,12 @@ class Producto extends Model {
     parent::__construct($producto);
   }
 
-  function getId() {
-    return $this->id;
+  function getIdVariedad() {
+    return $this->idVariedad;
   }
 
-  function setId($id) {
-    $this->id = $id;
+  function setIdVariedad($idVariedad) {
+    $this->idVariedad = $idVariedad;
   }
 
   function getNombreDatil() {

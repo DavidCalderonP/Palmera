@@ -6,6 +6,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Predio;
 use App\Models\Producto;
+use App\Models\Carrito;
 use Illuminate\Support\Facades\Http;
 
 class DataBase
@@ -13,11 +14,6 @@ class DataBase
     function getPredios()
     {
         return Predio::paginate(5);
-    }
-
-    function getProductos()
-    {
-        return Producto::paginate(10);
     }
 
     function getPredio($id)
@@ -36,6 +32,7 @@ class DataBase
         try {
             $newKey = DB::select("CALL gk_getKey(@id)");
             $predio->setId($newKey[0]->id);
+            dd($predio);
             $predio->save();
             DB::select("CALL ak_addKey('{$newKey[0]->id}')");
             DB::commit();
@@ -83,4 +80,38 @@ class DataBase
         return Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
     }
 
+    function getProductos()
+    {
+        return Producto::paginate(10);
+    }
+
+    function getCarrito($userID)
+    {
+        
+        return Carrito::where('id_cliente', $userID)
+        ->join('VariedadDeDatil', 'id_variedad', '=', 'VariedadDeDatil.idVariedad')
+        ->get();
+    }
+
+    function agregarCarrito($request) {
+        try {
+            $carrito = new Carrito();
+            $carrito->cantidad = (int) $request->cantidad;
+            $carrito->id_variedad = (int) $request->Id;
+            $carrito->id_cliente = (int) $request->userID;
+            $carrito->save();
+        } catch (\Throwable $e) {
+            return null;
+        }
+        return;
+    }
+
+    function deleteCarrito($id) {
+        try {
+            $a = Carrito::where('id', (int)$id)->delete();
+        } catch (\Throwable $e) {
+            return null;
+        }
+        return $a;
+    }
 }

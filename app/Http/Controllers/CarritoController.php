@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model;
 use App\Models\Carrito;
+use Illuminate\Support\Facades\Auth;
 
 class CarritoController extends Controller
 {
@@ -16,7 +17,10 @@ class CarritoController extends Controller
 
     public function index()
     {
-        return view('carrito/indexCarrito');
+        $user = Auth::user('id');
+        $res = $this->model->getCarrito($user->id);
+        $importe = $this->model->getImporte($res);
+        return view('carrito/indexCarrito', compact('res', 'importe'));
     }
 
     /**
@@ -37,7 +41,8 @@ class CarritoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $res = $this->model->agregarCarrito($request);
+        return redirect('productos');
     }
 
     /**
@@ -82,6 +87,7 @@ class CarritoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $res = $this->model->deleteCarrito($id);
+        redirect('carrito');
     }
 }

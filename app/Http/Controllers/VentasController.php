@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Model;
 
 class VentasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    private $model;
+
+    function __construct() {
+        $this->model = new Model();
+    }
+
     public function index()
     {
-        return view('Ventas')
+        $user = Auth::user('id');
+        $res = $this->model->getCarrito($user->id);
+        $importe = $this->model->getImporte($res);
+        return view('compra/detalleCompra',compact('res', 'importe'));
     }
 
     /**

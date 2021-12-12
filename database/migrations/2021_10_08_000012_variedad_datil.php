@@ -9,7 +9,7 @@ class VariedadDatil extends Migration
     public function up()
     {
         Schema::create('VariedadDeDatil', function (Blueprint $table){
-            $table->bigIncrements('id');
+            $table->bigIncrements('idVariedad');
             $table->string('nombre_datil');
             $table->string('descripcion');
             $table->double('costo');
