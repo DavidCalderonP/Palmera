@@ -48,8 +48,8 @@
                             <div class="modal-body">
                               <form action="{{url('/carrito')}}" method="POST">
                                 @csrf
-                                <input type="text" value="{{$producto->getIdVariedad()}}" name="Id">
-                                <input type="text" value="{{auth()->user()->id}}" name="userID">
+                                <input type="text" hidden value="{{$producto->getIdVariedad()}}" name="Id">
+                                <input type="text" hidden value="{{auth()->user()->id}}" name="userID">
                                 <h1>{{$producto->getNombreDatil()}}</h1>
                                 <p>{{$producto->getDescripcion()}}</p>
                                 <h3>Precio de venta: {{$producto->getCosto()}}</h3>

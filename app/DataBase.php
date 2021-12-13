@@ -10,6 +10,8 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Predio;
 use App\Models\Actividad;
+use App\Models\Producto;
+use App\Models\Carrito;
 use Illuminate\Support\Facades\Http;
 
 class DataBase
@@ -39,19 +41,6 @@ class DataBase
             return false;
         }
         return true;
-//        try {
-//            DB::beginTransaction();
-//            $newKey = DB::select("CALL gk_getKey(@id)");
-//            $predio->setId($newKey[0]->id);
-//            $predio->save();
-//            DB::select("CALL ak_addKey('{$newKey[0]->id}')");
-//            DB::commit();
-//        } catch (\Throwable $e) {
-//            DB::rollBack();
-//            dd($e->getMessage());
-//            return false;
-//        }
-//        return true;
     }
 
     function updatePredio($newPredio)
@@ -78,7 +67,6 @@ class DataBase
     function deletePredio($id)
     {
         try {
-            //if(Predio::where([['estatus','=',1],['id','=',$id]])->get()->count()) return null;
             $affectedRows = Predio::where([['id', $id],['estatus','=',1]])->update(['estatus' => 0]);
         } catch (\Throwable $e) {
             return null;
@@ -101,9 +89,7 @@ class DataBase
         try {
             DB::transaction(function() use ($actividades, $predio) {
                 $count = ActividadesPorPredio::count() + 1;
-                //$palmeras = Predio::find($predio)->palmeras;
                 $palmeras = Predio::where([['id', '=', $predio],['estatus', '=', 1]])->get()[0]->palmerasOrganicas;
-                //dd($palmeras);
                 $actividad = Actividad::find($actividades->getIdActividad());
                 $data = [];
                 foreach ($palmeras as $key => $palmera) {
@@ -133,21 +119,13 @@ class DataBase
     function forTable($id)
     {
         return Predio::find($id)->palmeras;
-//        $query = "select p.id, a.nombre_actividad, app.fecha_programada from ActividadesPorPalmeras as app
-//inner join Palmeras as p on p.id = app.palmera_id
-//inner join Actividades as a on a.id = app.actividad_id
-//inner join Predios as pred on pred.id = p.predio_id where pred.id = 'P009'";
-
     }
-
-    //------------------------------Palmeras Orgánicas En Predios No Orgánicos----------------------------------------
 
     function obtenerPrediosNoOrganicos(){
         return Predio::where([['estatus', '=', 1], ['tipo_de_predio', '=', 0]])->get();
     }
 
     function obtenerPalmerasPorPredioNoOrganico($id){
-//        dd(Predio::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->palmerasOrganicas);
         return Predio::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->palmerasOrganicas;
     }
 
@@ -155,7 +133,6 @@ class DataBase
         return Palmera::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->actividades;
     }
     function saveActividadesPredNoOrg(ActPredNoOrg $actividad){
-        //identificador, id, palmera_id, actividad_id, anio, fecha_programada, fecha_ejecucion, empleado_programo, empleado_ejecuto, costo, estatus,
         $actividadDetalle = Actividad::where([['estatus','=',1],['id','=',$actividad->getIdActividad()]])->get()[0];
         $query = "CALL addActividadPredNoOrg('{$actividad->getIdPalmera()}',{$actividad->getIdActividad()},'{$actividad->getAnio()}','{$actividad->getFechaProgramada()}',{$actividad->getEmpleadoProgramo()},{$actividadDetalle->getCosto()},{$actividad->getEstatus()});";
         try {
@@ -171,15 +148,14 @@ class DataBase
 //    }
 
     function forTableActPalOrgPredNoOrg($id){
-        //dd(ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get());
         return ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get();
-    function getProductos()
-    {
+    }
+
+    function getProductos() {
         return Producto::paginate(10);
     }
 
-    function getCarrito($userID)
-    {
+    function getCarrito($userID) {
         
         return Carrito::where('id_cliente', $userID)
         ->join('VariedadDeDatil', 'id_variedad', '=', 'VariedadDeDatil.idVariedad')
@@ -208,81 +184,3 @@ class DataBase
         return $a;
     }
 }
-//        dd($query);
-        /*
-         * desarrollando procedimiento para agregar actividad, falta consultar el costo de la actividad para hacer la insercion
-         DROP PROCEDURE IF EXISTS addActividadPredNoOrg;
-DELIMITER ;;
-CREATE PROCEDURE addActividadPredNoOrg(IN palmera_id VARCHAR(255), IN actividad_id INT, IN anio VARCHAR(255), IN fecha_programada DATE, IN empleado_programo INT, IN costo DOUBLE, IN estatus TINYINT)
-BEGIN
-	DECLARE incremental INT DEFAULT 0;
-	DECLARE identificador varchar(255) default '';
- 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-        	SELECT HANDLER;
-            ROLLBACK;
-        END;
-	SET @@AUTOCOMMIT = 0;
-	START TRANSACTION;
-	SELECT count(*) INTO incremental FROM ActividadesPorPalmeras FOR UPDATE;
-	#SELECT CONVERT( SUBSTRING(id,2,3), UNSIGNED INTEGER) INTO lastPredio FROM predio WHERE (SELECT MAX(id) FROM predio)=id;
-	set identificador = concat(palmera_id, actividad_id, anio, (incremental+1));#concat('P', LPAD((lastPredio+1), 3, 0));
-	INSERT INTO ActividadesPorPalmeras VALUES(identificador, palmera_id, actividad_id, anio, fecha_programada, NULL, empleado_programo, NULL, costo, estatus, CURRENT_TIMESTAMP, NULL, NULL);
-	COMMIT;
-END;;
-DELIMITER ;
-
-#CALL addActividadPredNoOrg('PAL011',3,'2021','2021-12-24',1,276354,1);
-         */
-
-
-
-/*
-CREATE VIEW test AS
-SELECT app.id, app.palmera_id, app.actividad_id, app.anio, app.fecha_programada, app.fecha_ejecucion, app.empleado_programo, app.empleado_ejecuto, app.costo, app.estatus,
-		pal.id,	pal.tipo_palmera, pal.predio_id, pal.tipo_datil, pal.estatus,
-		cos.id,	cos.id_palmera,	cos.kilogramos,	cos.fecha_cosecha, cos.tipo_cosecha, cos.estatus,
-		cpc.id,	cpc.id_contenedor, cpc.id_cosecha, cpc.cantidad_ingreso, cpc.cantidad_vendida, cpc.fecha_ingreso,
-		con.id,	con.cantidad_maxima, con.cantidad_vendida, con.cantidad_actual, con.tipo_cosecha, con.estatus,
-		tdd.id,	tdd.nombre_datil, tdd.descripcion, tdd.costo, tdd.tipo,	tdd.estatus
-FROM ActividadesPorPalmeras as app
-inner join Palmeras as pal on pal.id = app.palmera_id
-inner join Cosecha as cos on cos.id_palmera = pal.id
-inner join ContenedoresXCosecha as cpc on cpc.id_cosecha = cos.id
-inner join Contenedores as con on con.id = cpc.id_contenedor
-inner join TipoDeDatil as tdd on tdd.id = pal.tipo_datil
-
-CREATE VIEW test AS
-SELECT app.id, app.palmera_id, app.actividad_id, app.anio, app.fecha_programada, app.costo as 'APPCosto', app.estatus as 'APPEstatus',
-		pal.id as 'PalmeraID',	pal.tipo_palmera, pal.predio_id, pal.tipo_datil, pal.estatus as 'PalmeraEstatus',
-		cos.id as 'CosechaID',	cos.id_palmera,	cos.kilogramos,	cos.fecha_cosecha, cos.estatus as 'CosechaEstatus',
-		cpc.id as 'CPCID',	cpc.id_contenedor, cpc.id_cosecha, cpc.cantidad_ingreso, cpc.fecha_ingreso as 'CPCEstatus',
-		con.id as 'ContenedorID',	con.cantidad_maxima, con.cantidad_vendida, con.cantidad_actual, con.tipo_cosecha, con.estatus as 'ContenedorEstatus',
-		tdd.id as 'TDDID',	tdd.nombre_datil, tdd.descripcion, tdd.costo as 'TDDCosto', tdd.tipo,	tdd.estatus as 'TDDEstatus'
-FROM ActividadesPorPalmeras as app
-inner join Palmeras as pal on pal.id = app.palmera_id
-inner join Cosecha as cos on cos.id_palmera = pal.id
-inner join ContenedoresXCosecha as cpc on cpc.id_cosecha = cos.id
-inner join Contenedores as con on con.id = cpc.id_contenedor
-inner join TipoDeDatil as tdd on tdd.id = pal.tipo_datil
-
-select * from test;
-
-select nombre_datil, tipo_cosecha, descripcion, cantidad_actual, sum(APPCosto)/cantidad_ingreso as 'Precio P/Kg' from test group by PalmeraID order by nombre_datil;
- */
-
-
-/*
- Aquí está la respuesta de como hacer la validación de que una palmera se vuelva no orgánica por incumplimiento
-de fechas de actividades asignadas
-
-This might be too late for your work, but here is how I did it. I want something run everyday at 1AM - I believe this is
-similar to what you are doing. Here is how I did it:
-
-CREATE EVENT event_name
-  ON SCHEDULE
-    EVERY 1 DAY
-    STARTS (TIMESTAMP(CURRENT_DATE) + INTERVAL 1 DAY + INTERVAL 1 HOUR)
-  DO
-    # Your awesome query
- */
