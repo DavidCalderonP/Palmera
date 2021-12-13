@@ -155,6 +155,10 @@ class DataBase
         return Producto::paginate(10);
     }
 
+    function getProductosFilter($search) {
+        return Producto::where(['nombre_datil', 'like', $search])->get();
+    }
+
     function getCarrito($userID) {
         
         return Carrito::where('id_cliente', $userID)

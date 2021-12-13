@@ -20,6 +20,12 @@ class ProductosController extends Controller
         return view('productos/indexProductos', compact('productos'));
     }
 
+    public function searchProductos(Request $request)
+    {
+        $productos = $this->model->getProductosFilter($request->search);
+        return view('productos/indexProductos', compact('productos'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

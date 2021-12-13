@@ -18,9 +18,12 @@ class CarritoController extends Controller
     public function index()
     {
         $user = Auth::user('id');
-        $res = $this->model->getCarrito($user->id);
-        $importe = $this->model->getImporte($res);
-        return view('carrito/indexCarrito', compact('res', 'importe'));
+        if($user) {
+            $res = $this->model->getCarrito($user->id);
+            $importe = $this->model->getImporte($res);
+            return view('carrito/indexCarrito', compact('res', 'importe'));
+        }
+        return view('carrito/indexCarrito');
     }
 
     /**

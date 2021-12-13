@@ -39,28 +39,28 @@ class PalmeraSeeder extends Seeder
         ]);
         DB::table('Palmeras')->insert([
             'id' => 'PAL005',
-            'tipo_palmera' => 0,
+            'tipo_palmera' => 1,
             'predio_id' => "P001",
             'tipo_datil' => 5,
             'estatus' => 1
         ]);
         DB::table('Palmeras')->insert([
             'id' => 'PAL006',
-            'tipo_palmera' => 0,
+            'tipo_palmera' => 1,
             'predio_id' => "P001",
             'tipo_datil' => 6,
             'estatus' => 1
         ]);
         DB::table('Palmeras')->insert([
             'id' => 'PAL007',
-            'tipo_palmera' => 0,
+            'tipo_palmera' => 1,
             'predio_id' => "P001",
             'tipo_datil' => 7,
             'estatus' => 1
         ]);
         DB::table('Palmeras')->insert([
             'id' => 'PAL008',
-            'tipo_palmera' => 0,
+            'tipo_palmera' => 1,
             'predio_id' => "P001",
             'tipo_datil' => 8,
             'estatus' => 1

@@ -49,7 +49,9 @@
                               <form action="{{url('/carrito')}}" method="POST">
                                 @csrf
                                 <input type="text" hidden value="{{$producto->getIdVariedad()}}" name="Id">
+                                @if(Auth::user('id'))
                                 <input type="text" hidden value="{{auth()->user()->id}}" name="userID">
+                                @endisset
                                 <h1>{{$producto->getNombreDatil()}}</h1>
                                 <p>{{$producto->getDescripcion()}}</p>
                                 <h3>Precio de venta: {{$producto->getCosto()}}</h3>

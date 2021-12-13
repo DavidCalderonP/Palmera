@@ -97,7 +97,7 @@ class Model
     public function validarPredio($request)
     {
         try {
-            $response = Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
+            $response = Http::post('http://f77e-2806-2f0-24a0-12b6-19c4-5958-53c2-aaf5.ngrok.io/api/predioValidacion', $request)->json();
         } catch (ConnectionException $failedConnection) {
             //dd("Esta fallando el servicio Web");
             return null;
@@ -107,6 +107,10 @@ class Model
 
     function getProductos() {
         return $this->DB->getProductos();
+    }
+
+    function getProductosFilter($search) {
+        return $this->DB->getProductos($search);
     }
 
     function agregarCarrito($request) { 

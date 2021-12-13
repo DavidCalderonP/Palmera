@@ -20,6 +20,7 @@ Route::resource('asignarActividadesPredNoOrg', ActPredNoOrgController::class);
 Route::resource('productos', ProductosController::class);
 Route::resource('carrito', CarritoController::class);
 Route::resource('compra', VentasController::class);
+Route::post('productos/search',[ProductosController::class, 'searchProductos']);
 Route::get('tarjeta', function () {
     return view('compra/registroTarjeta');
 });
