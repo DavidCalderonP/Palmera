@@ -2,43 +2,23 @@
 
 return ['data' => [
     [
-        'dir' => 'assets/img1.jpeg',
-        'title' => 'Titulo número 1',
-        'description' => 'Descripción número 1'
+        'dir' => 'assets/DatilMedjool.png',
+        'title' => 'Dátil Medjool',
+        'description' => 'Principal variedad de Israel, grande, tierna y dulce.'
     ],
     [
-        'dir' => 'assets/img2.jpeg',
-        'title' => 'Titulo número 2',
-        'description' => 'Descripción número 2'
+        'dir' => 'assets/DatilDegletNoor.jpg',
+        'title' => 'Dátil Deglet Noor',
+        'description' => 'Tambien dátil Moscatel, es tan tierno como exquisito.'
     ],
     [
-        'dir' => 'assets/img3.jpeg',
-        'title' => 'Titulo número 3',
-        'description' => 'Descripción número 3'
+        'dir' => 'assets/DatilHalawy.jpg',
+        'title' => 'Dátil Halawy',
+        'description' => 'Tierno y dulce. Es una de las mejores variedades.'
     ],
     [
-        'dir' => 'assets/img4.jpeg',
-        'title' => 'Titulo número 4',
-        'description' => 'Descripción número 4'
-    ],
-    [
-        'dir' => 'assets/img5.jpeg',
-        'title' => 'Titulo número 5',
-        'description' => 'Descripción número 5'
-    ],
-    [
-        'dir' => 'assets/img6.jpeg',
-        'title' => 'Titulo número 6',
-        'description' => 'Descripción número 6'
-    ],
-    [
-        'dir' => 'assets/img7.jpeg',
-        'title' => 'Titulo número 7',
-        'description' => 'Descripción número 7'
-    ],
-    [
-        'dir' => 'assets/img8.jpeg',
-        'title' => 'Titulo número 8',
-        'description' => 'Descripción número 8'
+        'dir' => 'assets/DatilZahid.jpg',
+        'title' => 'Dátil Zahid',
+        'description' => 'No es tan dulce como otras variedades.'
     ]
 ]];

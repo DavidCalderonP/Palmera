@@ -87,6 +87,4 @@
     </div>
 </div>
 
-<button type="submit" class="btn btn-primary" onclick="return confirm('¿Desea continuar con la operación?')">Enviar
-    Información
-</button>
+<button type="submit" class="btn btn-primary" onclick="return confirm('¿Desea continuar con la operación?')">Guardar</button>

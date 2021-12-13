@@ -105,4 +105,8 @@ class Model
         return $response;
     }
 
+    function obtenerProductos(){
+        return $this->DB->obtenerProductos();
+    }
+
 }

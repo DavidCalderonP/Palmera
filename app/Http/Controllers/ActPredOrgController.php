@@ -25,19 +25,21 @@ class ActPredOrgController extends Controller
         if(!Auth::user('id')){
             return $this->needLogin();
         }
+
         if(!Auth::user('id')->validarTipoDeUsuario('@especialistapalmera.com')){
             Alert::error('Algo salió mal', 'No cuentas con los permisos para acceder a esta sección');
             return redirect('home');
         }
+
         $predios = $this->model->obtenerPrediosOrganicos();
         if(!count($predios)){
             return $this->prediosOrganicosNoEncontrados();
         }
+
         $actividades = $this->model->getActividades();
         if(!count($actividades)){
             return $this->actividadesNoEncontradas();
         }
-
         return view('ActPalOrgPredOrg.assingActivity', compact( 'predios', 'actividades', 'cache', 'data'));
     }
 
@@ -51,6 +53,7 @@ class ActPredOrgController extends Controller
             'actividad_id' => ['required'],
             'fecha_programada' => ['required'],
         ]);
+
         $fieldsRemaining = (['id' => null, 'palmera_id' => null, 'anio' => substr($request->fecha_programada, 0, 4),'empleado_programo' => Auth::id(), 'empleado_ejecuto' => null, 'costo' => null, 'estatus' => 1, 'fecha_ejecucion' => null]);
         $data = array_merge($request->all(), $fieldsRemaining);
         $asignacionMasiva = new ActividadesPorPredio($data);

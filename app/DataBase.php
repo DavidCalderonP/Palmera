@@ -35,7 +35,6 @@ class DataBase
             $statement = "CALL addPredio({$predio->getMetrosCuadrados()},{$predio->getNumeroDePalmeras()},{$predio->getTipoDeSuelo()},{$predio->getPh()},{$predio->getSalinidad()},{$predio->getTipoDePredio()},'{$predio->getDescripcion()}', '{$predio->getFechaCreacion()}', {$predio->getEstatus()})";
             DB::select($statement);
         } catch (\Throwable $error) {
-            dd($error->getMessage());
             return false;
         }
         return true;
@@ -154,10 +153,10 @@ class DataBase
     function obtenerActPalOrgPredNoOrg($id){
         return Palmera::where([['id', '=', $id],['estatus', '=', 1]])->get()[0]->actividades;
     }
-    function saveActividadesPredNoOrg(ActPredNoOrg $actividad){
+    function saveActividadesPredNoOrg(ActPredNoOrg $actPredNoOrg){
         //identificador, id, palmera_id, actividad_id, anio, fecha_programada, fecha_ejecucion, empleado_programo, empleado_ejecuto, costo, estatus,
-        $actividadDetalle = Actividad::where([['estatus','=',1],['id','=',$actividad->getIdActividad()]])->get()[0];
-        $query = "CALL addActividadPredNoOrg('{$actividad->getIdPalmera()}',{$actividad->getIdActividad()},'{$actividad->getAnio()}','{$actividad->getFechaProgramada()}',{$actividad->getEmpleadoProgramo()},{$actividadDetalle->getCosto()},{$actividad->getEstatus()});";
+        $actividad = Actividad::where([['estatus','=',1],['id','=',$actPredNoOrg->getIdActividad()]])->get()[0];
+        $query = "CALL addActividadPredNoOrg('{$actPredNoOrg->getIdPalmera()}',{$actPredNoOrg->getIdActividad()},'{$actPredNoOrg->getAnio()}','{$actPredNoOrg->getFechaProgramada()}',{$actPredNoOrg->getEmpleadoProgramo()},{$actividad->getCosto()},{$actPredNoOrg->getEstatus()});";
         try {
             DB::select($query);
         }catch (\Throwable $error){
@@ -173,6 +172,16 @@ class DataBase
     function forTableActPalOrgPredNoOrg($id){
         //dd(ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get());
         return ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get();
+    }
+
+    function obtenerProductos(){
+        try {
+            $query = "select nombre_datil, tipo_cosecha, descripcion, (cantidad_actual-cantidad_vendida) as 'Existente', TDDCosto from test where cantidad_vendida < cantidad_actual group by PalmeraID order by nombre_datil;";
+//            $query = "select nombre_datil, tipo_cosecha, descripcion, cantidad_actual, sum(APPCosto)/cantidad_ingreso as 'Precio P/Kg' from test group by PalmeraID order by nombre_datil";
+            return DB::select($query);
+        }catch (\Throwable $error){
+            return false;
+        }
     }
 }
 //        dd($query);

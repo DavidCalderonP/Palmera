@@ -28,7 +28,7 @@
                         <tr>
                             <th scope="row">{{$palmera->getId()}}</th>
                             <th scope="row">{{$actividad->getNombreActividad()}}</th>
-                            <th scope="row">{{$data[$key]->fechas[$index]->getFechaProgramada()}}</th
+                            <th scope="row">{{$data[$key]->fechas[$index]->getFechaProgramada()}}</th>
                         </tr>
                     @endforeach
                 @empty
