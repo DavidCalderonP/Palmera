@@ -20,6 +20,6 @@ class Empleados extends Migration
 
     public function down()
     {
-        //
+        Schema::dropIfExists('Empleados');
     }
 }

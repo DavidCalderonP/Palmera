@@ -21,6 +21,6 @@ class Contenedores extends Migration
 
     public function down()
     {
-        //
+        Schema::dropIfExists('Contenedores');
     }
 }

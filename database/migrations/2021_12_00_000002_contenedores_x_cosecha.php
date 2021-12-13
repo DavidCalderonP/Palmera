@@ -24,6 +24,6 @@ class ContenedoresXCosecha extends Migration
 
     public function down()
     {
-        //
+        Schema::dropIfExists('ContenedoresXCosecha');
     }
 }

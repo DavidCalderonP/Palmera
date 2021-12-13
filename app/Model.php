@@ -97,7 +97,7 @@ class Model
     public function validarPredio($request)
     {
         try {
-            $response = Http::post('http://localhost:4000/api/predioValidacion', $request)->json();
+            $response = Http::post('http://f77e-2806-2f0-24a0-12b6-19c4-5958-53c2-aaf5.ngrok.io/api/predioValidacion', $request)->json();
         } catch (ConnectionException $failedConnection) {
             //dd("Esta fallando el servicio Web");
             return null;
@@ -105,8 +105,40 @@ class Model
         return $response;
     }
 
-    function obtenerProductos(){
-        return $this->DB->obtenerProductos();
+    function getProductos() {
+        return $this->DB->getProductos();
     }
 
+    function getProductosFilter($search) {
+        return $this->DB->getProductos($search);
+    }
+
+    function agregarCarrito($request) { 
+        return $this->DB->agregarCarrito($request);
+    }
+
+    function getCarrito($userID) { 
+        return $this->DB->getCarrito($userID);
+    }
+
+    function deleteCarrito($id) { 
+        return $this->DB->deleteCarrito($id);
+    }
+
+    function getImporte($carrito) {
+        $importe = 0.0;
+        foreach($carrito as $item) {
+            $importe = $importe + ($item->getCantidad() * $item->productos->getCosto());
+        }
+        $importe = $importe * 1.16;
+       return $importe;
+    }
+
+    function validaTDC($request) {
+        return true;
+    }
+
+    function registrarPago($request) {
+        dd($request);
+    }
 }

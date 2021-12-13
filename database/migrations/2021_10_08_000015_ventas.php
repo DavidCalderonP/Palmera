@@ -16,13 +16,13 @@ class Ventas extends Migration
             $table->bigInteger('id_empleado')->unsigned();
             $table->boolean('estatus');
 
-            $table->foreign('id_cliente')->references('id')->on('Clientes');
-            $table->foreign('id_empleado')->references('id')->on('Empleados');
+            $table->foreign('id_cliente')->references('id')->on('users');
+            $table->foreign('id_empleado')->references('id')->on('users');
         });
     }
 
     public function down()
     {
-        //
+        //Schema::dropIfExists('Ventas');
     }
 }
