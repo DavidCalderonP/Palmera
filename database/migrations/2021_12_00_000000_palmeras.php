@@ -19,18 +19,13 @@ class Palmeras extends Migration
 
             $table->primary('id');
             $table->foreign('predio_id')->references('id')->on('Predios');
-            $table->foreign('tipo_datil')->references('id')->on('TipoDeDatil');
+            $table->foreign('tipo_datil')->references('idVariedad')->on('VariedadDeDatil');
 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        //
+        Schema::dropIfExists('Palmeras');
     }
 }

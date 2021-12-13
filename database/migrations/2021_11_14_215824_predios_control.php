@@ -16,6 +16,6 @@ class PrediosControl extends Migration
 
     public function down()
     {
-        //
+        Schema::dropIfExists('PrediosControl');
     }
 }

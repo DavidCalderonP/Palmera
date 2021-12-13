@@ -27,6 +27,6 @@ class Clientes extends Migration
 
     public function down()
     {
-        //
+        Schema::dropIfExists('Clientes');
     }
 }

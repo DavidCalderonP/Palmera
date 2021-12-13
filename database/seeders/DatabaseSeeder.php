@@ -12,5 +12,10 @@ class DatabaseSeeder extends Seeder
         $this->call(PrediosSeeder::class);
         $this->call(TipoDatilSeeder::class);
         $this->call(PalmerasSeeder::class);
+        $this->call(VariedadDeDatilSeeder::class);
+        $this->call(PalmeraSeeder::class);
+        $this->call(CosechaSeeder::class);
+        $this->call(ContenedoresSeeder::class);
+        $this->call(ContenedorCosechaSeeder::class);
     }
 }

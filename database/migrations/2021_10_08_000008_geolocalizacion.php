@@ -21,6 +21,6 @@ class Geolocalizacion extends Migration
     }
    public function down()
     {
-        //
+        Schema::dropIfExists('Geolocalizacion');
     }
 }

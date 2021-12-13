@@ -173,6 +173,39 @@ class DataBase
     function forTableActPalOrgPredNoOrg($id){
         //dd(ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get());
         return ActPredNoOrg::where([['estatus', '=', 1],['palmera_id','=',$id]])->get();
+    function getProductos()
+    {
+        return Producto::paginate(10);
+    }
+
+    function getCarrito($userID)
+    {
+        
+        return Carrito::where('id_cliente', $userID)
+        ->join('VariedadDeDatil', 'id_variedad', '=', 'VariedadDeDatil.idVariedad')
+        ->get();
+    }
+
+    function agregarCarrito($request) {
+        try {
+            $carrito = new Carrito();
+            $carrito->cantidad = (int) $request->cantidad;
+            $carrito->id_variedad = (int) $request->Id;
+            $carrito->id_cliente = (int) $request->userID;
+            $carrito->save();
+        } catch (\Throwable $e) {
+            return null;
+        }
+        return;
+    }
+
+    function deleteCarrito($id) {
+        try {
+            $a = Carrito::where('id', (int)$id)->delete();
+        } catch (\Throwable $e) {
+            return null;
+        }
+        return $a;
     }
 }
 //        dd($query);
