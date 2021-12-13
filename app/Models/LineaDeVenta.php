@@ -12,7 +12,7 @@ class LineaDeVenta extends Model {
   protected $table = 'LineaDeVenta';
   protected $primaryKey = 'folio';
   protected $keyType= 'int';
-  protected $fillable = ['folio', 'id_contenedor', 'cantidad', 'precio']
+  protected $fillable = ['folio', 'id_contenedor', 'cantidad', 'precio'];
 
   function __construct($lineadeventa = array()) {
     parent:: __construct($lineadeventa);
@@ -38,7 +38,7 @@ class LineaDeVenta extends Model {
     return $this->cantidad;
   }
 
-  function setFolio($cantidad) {
+  function setCantidad($cantidad) {
     $this->cantidad = $cantidad;
   }
 

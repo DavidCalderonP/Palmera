@@ -14,7 +14,7 @@ class Venta extends Model {
   protected $primaryKey = 'folio';
   protected $keyType= 'int';
   protected $fillable = ['folio', 'fecha_venta', 'fecha_entrega', 'id_cliente', 'id_empleado', 'estatus'];
-
+  protected $LineasDeVenta = [];
   function __construct($venta = array()) {
     parent:: __construct($venta);
   }
@@ -67,7 +67,12 @@ class Venta extends Model {
     $this->estatus = $estatus;
   }
 
-  function registrarLineaVenta($productoID, $cantidad, $precio) {
-    dd($productoID, $cantidad, $precio);
+  function getLineaDeVenta() {
+    return $this->LineasDeVenta;
+  }
+
+  function registrarLineaVenta($folio, $id_contenedor, $cantidad, $precio) {
+    $lineaDeVenta = new LineaDeVenta([$folio, $id_contenedor, $cantidad, $precio]);
+    array_push($this->LineasDeVenta, $lineaDeVenta);
   }
 }

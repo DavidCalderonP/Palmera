@@ -14,6 +14,7 @@ use App\Models\Producto;
 use App\Models\Carrito;
 use App\Models\Pago;
 use App\Models\Venta;
+use App\Models\VentasControl;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 
@@ -218,13 +219,43 @@ class DataBase
         return $a;
     }
 
-    function guardarVenta($venta) {
+    function guardarVenta($venta, $userID) {
         try {
             $venta->setEstatus(0);
+            $venta->setIdCliente((int)$userID);
             $res = $venta->save();
-            dd(Venta::where([['id_cliente', "=", $venta->getIdCliente()], ['estatus', "=", 0], ['fecha_venta', "MAX"]])->get());
+            return $venta;
         } catch (\Throwable $e) {
             dd($e);
+            return null;
+        }
+    }
+
+    function registrarLineaVenta($venta, $folio, $userID) {
+        try {
+            $carrito = Carrito::where('id_cliente', (int)$userID)
+            ->join('VariedadDeDatil', 'id_variedad', '=', 'VariedadDeDatil.idVariedad')
+            ->get();
+            foreach ($carrito as $item) {
+                $venta->registrarLineaVenta($folio, $item->getIdVariedad(), $item->getCantidad(), $item->costo);
+            } 
+            dd($venta);
+        } catch (\Throwable $e) {
+            dd($e);
+            return null;
+        }
+    }
+
+    function asignaFolio($venta) {
+        try {
+            $folio = VentasControl::get();
+            $venta->setFolio($folio[0]->getId());
+            $folio[0]::where('id', $folio[0]->getId())
+            ->update([
+                'id' => $folio[0]->getId() + 1
+            ]);
+            return $venta;
+        } catch (\Throwable $e) {
             return null;
         }
     }

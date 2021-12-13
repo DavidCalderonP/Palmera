@@ -41,6 +41,10 @@ class VentasController extends Controller
             'cve' => ['required']    
         ]);
         $res = $this->model->validaTDC($request);
-        if($res) $this->model->registrarPago($request);
+        if($res) {
+            $venta = $this->model->crearVenta($request->userID);
+            $lineasVenta = $this->model->registrarLineaVenta($venta, $venta->getFolio(), $request->userID);
+            $this->model->registrarPago($$request->userID);
+        }
     }
 }

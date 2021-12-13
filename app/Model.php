@@ -139,11 +139,15 @@ class Model
        return $importe;
     }
 
-    function crearVenta() {
+    function crearVenta($userID) {
         try {
             $venta = new Venta();
+            $venta = $this->DB->asignaFolio($venta);
+            $venta = $this->registrarFechaVenta($venta);
+            $venta = $this->DB->guardarVenta($venta, $userID);
             return $venta;
         } catch (\Throwable $e) {
+            dd($e);
             return null;
         }
     }
@@ -159,19 +163,19 @@ class Model
     function registrarFechaVenta($venta) {
         try {
             $venta->setFechaVenta(date('Y-m-d'));
-            $this->DB->guardarVenta($venta);
+            return $venta;
         } catch (\Throwable $e) {
             return null;
         }
     }
-    function registrarLineaVenta() {
-
+    function registrarLineaVenta($venta, $folio, $userID) {
+        return $this->DB->registrarLineaVenta($venta, $folio, $userID);
     }
     function validaTDC($request) {
         return true;
     }
 
-    function registrarPago($request) {
+    function registrarPago($venta, $userID) {
         return $this->DB->registrarPago($request);
     }
 }
