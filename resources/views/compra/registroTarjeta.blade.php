@@ -15,8 +15,11 @@
               <div class="card w-75">
                 <div class="card-body">
                   <h5 class="card-title">Tarjeta de crédito.</h5>
-                  <form action="{{url('/verificartarjeta')}}" method="POST">
+                  <form action="{{url('/registrarVenta')}}" method="POST">
                     @csrf
+                    <div class="form-group">
+                      <input type="hidden" value="{{auth()->user()->id}}" name="userID">
+                    </div>
                     <div class="form-group">
                       <label for="exampleFormControlInput1">Nombre del titular.</label>
                       <input name="nombreTitular" label="nombreTitular" type="text" class="form-control" id="exampleFormControlInput1">

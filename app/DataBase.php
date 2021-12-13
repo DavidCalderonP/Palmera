@@ -12,7 +12,11 @@ use App\Models\Predio;
 use App\Models\Actividad;
 use App\Models\Producto;
 use App\Models\Carrito;
+use App\Models\Pago;
+use App\Models\Venta;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+
 
 class DataBase
 {
@@ -156,7 +160,12 @@ class DataBase
     }
 
     function getProductosFilter($search) {
-        return Producto::where(['nombre_datil', 'like', $search])->get();
+        try {
+            return Producto::where('nombre_datil', 'like', '%'.$search.'%')->get();
+        } catch (\Throwable $e) {
+            dd($e);
+            return null;
+        }
     }
 
     function getCarrito($userID) {
@@ -169,9 +178,9 @@ class DataBase
     function agregarCarrito($request) {
         try {
             $carrito = new Carrito();
-            $carrito->cantidad = (int) $request->cantidad;
-            $carrito->id_variedad = (int) $request->Id;
-            $carrito->id_cliente = (int) $request->userID;
+            $carrito->setCantidad((int) $request->cantidad);
+            $carrito->setIdVariedad((int) $request->Id);
+            $carrito->setIdCliente((int) $request->userID);
             $carrito->save();
         } catch (\Throwable $e) {
             return null;
@@ -186,5 +195,37 @@ class DataBase
             return null;
         }
         return $a;
+    }
+
+    function registrarPago($request) {
+        $carrito = Carrito::where('id_cliente', Auth::user('id')->id)
+        ->join('VariedadDeDatil', 'id_variedad', '=', 'VariedadDeDatil.idVariedad')
+        ->get();
+        $importe = 0.0;
+        foreach($carrito as $item) {
+            $importe = $importe + ($item->getCantidad() * $item->productos->getCosto());
+        }
+        $importe = $importe * 1.16;
+        try {
+            $pago = new Pago();
+            $pago->setFecha_pago(date('Y-m-d'));
+            $pago->setMonto($importe);
+            dd($pago->save());
+        } catch (\Throwable $e) {
+            dd($e);
+            return null;
+        }
+        return $a;
+    }
+
+    function guardarVenta($venta) {
+        try {
+            $venta->setEstatus(0);
+            $res = $venta->save();
+            dd(Venta::where([['id_cliente', "=", $venta->getIdCliente()], ['estatus', "=", 0], ['fecha_venta', "MAX"]])->get());
+        } catch (\Throwable $e) {
+            dd($e);
+            return null;
+        }
     }
 }

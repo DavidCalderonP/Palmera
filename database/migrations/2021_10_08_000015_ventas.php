@@ -13,7 +13,7 @@ class Ventas extends Migration
             $table->date('fecha_venta');
             $table->date('fecha_entrega')->nullable();
             $table->bigInteger('id_cliente')->unsigned();
-            $table->bigInteger('id_empleado')->unsigned();
+            $table->bigInteger('id_empleado')->unsigned()->nullable();
             $table->boolean('estatus');
 
             $table->foreign('id_cliente')->references('id')->on('users');
@@ -23,6 +23,6 @@ class Ventas extends Migration
 
     public function down()
     {
-        //Schema::dropIfExists('Ventas');
+        Schema::dropIfExists('Ventas');
     }
 }

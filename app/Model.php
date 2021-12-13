@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use App\Models\Venta;
 
 class Model
 {
@@ -105,12 +106,16 @@ class Model
         return $response;
     }
 
+    function obtenerProductos(){
+        return $this->DB->obtenerProductos();
+    }
+
     function getProductos() {
         return $this->DB->getProductos();
     }
 
     function getProductosFilter($search) {
-        return $this->DB->getProductos($search);
+        return $this->DB->getProductosFilter($search);
     }
 
     function agregarCarrito($request) { 
@@ -134,11 +139,39 @@ class Model
        return $importe;
     }
 
+    function crearVenta() {
+        try {
+            $venta = new Venta();
+            return $venta;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    function guardarCliente($venta, $userID) {
+        try {
+            $venta->setIdCliente((int)$userID);
+            return $venta;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+    function registrarFechaVenta($venta) {
+        try {
+            $venta->setFechaVenta(date('Y-m-d'));
+            $this->DB->guardarVenta($venta);
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+    function registrarLineaVenta() {
+
+    }
     function validaTDC($request) {
         return true;
     }
 
     function registrarPago($request) {
-        dd($request);
+        return $this->DB->registrarPago($request);
     }
 }

@@ -1,21 +1,22 @@
 <?php
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\LineaDeVenta;
 
 class Venta extends Model {
-  use SoftDeletes;
   use HasFactory;
 
-  public $timestamps = true;
+  public $timestamps = false;
   protected $table = 'Ventas';
   protected $primaryKey = 'folio';
   protected $keyType= 'int';
-  protected $fillable = ['folio', 'fecha_venta', 'fecha_entrega', 'id_cliente', 'id_empleado', 'estatus']
+  protected $fillable = ['folio', 'fecha_venta', 'fecha_entrega', 'id_cliente', 'id_empleado', 'estatus'];
 
-  function __construct($lineadeventa = array()) {
-    parent:: __construct($lineadeventa);
+  function __construct($venta = array()) {
+    parent:: __construct($venta);
   }
 
   function getFolio() {
@@ -64,5 +65,9 @@ class Venta extends Model {
 
   function setEstatus($estatus) {
     $this->estatus = $estatus;
+  }
+
+  function registrarLineaVenta($productoID, $cantidad, $precio) {
+    dd($productoID, $cantidad, $precio);
   }
 }

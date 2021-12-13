@@ -24,7 +24,8 @@ Route::post('productos/search',[ProductosController::class, 'searchProductos']);
 Route::get('tarjeta', function () {
     return view('compra/registroTarjeta');
 });
-Route::post('verificartarjeta', [VentasController::class, 'validaTDC']);
+Route::post('registrarVenta', [VentasController::class, 'registrarVenta']);
+//Route::post('verificartarjeta', [VentasController::class, 'validaTDC']);
 
 Auth::routes();
 

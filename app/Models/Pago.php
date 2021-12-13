@@ -13,7 +13,7 @@ class Pago extends Model {
   protected $fillable = ['folio', 'fecha_pago', 'monto'];
 
   function __construct($pago = array()) {
-    parten::__construct($pago);
+    parent::__construct($pago);
   }
 
   function getFolio() {
