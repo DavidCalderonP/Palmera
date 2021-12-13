@@ -88,4 +88,16 @@ class VentasController extends Controller
     {
         //
     }
+
+    public function validaTDC(Request $request) {
+        $request->validate([
+            'nombreTitular' => ['required'],
+            'numeroTarjeta' => ['required'],
+            'mes' => ['required'],
+            'año' => ['required'],
+            'cve' => ['required']    
+        ]);
+        $res = $this->model->validaTDC($request);
+        if($res) $this->model->registrarPago($request);
+    }
 }

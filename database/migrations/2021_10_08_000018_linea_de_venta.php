@@ -11,6 +11,7 @@ class LineaDeVenta extends Migration
         Schema::create('LineaDeVenta', function(Blueprint $table){
             $table->bigInteger('folio')->unsigned();
             $table->bigInteger('id_contenedor')->unsigned();
+            $table->bigInteger('id_datil')->unsigned();
             $table->integer('cantidad');
             $table->double('precio');
             $table->timestamps();
@@ -18,16 +19,12 @@ class LineaDeVenta extends Migration
             $table->primary('folio');
             $table->foreign('folio')->references('folio')->on('Ventas');
             $table->foreign('id_contenedor')->references('id')->on('Contenedores');
+            $table->foreign('id_datil')->references('idVariedad')->on('VariedadDeDatil');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        //
+        Schema::dropIfExists('LineaDeVenta');
     }
 }

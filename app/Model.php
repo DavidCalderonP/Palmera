@@ -58,4 +58,12 @@ class Model{
         $importe = $importe * 1.16;
        return $importe;
     }
+
+    function validaTDC($request) {
+        return true;
+    }
+
+    function registrarPago($request) {
+        dd($request);
+    }
 }

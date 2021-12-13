@@ -11,5 +11,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SuelosSeeder::class);
         $this->call(PrediosSeeder::class);
         $this->call(VariedadDeDatilSeeder::class);
+        $this->call(PalmeraSeeder::class);
+        $this->call(CosechaSeeder::class);
+        $this->call(ContenedoresSeeder::class);
+        $this->call(ContenedorCosechaSeeder::class);
     }
 }

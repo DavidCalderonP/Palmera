@@ -16,6 +16,11 @@ Route::resource('predio', PrediosController::class);
 Route::resource('productos', ProductosController::class);
 Route::resource('carrito', CarritoController::class);
 Route::resource('compra', VentasController::class);
+Route::get('tarjeta', function () {
+    return view('compra/registroTarjeta');
+});
+Route::post('verificartarjeta', [VentasController::class, 'validaTDC']);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
